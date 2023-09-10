@@ -1,15 +1,49 @@
 import React from "react"
-import ReactDOM from "react-dom"
+import ReactDOM from "react-dom/client"
 
-// const heading = React.createElement('h2', { id: 'heading' }, 'Namaste React from self')
-const parent = React.createElement('div', { id: 'parent' }, [
-    React.createElement('div', { id: 'child1' }, [
-        React.createElement('h1', {}, 'NamasteDevelopers child-1 h1'),
-        React.createElement('h2', {}, 'NamasteDevelopers child-1 h2')]
-    ),
-    React.createElement('div', { id: 'child2' }, [
-        React.createElement('h1', {}, 'NamasteDevelopers child-2 h1'),
-        React.createElement('h2', {}, 'NamasteDevelopers child-2 h2')]
-    )])
+// JSX => Babel converts it to React.createElement => ReactElement - JS Object => HTMLElement (render)
+const TitleComponent = () => <h1 className="title" tabIndex={5}>Namaste React!</h1>
+const ReactComponent = () => (
+    <div id="main">
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent />
+        <TitleComponent></TitleComponent>
+        {TitleComponent()}
+        {TitleComponent()}
+        {TitleComponent()}
+        {TitleComponent()}
+        <h1>This is a React Component</h1>
+    </div>
+)
 const root = ReactDOM.createRoot(document.getElementById('root'))
-root.render(parent)
+root.render(<ReactComponent />)
