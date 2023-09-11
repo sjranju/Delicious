@@ -1,0 +1,13 @@
+.header img {
+  width: 100px;
+  height: 80px;
+  border-radius: 50px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
