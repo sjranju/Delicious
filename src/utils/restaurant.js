@@ -1077,5 +1077,365 @@ export const restaurantData = [{
         "type": "WEBLINK"
     },
     "widgetId": "collectionV5RestaurantListWidget_SimRestoRelevance_food_seo"
+},
+{
+    "info": {
+        "id": "10885",
+        "name": "Pizza Hut",
+        "cloudinaryImageId": "2b4f62d606d1b2bfba9ba9e5386fabb7",
+        "locality": "B G Road",
+        "areaName": "Arekere",
+        "costForTwo": "₹350 for two",
+        "cuisines": [
+            "Pizzas"
+        ],
+        "avgRating": 4.1,
+        "feeDetails": {
+            "restaurantId": "10885",
+            "fees": [
+                {
+                    "name": "BASE_DISTANCE",
+                    "fee": 4000
+                },
+                {
+                    "name": "BASE_TIME"
+                },
+                {
+                    "name": "ANCILLARY_SURGE_FEE"
+                }
+            ],
+            "totalFee": 4000
+        },
+        "parentId": "721",
+        "avgRatingString": "4.1",
+        "totalRatingsString": "10K+",
+        "sla": {
+            "deliveryTime": 20,
+            "lastMileTravel": 1.7,
+            "serviceability": "SERVICEABLE",
+            "slaString": "20 mins",
+            "lastMileTravelString": "1.7 km",
+            "iconType": "ICON_TYPE_EMPTY"
+        },
+        "availability": {
+            "nextCloseTime": "2023-09-15 04:00:00",
+            "opened": true
+        },
+        "badges": {
+
+        },
+        "isOpen": true,
+        "type": "F",
+        "badgesV2": {
+            "entityBadges": {
+                "imageBased": {
+
+                },
+                "textBased": {
+
+                },
+                "textExtendedBadges": {
+
+                }
+            }
+        },
+        "aggregatedDiscountInfoV3": {
+            "header": "50% OFF",
+            "subHeader": "UPTO ₹100"
+        },
+        "loyaltyDiscoverPresentationInfo": {
+            "logoCtx": {
+                "text": "BENEFITS",
+                "logo": "v1634558776/swiggy_one/OneLogo_3x.png"
+            },
+            "freedelMessage": "FREE DELIVERY"
+        },
+        "orderabilityCommunication": {
+            "title": {
+
+            },
+            "subTitle": {
+
+            },
+            "message": {
+
+            },
+            "customIcon": {
+
+            }
+        },
+        "differentiatedUi": {
+            "displayType": "ADS_UI_DISPLAY_TYPE_ENUM_DEFAULT",
+            "differentiatedUiMediaDetails": {
+                "mediaType": "ADS_MEDIA_ENUM_IMAGE",
+                "lottie": {
+
+                },
+                "video": {
+
+                }
+            }
+        },
+        "reviewsSummary": {
+
+        },
+        "displayType": "RESTAURANT_DISPLAY_TYPE_DEFAULT",
+        "restaurantOfferPresentationInfo": {
+
+        }
+    },
+    "analytics": {
+        "context": "seo-data-23026b2b-28f7-4204-b8fb-e2a9eb832399"
+    },
+    "cta": {
+        "link": "https://www.swiggy.com/restaurants/pizza-hut-b-g-road-arekere-bangalore-10885",
+        "text": "RESTAURANT_MENU",
+        "type": "WEBLINK"
+    },
+    "widgetId": "collectionV5RestaurantListWidget_SimRestoRelevance_food_seo"
+}, {
+    "info": {
+        "id": "23830",
+        "name": "Domino's Pizza",
+        "cloudinaryImageId": "lmyv2wcldyukdf5nzsvq",
+        "locality": "Arekere",
+        "areaName": "Bangalore",
+        "costForTwo": "₹400 for two",
+        "cuisines": [
+            "Pizzas",
+            "Italian",
+            "Pastas",
+            "Desserts"
+        ],
+        "avgRating": 4.3,
+        "feeDetails": {
+            "restaurantId": "23830",
+            "fees": [
+                {
+                    "name": "BASE_DISTANCE",
+                    "fee": 3500
+                },
+                {
+                    "name": "BASE_TIME"
+                },
+                {
+                    "name": "ANCILLARY_SURGE_FEE"
+                }
+            ],
+            "totalFee": 3500
+        },
+        "parentId": "2456",
+        "avgRatingString": "4.3",
+        "totalRatingsString": "10K+",
+        "sla": {
+            "deliveryTime": 30,
+            "serviceability": "SERVICEABLE",
+            "slaString": "30 mins",
+            "iconType": "ICON_TYPE_EMPTY"
+        },
+        "availability": {
+            "nextCloseTime": "2023-09-15 02:59:00",
+            "opened": true
+        },
+        "badges": {
+
+        },
+        "isOpen": true,
+        "type": "F",
+        "badgesV2": {
+            "entityBadges": {
+                "imageBased": {
+
+                },
+                "textBased": {
+
+                },
+                "textExtendedBadges": {
+
+                }
+            }
+        },
+        "aggregatedDiscountInfoV3": {
+            "header": "₹100 OFF",
+            "subHeader": "ABOVE ₹999",
+            "discountTag": "FLAT DEAL"
+        },
+        "orderabilityCommunication": {
+            "title": {
+
+            },
+            "subTitle": {
+
+            },
+            "message": {
+
+            },
+            "customIcon": {
+
+            }
+        },
+        "differentiatedUi": {
+            "displayType": "ADS_UI_DISPLAY_TYPE_ENUM_DEFAULT",
+            "differentiatedUiMediaDetails": {
+                "mediaType": "ADS_MEDIA_ENUM_IMAGE",
+                "lottie": {
+
+                },
+                "video": {
+
+                }
+            }
+        },
+        "reviewsSummary": {
+
+        },
+        "displayType": "RESTAURANT_DISPLAY_TYPE_DEFAULT",
+        "restaurantOfferPresentationInfo": {
+
+        }
+    },
+    "analytics": {
+        "context": "seo-data-23026b2b-28f7-4204-b8fb-e2a9eb832399"
+    },
+    "cta": {
+        "link": "https://www.swiggy.com/restaurants/dominos-pizza-arekere-bangalore-bangalore-23830",
+        "text": "RESTAURANT_MENU",
+        "type": "WEBLINK"
+    },
+    "widgetId": "collectionV5RestaurantListWidget_SimRestoRelevance_food_seo"
+},
+{
+    "info": {
+        "id": "16193",
+        "name": "Subway",
+        "cloudinaryImageId": "1ace5fa65eff3e1223feb696c956b38b",
+        "locality": "Beliekalli",
+        "areaName": "Bannerghatta Road",
+        "costForTwo": "₹350 for two",
+        "cuisines": [
+            "Salads",
+            "Snacks",
+            "Desserts",
+            "Beverages"
+        ],
+        "avgRating": 4,
+        "feeDetails": {
+            "restaurantId": "16193",
+            "fees": [
+                {
+                    "name": "BASE_DISTANCE",
+                    "fee": 3500
+                },
+                {
+                    "name": "BASE_TIME"
+                },
+                {
+                    "name": "ANCILLARY_SURGE_FEE"
+                }
+            ],
+            "totalFee": 3500
+        },
+        "parentId": "2",
+        "avgRatingString": "4.0",
+        "totalRatingsString": "10K+",
+        "sla": {
+            "deliveryTime": 17,
+            "lastMileTravel": 2,
+            "serviceability": "SERVICEABLE",
+            "slaString": "17 mins",
+            "lastMileTravelString": "2.0 km",
+            "iconType": "ICON_TYPE_EMPTY"
+        },
+        "availability": {
+            "nextCloseTime": "2023-09-15 03:00:00",
+            "opened": true
+        },
+        "badges": {
+            "textExtendedBadges": [
+                {
+                    "iconId": "guiltfree/GF_Logo_android_3x",
+                    "shortDescription": "options available",
+                    "fontColor": "#7E808C"
+                }
+            ]
+        },
+        "isOpen": true,
+        "type": "F",
+        "badgesV2": {
+            "entityBadges": {
+                "imageBased": {
+
+                },
+                "textBased": {
+
+                },
+                "textExtendedBadges": {
+                    "badgeObject": [
+                        {
+                            "attributes": {
+                                "description": "",
+                                "fontColor": "#7E808C",
+                                "iconId": "guiltfree/GF_Logo_android_3x",
+                                "shortDescription": "options available"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "aggregatedDiscountInfoV3": {
+            "header": "50% OFF",
+            "subHeader": "UPTO ₹100"
+        },
+        "loyaltyDiscoverPresentationInfo": {
+            "logoCtx": {
+                "text": "BENEFITS",
+                "logo": "v1634558776/swiggy_one/OneLogo_3x.png"
+            },
+            "freedelMessage": "FREE DELIVERY"
+        },
+        "orderabilityCommunication": {
+            "title": {
+
+            },
+            "subTitle": {
+
+            },
+            "message": {
+
+            },
+            "customIcon": {
+
+            }
+        },
+        "differentiatedUi": {
+            "displayType": "ADS_UI_DISPLAY_TYPE_ENUM_DEFAULT",
+            "differentiatedUiMediaDetails": {
+                "mediaType": "ADS_MEDIA_ENUM_IMAGE",
+                "lottie": {
+
+                },
+                "video": {
+
+                }
+            }
+        },
+        "reviewsSummary": {
+
+        },
+        "displayType": "RESTAURANT_DISPLAY_TYPE_DEFAULT",
+        "restaurantOfferPresentationInfo": {
+
+        }
+    },
+    "analytics": {
+        "context": "seo-data-23026b2b-28f7-4204-b8fb-e2a9eb832399"
+    },
+    "cta": {
+        "link": "https://www.swiggy.com/restaurants/subway-beliekalli-bannerghatta-road-bangalore-16193",
+        "text": "RESTAURANT_MENU",
+        "type": "WEBLINK"
+    },
+    "widgetId": "collectionV5RestaurantListWidget_SimRestoRelevance_food_seo"
 }
 ]

@@ -5,7 +5,13 @@
   align-items: center;
   /* background-color: ghostwhite; */
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  margin-top: 30px;
+}
+
+.main {
+  margin-left: calc(10% + 36px);
+  margin-right: calc(10% + 36px);
 }
 
 .restaurant-card {
@@ -13,4 +19,6 @@
   flex-direction: row;
   flex-wrap: wrap;
   margin-top: 10px;
+  align-items: center;
+  justify-content: center;
 }
