@@ -1,0 +1,18 @@
+.restaurant-item {
+  width: 200px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 10px;
+}
+
+.restaurant-item > img {
+  width: 100%;
+  height: 170px;
+  border-radius: 15px;
+}
+
+.cuisine {
+  font-weight: 300;
+  color: slategray;
+}

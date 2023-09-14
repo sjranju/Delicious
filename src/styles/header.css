@@ -1,0 +1,33 @@
+.header img {
+  width: 100px;
+  height: 80px;
+  border-radius: 50px;
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.009),
+    0 6px 20px 0 rgba(0, 0, 0, 0.091);
+}
+
+.nav-list ul li {
+  text-decoration: none;
+  list-style: none;
+  margin: 0px 20px;
+  font-size: large;
+  font-weight: 600;
+}
+
+.nav-list > ul {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+}
