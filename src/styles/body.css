@@ -22,3 +22,13 @@
   align-items: center;
   justify-content: center;
 }
+
+.top-rated {
+  padding: 6px;
+  border-radius: 10px;
+  background-color: lavenderblush;
+  font-weight: 600;
+  color: crimson;
+  border: none;
+  font-size: smaller;
+}
