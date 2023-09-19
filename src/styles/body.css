@@ -14,6 +14,40 @@
   margin-right: calc(10% + 36px);
 }
 
+.filter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.filter > div {
+  margin-right: 30px;
+}
+
+.search {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.search input {
+  border: none;
+  border-bottom: 2px solid brown;
+  padding: 3px;
+}
+
+input[type="text"]:focus {
+  outline: none !important;
+  /* border: 1px solid lightcoral;
+  border-radius: 8px; */
+  border-bottom: 2px solid black;
+}
+
+.search-icon {
+  cursor: pointer;
+}
+
 .restaurant-card {
   display: flex;
   flex-direction: row;
@@ -21,6 +55,7 @@
   margin-top: 10px;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .top-rated {

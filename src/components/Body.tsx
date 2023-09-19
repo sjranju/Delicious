@@ -1,0 +1,152 @@
+import { ChangeEvent, MouseEvent, ReactEventHandler, useEffect, useState } from 'react'
+import '../styles/body.css'
+import RestaurantCard from './RestaurantCard'
+import Shimmer from './Shimmer'
+import React from 'react'
+import { BiSearch } from 'react-icons/bi'
+
+interface RestaurantType {
+    info: {
+        id: string;
+        name: string;
+        cloudinaryImageId: string;
+        locality: string;
+        areaName: string;
+        costForTwo: string;
+        cuisines: string[];
+        avgRating: number;
+        favourite: boolean;
+        feeDetails: {
+            restaurantId: string;
+            fees: {
+                name: string;
+                fee?: number;
+            }[];
+            totalFee?: number;
+        };
+        parentId: string;
+        avgRatingString: string;
+        totalRatingsString: string;
+        sla: {
+            deliveryTime: number;
+            lastMileTravel: number;
+            serviceability: string;
+            slaString: string;
+            lastMileTravelString: string;
+            iconType: string;
+        };
+        availability: {
+            nextCloseTime: string;
+            opened: boolean;
+        };
+        badges: any;
+        select: boolean;
+        isOpen: boolean;
+        type: string;
+        badgesV2: {
+            entityBadges: {
+                imageBased: any;
+                textBased: any;
+                textExtendedBadges: any;
+            };
+        };
+        loyaltyDiscoverPresentationInfo: {
+            logoCtx: {
+                text: string;
+                logo: string;
+            };
+            freedelMessage: string;
+        };
+        orderabilityCommunication: {
+            title: any;
+            subTitle: any;
+            message: any;
+            customIcon: any;
+        };
+        differentiatedUi: {
+            displayType: string;
+            differentiatedUiMediaDetails: {
+                mediaType: string;
+                lottie: any;
+                video: any;
+            };
+        };
+        reviewsSummary: any;
+        displayType: string;
+        restaurantOfferPresentationInfo: any;
+    };
+    analytics: {
+        context: string;
+    };
+    cta: {
+        link: string;
+        text: string;
+        type: string;
+    };
+    widgetId: string;
+}
+
+
+const Body = () => {
+
+    const [restaurantList, setRestaurantList] = useState<RestaurantType[]>([])
+    const [searchText, setSearchText] = useState('')
+    const [filterRestaurants, setFilterRestaurants] = useState<RestaurantType[]>([])
+
+    console.log('Render', restaurantList.length, searchText, filterRestaurants.length)
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+
+    const handleFilterRestaurants = () => {
+        let filterlist = restaurantList.filter(restaurant => {
+            // console.log(restaurant.info.name.toLowerCase())
+            restaurant.info.name.includes(searchText)
+        })
+        console.log(filterlist)
+        setFilterRestaurants(restaurantList.filter(restaurant => restaurant.info.name.includes(searchText)))
+    }
+
+    const fetchData = async () => {
+        const data = await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.979568962372062&lng=77.50290893018244&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING')
+        const jsonData = await data.json()
+        setRestaurantList(jsonData?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
+    }
+
+    return (restaurantList.length === 0) ? <Shimmer /> : (
+        <div className='body'>
+            <div className='main'>
+                <div className='filter'>
+                    <div className='search'>
+                        <input type='text' placeholder='Search'
+                            value={searchText}
+                            onChange={(e) => setSearchText(e.target.value)} />
+                        <BiSearch size={22} color='brown' onClick={handleFilterRestaurants}
+                            className='search-icon' />
+                    </div>
+                    <div>
+                        <button className='top-rated' onClick={() => {
+                            let fileteredList = restaurantList.filter(rest => rest.info.avgRating > 4)
+                            setRestaurantList(fileteredList)
+                        }}>Top rated</button>
+                    </div>
+                </div>
+                <div className='restaurant-card'>
+                    {
+                        filterRestaurants?.length !== 0 ?
+                            filterRestaurants?.map(restaurant => (
+                                <RestaurantCard key={restaurant.info.id} resData={restaurant} />
+                            )
+                            )
+                            : restaurantList.map((restaurant) => (
+                                <RestaurantCard key={restaurant.info.id} resData={restaurant} />
+                            ))
+                    }
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default Body

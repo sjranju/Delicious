@@ -12,6 +12,10 @@
   transform: scale(0.95);
 }
 
+.restaurant-item > div {
+  margin-left: 8px;
+}
+
 .restaurant-item > img {
   width: 100%;
   height: 170px;
@@ -27,8 +31,7 @@
 .name,
 .rating {
   font-weight: 600;
-  color: darkslategrey;
-  font-size: 1.1rem;
+  color: darkolivegreen;
 }
 
 .rating {
