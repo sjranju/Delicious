@@ -1,5 +1,5 @@
 .restaurant-item {
-  max-width: 220px;
+  width: 220px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;

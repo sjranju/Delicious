@@ -67,3 +67,7 @@ input[type="text"]:focus {
   border: none;
   font-size: smaller;
 }
+
+.restaurant-card a {
+  text-decoration: none;
+}

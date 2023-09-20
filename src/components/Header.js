@@ -3,6 +3,7 @@ import '../styles/header.css'
 import { FaRegUser } from 'react-icons/fa'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import logo from '../../public/images/logo-color.png'
+import { Link } from 'react-router-dom'
 
 const Header = () => {
     return (
@@ -11,9 +12,9 @@ const Header = () => {
             {/* search bar */}
             <div className='nav-list'>
                 <ul>
-                    <li>Home</li>
-                    <li>About</li>
-                    <li>Contact</li>
+                    <li><Link to='/'>Home</Link></li>
+                    <li><Link to='/about'>About</Link></li>
+                    <li><Link to='/contact'>Contact</Link></li>
                     <li><AiOutlineShoppingCart size={26} /></li>
                     <li><FaRegUser size={22} /></li>
                 </ul>
