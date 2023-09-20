@@ -4,6 +4,7 @@ import RestaurantCard from './RestaurantCard'
 import Shimmer from './Shimmer'
 import React from 'react'
 import { BiSearch } from 'react-icons/bi'
+import { AiOutlineClose } from 'react-icons/ai'
 
 interface RestaurantType {
     info: {
@@ -100,18 +101,14 @@ const Body = () => {
     }, [])
 
     const handleFilterRestaurants = () => {
-        let filterlist = restaurantList.filter(restaurant => {
-            // console.log(restaurant.info.name.toLowerCase())
-            restaurant.info.name.includes(searchText)
-        })
-        console.log(filterlist)
-        setFilterRestaurants(restaurantList.filter(restaurant => restaurant.info.name.includes(searchText)))
+        setFilterRestaurants(restaurantList.filter(restaurant => restaurant.info.name.toLowerCase().includes(searchText.toLowerCase())))
     }
 
     const fetchData = async () => {
         const data = await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.979568962372062&lng=77.50290893018244&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING')
         const jsonData = await data.json()
         setRestaurantList(jsonData?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
+        setFilterRestaurants(jsonData?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
     }
 
     return (restaurantList.length === 0) ? <Shimmer /> : (
@@ -124,6 +121,13 @@ const Body = () => {
                             onChange={(e) => setSearchText(e.target.value)} />
                         <BiSearch size={22} color='brown' onClick={handleFilterRestaurants}
                             className='search-icon' />
+                        {searchText.length !== 0 ?
+                            <AiOutlineClose color='brown' size={22} onClick={() => {
+                                setSearchText('')
+                                setFilterRestaurants([])
+
+                            }} />
+                            : ''}
                     </div>
                     <div>
                         <button className='top-rated' onClick={() => {
@@ -134,14 +138,13 @@ const Body = () => {
                 </div>
                 <div className='restaurant-card'>
                     {
-                        filterRestaurants?.length !== 0 ?
-                            filterRestaurants?.map(restaurant => (
-                                <RestaurantCard key={restaurant.info.id} resData={restaurant} />
-                            )
-                            )
-                            : restaurantList.map((restaurant) => (
-                                <RestaurantCard key={restaurant.info.id} resData={restaurant} />
-                            ))
+                        filterRestaurants?.map(restaurant => (
+                            <RestaurantCard key={restaurant.info.id} resData={restaurant} />
+                        )
+                        )
+                        // : restaurantList.map((restaurant) => (
+                        //     <RestaurantCard key={restaurant.info.id} resData={restaurant} />
+                        // ))
                     }
                 </div>
             </div>
