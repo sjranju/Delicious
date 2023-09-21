@@ -1,6 +1,7 @@
 import React from "react";
-import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { RESTAURANT_ITEM } from "../utils/constants";
 
 interface RestaurantInfo {
   id: string;
@@ -163,37 +164,43 @@ interface RestaurantDataItem {
   };
 }
 
-
 const RestaurantMenu = () => {
-
-  const [restaurantData, setRestaurantData] = useState<RestaurantDataItem | null>(null)
-  const { resId } = useParams()
-  console.log(resId)
+  const [restaurantData, setRestaurantData] =
+    useState<RestaurantDataItem | null>(null);
+  const { resId } = useParams();
 
   useEffect(() => {
-    fetchRestaurantMenu()
-  }, [])
+    fetchRestaurantMenu();
+  }, []);
 
   const fetchRestaurantMenu = async () => {
-    let result = await fetch('https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=12.979568962372062&lng=77.50290893018244&restaurantId=172309&catalog_qa=undefined&submitAction=ENTER')
-    let data = await result.json()
-    console.log(data.data.cards[0].card)
-    setRestaurantData(data.data.cards[0].card)
-  }
+    let result = await fetch(RESTAURANT_ITEM + resId);
+    let data = await result.json();
+    console.log(data)
+    setRestaurantData(data.data.cards[0].card);
+  };
 
   // const { name, cuisines, areaName, costForTwo, locality, avgRating, cloudinaryImageId } = restaurantData?.data?.cards[0]?.card?.card?.info
 
   return (
-    <div className="menu">
-      <h1>{restaurantData?.card?.info?.name}</h1>
-      {/* <img src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/+${cloudinaryImageId}`}></img> */}
-      <h3>{restaurantData?.card?.info?.cuisines?.join(', ')}</h3>
-      <h3>{restaurantData?.card?.info?.locality},{restaurantData?.card?.info?.areaName}</h3>
-      {/* <h3>Cost for Two: {restaurantData?.card?.info?.costForTwo / 100}</h3> */}
-      <h3>Rating: {restaurantData?.card?.info?.avgRating} </h3>
-
+    <div className="h-screen bg-slate-50">
+      <div className="flex justify-center items-center px-20 py-10 ">
+        <div className="flex flex-col items-start ">
+          <h1 className="font-medium text-lg">{restaurantData?.card?.info?.name}</h1>
+          {/* <img src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/+${cloudinaryImageId}`}></img> */}
+          <div className="text-sm text-neutral-600">
+            <p className="">{restaurantData?.card?.info?.cuisines?.join(", ")}</p>
+            <p className="">
+              {restaurantData?.card?.info?.locality},
+              {restaurantData?.card?.info?.areaName}
+            </p>
+            {/* <p>Cost for Two: {restaurantData?.card?.info?.costForTwo / 100}</p> */}
+            <p>Rating: {restaurantData?.card?.info?.avgRating} </p>
+          </div>
+        </div>
+      </div >
     </div>
-  )
-}
+  );
+};
 
-export default RestaurantMenu
+export default RestaurantMenu;

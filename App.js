@@ -3,11 +3,11 @@ import ReactDOM from "react-dom/client"
 import Header from "./src/components/Header"
 import Body from "./src/components/Body"
 import About from './src/components/About'
-import './app.css'
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom"
 import Contact from "./src/components/Contact"
 import Error from "./src/components/Error"
 import RestaurantMenu from "./src/components/RestaurantMenu"
+import './index.css'
 
 const App = () => {
     return (
