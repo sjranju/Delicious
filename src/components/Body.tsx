@@ -150,13 +150,13 @@ const Body = () => {
                     filterRestaurants.length !== 0 ?
                         filterRestaurants.map(restaurant => (
                             <Link to={`/restaurant/${restaurant.info.id}`} key={restaurant.info.id} >
-                                <RestaurantCard key={restaurant.info.id} resData={restaurant} />
+                                <RestaurantCard resData={restaurant} />
                             </Link>
                         )
                         )
                         : restaurantList?.map(restaurant => (
                             <Link to={`/restaurant/${restaurant.info.id}`} key={restaurant.info.id} >
-                                <RestaurantCard key={restaurant.info.id} resData={restaurant} />
+                                <RestaurantCard resData={restaurant} />
                             </Link>
                         )
                         )
