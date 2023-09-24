@@ -6,6 +6,9 @@ module.exports = {
       maxWidth: {
         '2xs': '200px',
         '3xs': '160px'
+      },
+      fontSize: {
+        '2xs': '8px',
       }
     },
   },
