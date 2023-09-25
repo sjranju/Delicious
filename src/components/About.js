@@ -1,0 +1,58 @@
+import React from "react";
+import UserClass from "./User";
+
+class About extends React.Component {
+
+    constructor(props) {
+        super(props);
+        // console.log('Parent Constructor')
+
+        this.state = {
+            userData: {}
+        }
+    }
+
+    async componentDidMount() {
+        const api = await fetch('https://api.github.com/users/sjranju')
+        const json = await api.json()
+        this.setState({ userData: json })
+    }
+
+
+
+    render() {
+        // console.log('Parent Render')
+        const { login, avatar_url, url } = this.state
+
+        return (
+            <div className="flex flex-col items-center justify-center mt-24 space-y-6">
+                <h2>This is About Class Component</h2>
+                <UserClass name={login} gitLink={url} profilePic={avatar_url} />
+            </div>
+        )
+    }
+}
+
+export default About
+
+{/**
+
+    - Parent Constructor
+    - Parent Render
+
+        - 1Ranjana Constructor
+        - 1Ranjana Render
+
+        - 2Ranjana Constructor
+        - 2Ranjana Render
+
+        - 3Ranjana Constructor
+        - 3Ranjana Render
+
+        - 1Ranjana componentDidMount
+        - 2Ranjana componentDidMount
+        - 3Ranjana componentDidMount
+
+    - Parent componentDidMount
+
+*/}
