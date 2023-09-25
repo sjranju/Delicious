@@ -8,7 +8,11 @@ class About extends React.Component {
         // console.log('Parent Constructor')
 
         this.state = {
-            userData: {}
+            userData: {
+                login: 'Default',
+                gitLink: 'link',
+                profilePic: 'picture'
+            }
         }
     }
 
@@ -16,18 +20,21 @@ class About extends React.Component {
         const api = await fetch('https://api.github.com/users/sjranju')
         const json = await api.json()
         this.setState({ userData: json })
+        console.log('json', json)
     }
 
-
+    componentDidUpdate() {
+        console.log(this.state)
+    }
 
     render() {
         // console.log('Parent Render')
-        const { login, avatar_url, url } = this.state
+        const { login, avatar_url, html_url } = this.state.userData
 
         return (
             <div className="flex flex-col items-center justify-center mt-24 space-y-6">
                 <h2>This is About Class Component</h2>
-                <UserClass name={login} gitLink={url} profilePic={avatar_url} />
+                <UserClass name={login} gitLink={html_url} profilePic={avatar_url} />
             </div>
         )
     }

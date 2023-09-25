@@ -7,26 +7,26 @@ class UserClass extends Component {
         this.state = {
             count: 0
         }
-        console.log(this.props.name + 'Child Constructor')
+        // console.log(this.props.name + 'Child Constructor')
     }
 
     componentDidMount() {
-        console.log(this.props.name + 'Child componentDidMount')
+        // console.log(this.props.name + 'Child componentDidMount')
+    }
+
+    componentWillUnmount() {
+        console.log('componentWillUnmount' + ' ' + this.state)
     }
 
     render() {
         console.log(this.props.name + 'Child Render')
         const { name, gitLink, profilePic } = this.props
-        const { count } = this.state
 
         return (
-            <div className="flex flex-col items-start justify-center text-lg rounded-md border border-slate-400 p-4">
-                <h2>{name}</h2>
-                <h2>{location}</h2>
-                <p>{count}</p>
-                <button className="border rounded-sm p-1"
-                    onClick={() => { this.setState({ count: count + 1 }) }}>Increament Count</button>
-
+            <div className="flex flex-col items-center justify-center text-lg rounded-md border border-slate-400 p-4 space-y-2">
+                <img src={profilePic} className="w-20 h-20 rounded-full"></img>
+                <h2 className="text-md font-semibold">{name}</h2>
+                <a href={gitLink} className="text-xs">Git Hub Profile</a>
             </div >
         )
     }
