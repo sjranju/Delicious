@@ -1,11 +1,11 @@
-import { ChangeEvent, MouseEvent, ReactEventHandler, useEffect, useState } from 'react'
+import React, { ChangeEvent, MouseEvent, ReactEventHandler, useEffect, useState } from 'react'
 import RestaurantCard from './RestaurantCard'
 import Shimmer from './Shimmer'
-import React from 'react'
 import { BiSearch } from 'react-icons/bi'
 import { AiOutlineClose } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import { RESTAURANT_API } from '../utils/constants'
+import useOnlineStatus from '../utils/useOnlineStatus'
 
 interface RestaurantType {
     info: {
@@ -112,6 +112,11 @@ const Body = () => {
         console.log(jsonData);
 
         setFilterRestaurants(jsonData?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
+    }
+
+    const onlineStatus = useOnlineStatus()
+    if (onlineStatus === false) {
+        return <h1>Looks like you are offline, please check your internet connection</h1>
     }
 
     return (restaurantList?.length === 0) ? <Shimmer /> : (

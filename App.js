@@ -1,13 +1,14 @@
-import React from "react"
+import React, { Suspense, lazy } from "react"
 import ReactDOM from "react-dom/client"
 import Header from "./src/components/Header"
 import Body from './src/components/Body'
-import About from './src/components/About'
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom"
 import Contact from "./src/components/Contact"
 import Error from "./src/components/Error"
 import RestaurantMenu from "./src/components/RestaurantMenu"
 import './index.css'
+
+const About = lazy(() => import('./src/components/About'))
 
 const App = () => {
     return (
@@ -29,7 +30,10 @@ const appRouter = createBrowserRouter([
             },
             {
                 path: '/about',
-                element: <About />
+                element:
+                    <Suspense>
+                        <About />
+                    </Suspense>
             },
             {
                 path: '/contact',

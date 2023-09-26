@@ -203,14 +203,16 @@ interface RestaurantInfo {
 
 export interface RestaurantDataItem {
   card: {
-    "@type": string;
-    info: RestaurantInfo;
-    analytics: Record<string, any>; // Define this more precisely if needed
-  };
-  relevance: {
-    type: string;
-    sectionId: string;
-  };
+    card: {
+      "@type": string;
+      info: RestaurantInfo;
+      analytics: Record<string, any>; // Define this more precisely if needed
+    };
+    relevance: {
+      type: string;
+      sectionId: string;
+    };
+  }
 }
 
 
