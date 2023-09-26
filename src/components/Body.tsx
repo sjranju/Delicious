@@ -1,6 +1,5 @@
 import React, { ChangeEvent, MouseEvent, ReactEventHandler, useEffect, useState } from 'react'
 import RestaurantCard from './RestaurantCard'
-import Shimmer from './Shimmer'
 import { BiSearch } from 'react-icons/bi'
 import { AiOutlineClose } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
@@ -119,7 +118,7 @@ const Body = () => {
         return <h1>Looks like you are offline, please check your internet connection</h1>
     }
 
-    return (restaurantList?.length === 0) ? <Shimmer /> : (
+    return (restaurantList?.length === 0) ? <h1>Loading shimmer</h1> : (
         <div className='flex flex-col justify-center items-center space-y-8 mt-8 bg-slate-50'>
             <div className='flex flex-row items-center justify-center space-x-8'>
                 <div className='flex flex-row space-x-2'>

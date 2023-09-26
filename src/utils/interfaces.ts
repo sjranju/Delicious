@@ -317,6 +317,7 @@ interface MenuItemInfo {
   imageId: string;
   inStock: number;
   isVeg: number;
+  price: number;
   variants: Record<string, unknown>; // You can specify a more detailed type here if needed
   variantsV2: {
     variantGroups: {

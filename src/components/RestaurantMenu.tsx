@@ -7,7 +7,8 @@ import { MdOutlineTimelapse } from 'react-icons/md'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 import * as TYPES from '../utils/interfaces'
 import cloneDeep from 'clone-deep'
-import useRestaurantMenu from "../utils/useRestaurantMenu";
+import useRestaurantMenu from "../utils/useRestaurantMenu"
+import { BiRupee } from "react-icons/bi"
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
@@ -15,17 +16,17 @@ const RestaurantMenu = () => {
   const { topPicks, resInfo, restaurantMenu, offerDetails, setRestaurantMenu, setOfferDetails, setResInfo, setTopPicks } = useRestaurantMenu(resId!)
 
   const handleCategoryClick = (title: string) => {
-    let restaurantMenuClone: TYPES.RestaurantMenu = cloneDeep(restaurantMenu)
+    let restaurantMenuClone: TYPES.RestaurantMenu = cloneDeep(restaurantMenu!)
     restaurantMenuClone?.cards?.find(card => card?.card?.card?.title === title)?.card?.card?.showDetails === true ?
       restaurantMenuClone.cards.find(card => card.card.card.title === title)!.card.card.showDetails = false
       : restaurantMenuClone.cards.find(card => card.card.card.title === title)!.card.card.showDetails = true
     setRestaurantMenu(restaurantMenuClone)
   }
 
-  // console.log(resInfo)
+  console.log(restaurantMenu)
 
   return (
-    <div className="h-screen w-full bg-slate-50 ">
+    <div className="h-full w-full bg-slate-50 ">
       <div className="flex flex-col items-center space-y-6 justify-around max-w-[800px] mx-auto divide-y-2 divide-dashed divide-gray-300">
         <div className="flex flex-row justify-around items-center bg-sky-50 w-full pt-10 pb-2">
           <div>
@@ -83,16 +84,22 @@ const RestaurantMenu = () => {
                         {card?.card?.card?.showDetails === true ?
                           <IoIosArrowUp size={22} />
                           : <IoIosArrowDown size={22} />}
-                      </span></>
+                      </span>
+                    </>
                     : ''
                   }
                 </button>
                 {card?.card?.card?.showDetails === true ?
                   card?.card?.card?.itemCards?.map(item => (
-                    <div key={item?.card?.info?.id} className="px-6">
-                      {
-                        item?.card?.info?.name
-                      }
+                    <div key={item?.card?.info?.id} className="px-6 flex flex-row py-2 justify-between items-center">
+                      <div className="flex flex-col">
+                        <p className="font-semibold">{item?.card?.info?.name}</p>
+                        <p className="flex flex-row items-center"><BiRupee />{item?.card?.info?.price}</p>
+                        <p className="text-xs text-slate-500 max-w-[700px]">
+                          {item?.card?.info?.description?.slice(item?.card?.info?.description?.indexOf('|') + 1)}
+                        </p>
+                      </div>
+                      <img src={CLOUDINARY_URL + item?.card?.info?.imageId} className="w-16 h-16 rounded-md"></img>
                     </div>
                   ))
                   : ''

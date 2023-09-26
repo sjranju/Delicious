@@ -8,7 +8,7 @@ import Error from "./src/components/Error"
 import RestaurantMenu from "./src/components/RestaurantMenu"
 import './index.css'
 
-const About = lazy(() => import('./src/components/About'))
+const About = lazy(() => import('./src/components/Contact'))
 
 const App = () => {
     return (
@@ -37,7 +37,10 @@ const appRouter = createBrowserRouter([
             },
             {
                 path: '/contact',
-                element: <Contact />
+                element:
+                    <Suspense>
+                        <Contact />
+                    </Suspense>
             },
             {
                 path: 'restaurant/:resId',
@@ -48,5 +51,5 @@ const appRouter = createBrowserRouter([
     },
 ])
 
-const root = ReactDOM.createRoot(document.getElementById('root'))
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(<RouterProvider router={appRouter} />)

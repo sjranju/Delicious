@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/sjranju/Namaste-React#readme",
   "devDependencies": {
+    "@types/clone-deep": "^4.0.2",
+    "@types/react-dom": "^18.2.7",
     "buffer": "^6.0.3",
     "parcel": "^2.9.3",
     "postcss": "^8.4.30",
