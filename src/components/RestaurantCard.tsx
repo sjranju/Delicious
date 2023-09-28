@@ -1,7 +1,13 @@
+import React from 'react'
 import { AiFillStar } from 'react-icons/ai'
 import { CLOUDINARY_URL } from '../utils/constants'
+import * as TYPES from "../utils/interfaces"
 
-export const RestaurantCard = (props) => {
+interface iRestaurantProp {
+    resData: TYPES.RestaurantType
+}
+
+export const RestaurantCard = (props: iRestaurantProp) => {
     const { resData } = props
     const { name, avgRating, cuisines, areaName, cloudinaryImageId } = resData?.info
     console.log

@@ -1,104 +1,24 @@
-import React, { ChangeEvent, MouseEvent, ReactEventHandler, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import RestaurantCard from './RestaurantCard'
 import { BiSearch } from 'react-icons/bi'
 import { AiOutlineClose } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import { RESTAURANT_API } from '../utils/constants'
 import useOnlineStatus from '../utils/useOnlineStatus'
-
-interface RestaurantType {
-    info: {
-        id: string;
-        name: string;
-        cloudinaryImageId: string;
-        locality: string;
-        areaName: string;
-        costForTwo: string;
-        cuisines: string[];
-        avgRating: number;
-        favourite: boolean;
-        feeDetails: {
-            restaurantId: string;
-            fees: {
-                name: string;
-                fee?: number;
-            }[];
-            totalFee?: number;
-        };
-        parentId: string;
-        avgRatingString: string;
-        totalRatingsString: string;
-        sla: {
-            deliveryTime: number;
-            lastMileTravel: number;
-            serviceability: string;
-            slaString: string;
-            lastMileTravelString: string;
-            iconType: string;
-        };
-        availability: {
-            nextCloseTime: string;
-            opened: boolean;
-        };
-        badges: any;
-        select: boolean;
-        isOpen: boolean;
-        type: string;
-        badgesV2: {
-            entityBadges: {
-                imageBased: any;
-                textBased: any;
-                textExtendedBadges: any;
-            };
-        };
-        loyaltyDiscoverPresentationInfo: {
-            logoCtx: {
-                text: string;
-                logo: string;
-            };
-            freedelMessage: string;
-        };
-        orderabilityCommunication: {
-            title: any;
-            subTitle: any;
-            message: any;
-            customIcon: any;
-        };
-        differentiatedUi: {
-            displayType: string;
-            differentiatedUiMediaDetails: {
-                mediaType: string;
-                lottie: any;
-                video: any;
-            };
-        };
-        reviewsSummary: any;
-        displayType: string;
-        restaurantOfferPresentationInfo: any;
-    };
-    analytics: {
-        context: string;
-    };
-    cta: {
-        link: string;
-        text: string;
-        type: string;
-    };
-    widgetId: string;
-}
-
+import * as TYPES from "../utils/interfaces"
+import withOneAccountFreeDelivery from './withOneAccountFreeDelivery'
 
 const Body = () => {
 
-    const [restaurantList, setRestaurantList] = useState<RestaurantType[]>([])
+    const [restaurantList, setRestaurantList] = useState<TYPES.RestaurantType[]>([])
     const [searchText, setSearchText] = useState('')
-    const [filterRestaurants, setFilterRestaurants] = useState<RestaurantType[]>([])
-    const [topRatedRestaurants, setTopRatedRestaurants] = useState<RestaurantType[]>([])
+    const [filterRestaurants, setFilterRestaurants] = useState<TYPES.RestaurantType[]>([])
+    const [topRatedRestaurants, setTopRatedRestaurants] = useState<TYPES.RestaurantType[]>([])
 
     useEffect(() => {
         fetchData()
     }, [])
-    console.log(restaurantList);
+    // console.log(restaurantList);
 
     const handleFilterRestaurants = () => {
         setFilterRestaurants(filterRestaurants?.filter(restaurant => restaurant?.info?.name?.toLowerCase().includes(searchText.toLowerCase())))
@@ -117,6 +37,8 @@ const Body = () => {
     if (onlineStatus === false) {
         return <h1>Looks like you are offline, please check your internet connection</h1>
     }
+
+    const RestaurantCardGold = withOneAccountFreeDelivery(RestaurantCard)
 
     return (restaurantList?.length === 0) ? <h1>Loading shimmer</h1> : (
         <div className='flex flex-col justify-center items-center space-y-8 mt-8 bg-slate-50'>
@@ -154,6 +76,9 @@ const Body = () => {
                     filterRestaurants?.length !== 0 ?
                         filterRestaurants?.map(restaurant => (
                             <Link to={`/restaurant/${restaurant.info.id}`} key={restaurant.info.id} >
+                                {restaurant?.info?.loyaltyDiscoverPresentationInfo?.freedelMessage} ?
+                                <RestaurantCardGold resData={restaurant} />
+                                :
                                 <RestaurantCard resData={restaurant} />
                             </Link>
                         )

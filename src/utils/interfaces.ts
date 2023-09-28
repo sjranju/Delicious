@@ -1,3 +1,84 @@
+export interface RestaurantType {
+  info: {
+    id: string;
+    name: string;
+    cloudinaryImageId: string;
+    locality: string;
+    areaName: string;
+    costForTwo: string;
+    cuisines: string[];
+    avgRating: number;
+    favourite: boolean;
+    feeDetails: {
+      restaurantId: string;
+      fees: {
+        name: string;
+        fee?: number;
+      }[];
+      totalFee?: number;
+    };
+    parentId: string;
+    avgRatingString: string;
+    totalRatingsString: string;
+    sla: {
+      deliveryTime: number;
+      lastMileTravel: number;
+      serviceability: string;
+      slaString: string;
+      lastMileTravelString: string;
+      iconType: string;
+    };
+    availability: {
+      nextCloseTime: string;
+      opened: boolean;
+    };
+    badges: any;
+    select: boolean;
+    isOpen: boolean;
+    type: string;
+    badgesV2: {
+      entityBadges: {
+        imageBased: any;
+        textBased: any;
+        textExtendedBadges: any;
+      };
+    };
+    loyaltyDiscoverPresentationInfo: {
+      logoCtx: {
+        text: string;
+        logo: string;
+      };
+      freedelMessage: string;
+    };
+    orderabilityCommunication: {
+      title: any;
+      subTitle: any;
+      message: any;
+      customIcon: any;
+    };
+    differentiatedUi: {
+      displayType: string;
+      differentiatedUiMediaDetails: {
+        mediaType: string;
+        lottie: any;
+        video: any;
+      };
+    };
+    reviewsSummary: any;
+    displayType: string;
+    restaurantOfferPresentationInfo: any;
+  };
+  analytics: {
+    context: string;
+  };
+  cta: {
+    link: string;
+    text: string;
+    type: string;
+  };
+  widgetId: string;
+}
+
 type Offer = {
   info: {
     header: string;
@@ -216,7 +297,7 @@ export interface RestaurantDataItem {
 }
 
 
-interface MenuCarouselItem {
+export interface MenuCarouselItem {
   type: string;
   subtype: string;
   bannerId: string;
@@ -301,23 +382,63 @@ interface MenuCarouselItem {
   hideRestaurantDetails: boolean;
 }
 
-export interface MenuCarousel {
+interface MenuCarousel {
   card: {
     "@type": string;
     title: string;
     carousel: MenuCarouselItem[];
-  };
+  }
 }
 
-interface MenuItemInfo {
-  id: string;
-  name: string;
+export interface MenuItemInfo {
+  addons?: {
+    groupId: string;
+    groupName: string;
+    choices: {
+      id: string;
+      name: string;
+      price: number;
+      inStock: number;
+      isVeg: number;
+      isEnabled: number;
+    }[];
+    maxAddons: number;
+    maxFreeAddons: number;
+  }[];
+  badgesV2: Record<string, unknown>;
   category: string;
+  defaultPrice: number;
   description: string;
+  id: string;
   imageId: string;
   inStock: number;
-  isVeg: number;
+  isBestseller?: boolean
+  isVeg?: number;
+  itemAttribute: {
+    vegClassifier: string;
+    portionSize: string;
+    accompaniments: string;
+  };
+  itemBadge: Record<string, unknown>;
+  name: string;
+  offerTags?:
+  {
+    title: string,
+    subTitle: string,
+    textColor: string,
+    backgroundColor: string
+  }[]
   price: number;
+  ratings: {
+    aggregatedRating: {
+      rating: string;
+      ratingCount: string;
+      ratingCountV2: string;
+    }
+  }
+  ribbon: Record<string, unknown>;
+  showImage?: boolean,
+  type: string,
   variants: Record<string, unknown>; // You can specify a more detailed type here if needed
   variantsV2: {
     variantGroups: {
@@ -336,7 +457,7 @@ interface MenuItemInfo {
         };
       }[];
     };
-    addons: {
+    addons?: {
       groupId: string;
       groupName: string;
       choices: {
@@ -350,15 +471,7 @@ interface MenuItemInfo {
       maxAddons: number;
       maxFreeAddons: number;
     }[];
-    itemAttribute: {
-      vegClassifier: string;
-      portionSize: string;
-    };
     defaultPrice: number;
-    ribbon: Record<string, unknown>;
-    itemBadge: Record<string, unknown>;
-    badgesV2: Record<string, unknown>;
-    showImage: boolean,
     offerTags:
     {
       title: string,
@@ -369,34 +482,30 @@ interface MenuItemInfo {
   }[]
 };
 
-
-
-interface RestaurantMenuItem {
+export type RestaurantMenuItem = {
   card: {
     "@type": string; // Should be "type.googleapis.com/swiggy.presentation.food.v2.Dish"
-    info: MenuItemInfo;
     analytics: Record<string, unknown>;
     hideRestaurantDetails: boolean;
+    info: MenuItemInfo;
   }
 }
 
-export interface cardType {
+export interface ItemCategoryType {
   card: {
-    card: {
-      "@type": string;
-      title: string;
-      itemCards: RestaurantMenuItem[];
-      type?: string;
-      showDetails: boolean;
-    }
+    "@type": string;
+    title: string;
+    itemCards: RestaurantMenuItem[];
+    type?: string;
+    showDetails: boolean;
   }
 }
 
-export interface RestaurantMenu {
-  cards: cardType[],
+interface RestaurantMenu {
+  cards: ItemCategoryType[],
 }
 
-export interface MenuVegFilterAndBadge {
+interface MenuVegFilterAndBadge {
   card: {
     "@type": string;
     badges: Record<string, unknown>;
@@ -406,6 +515,84 @@ export interface MenuVegFilterAndBadge {
       description: string;
     };
     topRatedFilter: Record<string, unknown>;
-  };
+  }
 }
 
+export enum CardType {
+  MenuCarousel = "type.googleapis.com/swiggy.presentation.food.v2.MenuCarousel",
+  MenuVegFilterAndBadge = "type.googleapis.com/swiggy.presentation.food.v2.MenuVegFilterAndBadge",
+  ItemCategory = "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory",
+  RestaurantLicenseInfo = "type.googleapis.com/swiggy.presentation.food.v2.RestaurantLicenseInfo",
+  RestaurantAddress = "type.googleapis.com/swiggy.presentation.food.v2.RestaurantAddress",
+  NestedItemCategory = "type.googleapis.com/swiggy.presentation.food.v2.NestedItemCategory"
+}
+
+export type Card =
+  {
+    card: {
+      card: {
+        "@type": CardType.MenuVegFilterAndBadge;
+        card: {
+          "@type": string;
+          badges: Record<string, unknown>;
+          vegOnlyDetails: {
+            imageId: string;
+            title: string;
+            description: string;
+          };
+          topRatedFilter: Record<string, unknown>;
+        }
+      }
+    }
+  } |
+  {
+    card: {
+      card: {
+        "@type": CardType.MenuCarousel;
+        title: string;
+        carousel: MenuCarouselItem[];
+      }
+    }
+  } |
+  {
+    card: {
+      card: {
+        "@type": CardType.ItemCategory;
+        itemCards: RestaurantMenuItem[],
+        title: string,
+        showDetails: boolean
+      }
+    }
+  } |
+  {
+    card: {
+      card: {
+        "@type": CardType.NestedItemCategory
+        categories: {
+          itemCards: MenuItemInfo[],
+          title: string
+        }[]
+        title: string,
+        showDetails: boolean
+      }
+    }
+  } |
+  {
+    card: {
+      card: {
+        "@type": CardType.RestaurantLicenseInfo,
+        imageId: string,
+        text: string[]
+      }
+    }
+  } |
+  {
+    card: {
+      card: {
+        "@type": CardType.RestaurantAddress,
+        area: string,
+        completeAddress: string,
+        name: string
+      }
+    }
+  }

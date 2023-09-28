@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { CLOUDINARY_URL, COUPON_URL } from "../utils/constants";
 import { AiFillStar } from 'react-icons/ai'
@@ -9,29 +9,32 @@ import * as TYPES from '../utils/interfaces'
 import cloneDeep from 'clone-deep'
 import useRestaurantMenu from "../utils/useRestaurantMenu"
 import { BiRupee } from "react-icons/bi"
+import { CardType } from "../utils/interfaces";
+import ItemCategory from "./ItemCategory";
+import MenuItem from "./MenuItem";
+import TopPicks from "./TopPicks";
+import RestaurantAddress from "./RestaurantAddress";
+import RestaurantLicenseInfo from "./RestaurantLicenseInfo";
+import NestedItemCategory from "./NestedItemCategory";
+// import MenuVegItem from "./MenuVegItem";
+import MenuCarousel from "./MenuCarousel";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
 
-  const { topPicks, resInfo, restaurantMenu, offerDetails, setRestaurantMenu, setOfferDetails, setResInfo, setTopPicks } = useRestaurantMenu(resId!)
-
-  const handleCategoryClick = (title: string) => {
-    let restaurantMenuClone: TYPES.RestaurantMenu = cloneDeep(restaurantMenu!)
-    restaurantMenuClone?.cards?.find(card => card?.card?.card?.title === title)?.card?.card?.showDetails === true ?
-      restaurantMenuClone.cards.find(card => card.card.card.title === title)!.card.card.showDetails = false
-      : restaurantMenuClone.cards.find(card => card.card.card.title === title)!.card.card.showDetails = true
-    setRestaurantMenu(restaurantMenuClone)
-  }
-
-  console.log(restaurantMenu)
-
+  const { topPicks, resInfo, restaurantMenu, offerDetails, setRestaurantMenu, setOfferDetails, setResInfo, setTopPicks, vegOnly, setVegOnly } = useRestaurantMenu(resId!)
   return (
     <div className="h-full w-full bg-slate-50 ">
-      <div className="flex flex-col items-center space-y-6 justify-around max-w-[800px] mx-auto divide-y-2 divide-dashed divide-gray-300">
+      <div className="flex flex-col items-center space-y-6 justify-around max-w-[800px] mx-auto ">
         <div className="flex flex-row justify-around items-center bg-sky-50 w-full pt-10 pb-2">
           <div>
-            <img src={CLOUDINARY_URL + resInfo?.card?.card?.info?.cloudinaryImageId}
-              className="w-52 h-48 rounded-sm" />
+            {
+              resInfo?.card?.card?.info?.cloudinaryImageId ?
+                <img src={CLOUDINARY_URL + resInfo.card.card.info.cloudinaryImageId}
+                  className="w-52 h-48 rounded-sm" />
+                : ''
+            }
+
           </div>
           <div className="flex flex-col items-start">
             <h1 className="font-semibold text-lg">{resInfo?.card?.card?.info?.name}</h1>
@@ -71,41 +74,35 @@ const RestaurantMenu = () => {
             </div>
           ))}
         </div>
-        <div className="flex flex-col justify-center w-full space-y-2">
+        <div className="flex flex-col justify-center w-full space-y-2 ">
           {
-            restaurantMenu?.cards?.map((card, i) => (
-              <div key={i} className="space-y-4">
-                <button className="font-bold text-neutral-700 flex flex-row items-center justify-between w-full px-6 py-4 bg-slate-200 rounded-lg"
-                  onClick={() => handleCategoryClick(card?.card?.card?.title)}>
-                  {card?.card?.card?.title ?
-                    <><div className="">
-                      {card?.card?.card?.title + '(' + card?.card?.card?.itemCards?.length + ')'}
-                    </div><span className="">
-                        {card?.card?.card?.showDetails === true ?
-                          <IoIosArrowUp size={22} />
-                          : <IoIosArrowDown size={22} />}
-                      </span>
-                    </>
-                    : ''
-                  }
-                </button>
-                {card?.card?.card?.showDetails === true ?
-                  card?.card?.card?.itemCards?.map(item => (
-                    <div key={item?.card?.info?.id} className="px-6 flex flex-row py-2 justify-between items-center">
-                      <div className="flex flex-col">
-                        <p className="font-semibold">{item?.card?.info?.name}</p>
-                        <p className="flex flex-row items-center"><BiRupee />{item?.card?.info?.price}</p>
-                        <p className="text-xs text-slate-500 max-w-[700px]">
-                          {item?.card?.info?.description?.slice(item?.card?.info?.description?.indexOf('|') + 1)}
-                        </p>
-                      </div>
-                      <img src={CLOUDINARY_URL + item?.card?.info?.imageId} className="w-16 h-16 rounded-md"></img>
-                    </div>
-                  ))
-                  : ''
-                }
-              </div>
-            ))
+            restaurantMenu ?
+              restaurantMenu.map((menu, i) => (
+                menu.card.card["@type"] === TYPES.CardType.MenuCarousel ?
+                  <MenuCarousel key={i} items={menu.card.card} />
+                  : menu.card.card["@type"] === TYPES.CardType.ItemCategory ?
+                    resId ?
+                      <ItemCategory key={i} itemCard={menu.card.card} resId={resId} />
+                      : ''
+                    : menu.card.card["@type"] === TYPES.CardType.NestedItemCategory ?
+                      <NestedItemCategory key={i} />
+                      : menu.card.card["@type"] === TYPES.CardType.RestaurantAddress ?
+                        <RestaurantAddress key={i} />
+                        : menu.card.card["@type"] === TYPES.CardType.RestaurantLicenseInfo ?
+                          <RestaurantLicenseInfo key={i} />
+                          : ''
+              ))
+              : ''
+            // i === 0 ?
+            //   <label key={i} className="relative inline-flex items-center cursor-pointer my-4">
+            //     <input type="checkbox" value='' className="sr-only peer" checked={isChecked} onChange={handleVegOnly} />
+            //     <span className="text-sm font-medium text-gray-900 dark:text-gray-700 mr-2">Veg Only</span>
+            //     <div className="w-[36px] h-[16px] bg-gray-50 rounded-sm peer dark:bg-gray-700 peer-checked:after:translate-x-full 
+            //   peer-checked:after:border-gray-700 after:content-[''] after:absolute after:top-[2.8px] after:left-[66px] 
+            //   peer-checked:after:left-[69px] after:bg-white after:border-gray-300 after:border after:rounded-sm 
+            //   after:h-[15px] after:w-[16px] after:transition-all dark:border-gray-600 peer-checked:bg-green-700"></div>
+            //   </label>
+
           }
 
         </div>
