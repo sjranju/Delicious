@@ -35,3 +35,22 @@ These are nothing a custom java script functions that returns a value which you 
 lazy() is used for loading component on demand when user clicks or navigates to that route
 
 import() function is used to bundle files seperately/ create seperate chunks and will be loaded when user clicks/navigates
+
+## Episode 11 - Data is the new oil
+
+### Higher Order Components
+
+It is a JavaScript function that takes a component as input, enhances it and returns the enchanced component
+
+### Layers in React Application
+
+1 - UI Layer -> JSX 
+
+2 - Data Layer -> Local variables, state, props, curly braces inside JSX that modifies the UI
+
+
+### Controlled and Uncontrolled Controlled
+
+If a component is being controlled by its parent or if a component is relying on its parent then it is called Controlled Component
+
+If a component controlled by itself then it is called Controlled Component (having own state)

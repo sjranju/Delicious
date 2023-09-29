@@ -4,25 +4,19 @@ import { CLOUDINARY_URL, COUPON_URL } from "../utils/constants";
 import { AiFillStar } from 'react-icons/ai'
 import { HiOutlineCurrencyRupee } from 'react-icons/hi'
 import { MdOutlineTimelapse } from 'react-icons/md'
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 import * as TYPES from '../utils/interfaces'
-import cloneDeep from 'clone-deep'
 import useRestaurantMenu from "../utils/useRestaurantMenu"
-import { BiRupee } from "react-icons/bi"
-import { CardType } from "../utils/interfaces";
 import ItemCategory from "./ItemCategory";
-import MenuItem from "./MenuItem";
-import TopPicks from "./TopPicks";
 import RestaurantAddress from "./RestaurantAddress";
 import RestaurantLicenseInfo from "./RestaurantLicenseInfo";
 import NestedItemCategory from "./NestedItemCategory";
-// import MenuVegItem from "./MenuVegItem";
 import MenuCarousel from "./MenuCarousel";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
+  const [vegOnly, setVegOnly] = useState<boolean>(false)
 
-  const { topPicks, resInfo, restaurantMenu, offerDetails, setRestaurantMenu, setOfferDetails, setResInfo, setTopPicks, vegOnly, setVegOnly } = useRestaurantMenu(resId!)
+  const { topPicks, resInfo, restaurantMenu, offerDetails, setRestaurantMenu, setOfferDetails, setResInfo, setTopPicks } = useRestaurantMenu(resId!)
   return (
     <div className="h-full w-full bg-slate-50 ">
       <div className="flex flex-col items-center space-y-6 justify-around max-w-[800px] mx-auto ">
@@ -74,18 +68,18 @@ const RestaurantMenu = () => {
             </div>
           ))}
         </div>
-        <div className="flex flex-col justify-center w-full space-y-2 ">
+        <div className="flex flex-col justify-center w-full space-y-4 ">
           {
             restaurantMenu ?
               restaurantMenu.map((menu, i) => (
                 menu.card.card["@type"] === TYPES.CardType.MenuCarousel ?
                   <MenuCarousel key={i} items={menu.card.card} />
                   : menu.card.card["@type"] === TYPES.CardType.ItemCategory ?
-                    resId ?
-                      <ItemCategory key={i} itemCard={menu.card.card} resId={resId} />
-                      : ''
+                    resId &&
+                    <ItemCategory key={i} itemCard={menu.card.card} resId={resId} vegOnly={vegOnly} />
                     : menu.card.card["@type"] === TYPES.CardType.NestedItemCategory ?
-                      <NestedItemCategory key={i} />
+                      resId &&
+                      <NestedItemCategory key={i} nestedCategories={menu?.card?.card} resId={resId} vegOnly={vegOnly} />
                       : menu.card.card["@type"] === TYPES.CardType.RestaurantAddress ?
                         <RestaurantAddress key={i} />
                         : menu.card.card["@type"] === TYPES.CardType.RestaurantLicenseInfo ?

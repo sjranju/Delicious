@@ -7,7 +7,6 @@ const useRestaurantMenu = (resId: string) => {
     const [offerDetails, setOfferDetails] = useState<TYPES.OfferCards | null>(null)
     const [restaurantMenu, setRestaurantMenu] = useState<TYPES.Card[] | null>(null)
     const [topPicks, setTopPicks] = useState<TYPES.Card[] | null>(null)
-    const [vegOnly, setVegOnly] = useState<TYPES.Card[] | null>(null)
 
     useEffect(() => {
         fetchData()
@@ -21,7 +20,7 @@ const useRestaurantMenu = (resId: string) => {
         console.log('json', json.data)
         setTopPicks(json?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1])
         setRestaurantMenu(json?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards)
-        setVegOnly(json?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards)
+        // setVegOnly(json?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards)
 
         // if(json?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[0]?.card?.card?.vegOnlyDetails?.title?.includes('vegetarian')){
         //     setVegOnly(json?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR)
@@ -33,7 +32,7 @@ const useRestaurantMenu = (resId: string) => {
     }
     // console.log(restaurantMenu)
 
-    return { resInfo, offerDetails, topPicks, restaurantMenu, setRestaurantMenu, setOfferDetails, setResInfo, setTopPicks, vegOnly, setVegOnly }
+    return { resInfo, offerDetails, topPicks, restaurantMenu, setRestaurantMenu, setOfferDetails, setResInfo, setTopPicks }
 }
 
 export default useRestaurantMenu

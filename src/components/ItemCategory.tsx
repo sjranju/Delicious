@@ -12,13 +12,15 @@ interface iProps {
         title: string;
         showDetails: boolean;
     }
-    resId: string
+    resId: string;
+    vegOnly: boolean
 }
 
 const ItemCategory = (props: iProps) => {
     const { itemCard, resId } = props
-    const { restaurantMenu, setRestaurantMenu, vegOnly, setVegOnly } = useRestaurantMenu(resId)
+    const { restaurantMenu, setRestaurantMenu } = useRestaurantMenu(resId)
     const [showDetails, setShowDetails] = useState<boolean>(false)
+
     const handleCategoryClick = (title: string) => {
 
         let restaurantMenuClone: TYPES.Card[] = cloneDeep(restaurantMenu!)
@@ -57,7 +59,7 @@ const ItemCategory = (props: iProps) => {
 
     return (
         <div key={itemCard.title} className="">
-            <button className="font-bold text-neutral-700 flex flex-row items-center justify-between w-full px-6 py-4 bg-slate-200 rounded-lg"
+            <button className="font-bold text-neutral-700 flex flex-row items-center justify-between w-full px-6 py-4 bg-slate-200 rounded-lg shadow-lg"
                 onClick={() => handleCategoryClick(itemCard.title)}>
                 {
                     itemCard?.title ?

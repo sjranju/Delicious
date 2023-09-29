@@ -9,6 +9,8 @@ interface iWithOneAccountFreeDeliveryProps {
 
 const withOneAccountFreeDelivery = (RestaurantCard: React.ComponentType<iWithOneAccountFreeDeliveryProps>) => {
     return (props: iWithOneAccountFreeDeliveryProps) => {
+        console.log('props.resData.info', props.resData.info)
+
         return (
             <div className="">
                 <div className="flex items-center justify-center">

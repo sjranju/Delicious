@@ -27,10 +27,10 @@ const Body = () => {
     const fetchData = async () => {
         const data = await fetch(RESTAURANT_API)
         const jsonData = await data.json()
-        setRestaurantList(jsonData?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
+        setRestaurantList(jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants || jsonData?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
         console.log(jsonData);
 
-        setFilterRestaurants(jsonData?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
+        setFilterRestaurants(jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants || jsonData?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
     }
 
     const onlineStatus = useOnlineStatus()
@@ -76,16 +76,23 @@ const Body = () => {
                     filterRestaurants?.length !== 0 ?
                         filterRestaurants?.map(restaurant => (
                             <Link to={`/restaurant/${restaurant.info.id}`} key={restaurant.info.id} >
-                                {restaurant?.info?.loyaltyDiscoverPresentationInfo?.freedelMessage} ?
-                                <RestaurantCardGold resData={restaurant} />
-                                :
-                                <RestaurantCard resData={restaurant} />
+                                {restaurant?.info?.loyaltyDiscoverPresentationInfo?.freedelMessage ?
+                                    <RestaurantCardGold resData={restaurant} />
+                                    :
+                                    <RestaurantCard resData={restaurant} />
+                                }
+
                             </Link>
                         )
                         )
                         : restaurantList?.map(restaurant => (
                             <Link to={`/restaurant/${restaurant.info.id}`} key={restaurant.info.id} >
-                                <RestaurantCard resData={restaurant} />
+                                {restaurant?.info?.loyaltyDiscoverPresentationInfo?.freedelMessage ?
+                                    <RestaurantCardGold resData={restaurant} />
+                                    :
+                                    <RestaurantCard resData={restaurant} />
+                                }
+
                             </Link>
                         )
                         )

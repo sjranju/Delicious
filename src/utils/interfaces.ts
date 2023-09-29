@@ -8,7 +8,7 @@ export interface RestaurantType {
     costForTwo: string;
     cuisines: string[];
     avgRating: number;
-    favourite: boolean;
+    favourite?: boolean;
     feeDetails: {
       restaurantId: string;
       fees: {
@@ -32,25 +32,45 @@ export interface RestaurantType {
       nextCloseTime: string;
       opened: boolean;
     };
-    badges: any;
-    select: boolean;
+    badges: {
+      textExtendedBadges?: {
+        iconId: string;
+        shortDescription: string;
+        fontColor: string;
+      }[];
+    };
+    select?: boolean;
     isOpen: boolean;
     type: string;
     badgesV2: {
       entityBadges: {
-        imageBased: any;
-        textBased: any;
-        textExtendedBadges: any;
+        imageBased: Record<string, never>;
+        textBased: Record<string, never>;
+        textExtendedBadges: {
+          badgeObject: {
+            attributes: {
+              description: string;
+              fontColor: string;
+              iconId: string;
+              shortDescription: string;
+            };
+          }[];
+        };
       };
     };
-    loyaltyDiscoverPresentationInfo: {
+    aggregatedDiscountInfoV3: {
+      header: string;
+      subHeader: string;
+      discountTag: string;
+    };
+    loyaltyDiscoverPresentationInfo?: {
       logoCtx: {
         text: string;
         logo: string;
       };
       freedelMessage: string;
     };
-    orderabilityCommunication: {
+    orderabilityCommunication?: {
       title: any;
       subTitle: any;
       message: any;
@@ -64,7 +84,7 @@ export interface RestaurantType {
         video: any;
       };
     };
-    reviewsSummary: any;
+    reviewsSummary?: any;
     displayType: string;
     restaurantOfferPresentationInfo: any;
   };
@@ -76,7 +96,7 @@ export interface RestaurantType {
     text: string;
     type: string;
   };
-  widgetId: string;
+  widgetId?: string;
 }
 
 type Offer = {
@@ -428,7 +448,7 @@ export interface MenuItemInfo {
     textColor: string,
     backgroundColor: string
   }[]
-  price: number;
+  price?: number;
   ratings: {
     aggregatedRating: {
       rating: string;
@@ -569,7 +589,7 @@ export type Card =
       card: {
         "@type": CardType.NestedItemCategory
         categories: {
-          itemCards: MenuItemInfo[],
+          itemCards: RestaurantMenuItem[],
           title: string
         }[]
         title: string,
