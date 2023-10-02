@@ -4,7 +4,7 @@
 // const MenuVegItem = () => {
 
 //     const [isChecked, setIsChecked] = useState<boolean>(false)
-//     const { topPicks, resInfo, restaurantMenu, offerDetails, setRestaurantMenu, setOfferDetails, setResInfo, setTopPicks, vegOnly, setVegOnly } = useRestaurantMenu(resId!)
+//     const { topPicks, resInfo, restaurantMenu, offerDetails, setRestaurantMenu, setOfferDetails, setResInfo, setTopPicks } = useRestaurantMenu(resId!)
 
 //     const handleVegOnly = () => {
 //         setIsChecked(!isChecked)

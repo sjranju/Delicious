@@ -44,20 +44,25 @@ const NestedItemCategory = (props: iNestedItemCategoryProps) => {
     }
 
     return (
-        <div className="">
-            <div className="px-4 font-bold ">{nestedCategories?.title}</div>
-
+        <div className="px-2 py-4 border-b-8">
+            <>
+                {
+                    nestedCategories?.categories?.filter(category => category?.itemCards?.filter(card => card?.card?.info?.isVeg === 1))?.length > 1
+                }
+            </>
+            <div className="font-bold text-neutral-700 text-lg">{nestedCategories?.title}</div>
             {
                 nestedCategories?.categories?.map(category =>
-                    <div key={category.title} className="">
-                        <div className="font-bold text-neutral-700 flex flex-row items-center justify-between w-full px-4 py-4">
-                            <button className="font-bold text-neutral-700 flex flex-row items-center justify-between w-full border-b pb-2 border-gray-300"
+                    <>
+                        {vegOnly ?
+                            category?.itemCards?.filter(item => item?.card?.info?.isVeg === 1).length > 0 &&
+                            <button className="font-semibold text-gray-600 flex flex-row items-center justify-between w-full border-b border-gray-300 py-4"
                                 onClick={() => handleCategoryClick(category.title)}>
                                 {
                                     category?.title ?
                                         <>
                                             <div className="">
-                                                {category?.title + '(' + category?.itemCards?.length + ')'}
+                                                {category?.title + ' (' + category?.itemCards?.filter(item => item?.card?.info?.isVeg === 1).length + ')'}
                                             </div>
                                             <span className="">
                                                 {nestedCategories?.showDetails === true ?
@@ -69,17 +74,38 @@ const NestedItemCategory = (props: iNestedItemCategoryProps) => {
                                         : ''
                                 }
                             </button>
-                        </div>
+                            : <button className="font-semibold text-gray-600 flex flex-row items-center justify-between w-full border-b py-4 border-gray-300"
+                                onClick={() => handleCategoryClick(category.title)}>
+                                {
+                                    category?.title ?
+                                        <>
+                                            <div className="">
+                                                {category?.title + ' (' + category?.itemCards?.length + ')'}
+                                            </div>
+                                            <span className="">
+                                                {nestedCategories?.showDetails === true ?
+                                                    <IoIosArrowUp size={22} />
+                                                    : <IoIosArrowDown size={22} />
+                                                }
+                                            </span>
+                                        </>
+                                        : ''
+                                }
+                            </button>
+                        }
                         <div className="flex">
                             {
-                                showDetails &&
-                                <MenuItem itemCard={category.itemCards} />
+                                showDetails ?
+                                    vegOnly ?
+                                        <MenuItem itemCard={category?.itemCards?.filter(item => item?.card?.info?.isVeg === 1)} />
+                                        : <MenuItem itemCard={category?.itemCards} />
+                                    : ''
                             }
                         </div>
-                    </div>
+                    </>
                 )
             }
-        </div>
+        </div >
     )
 }
 

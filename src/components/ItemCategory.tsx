@@ -13,11 +13,11 @@ interface iProps {
         showDetails: boolean;
     }
     resId: string;
-    vegOnly: boolean
+    vegOnly: boolean;
 }
 
 const ItemCategory = (props: iProps) => {
-    const { itemCard, resId } = props
+    const { itemCard, resId, vegOnly } = props
     const { restaurantMenu, setRestaurantMenu } = useRestaurantMenu(resId)
     const [showDetails, setShowDetails] = useState<boolean>(false)
 
@@ -58,32 +58,68 @@ const ItemCategory = (props: iProps) => {
     }
 
     return (
-        <div key={itemCard.title} className="">
-            <button className="font-bold text-neutral-700 flex flex-row items-center justify-between w-full px-6 py-4 bg-slate-200 rounded-lg shadow-lg"
-                onClick={() => handleCategoryClick(itemCard.title)}>
-                {
-                    itemCard?.title ?
-                        <>
-                            <div className="">
-                                {itemCard?.title + '(' + itemCard?.itemCards?.length + ')'}
-                            </div>
-                            <span className="">
-                                {itemCard?.showDetails === true ?
-                                    <IoIosArrowUp size={22} />
-                                    : <IoIosArrowDown size={22} />
-                                }
-                            </span>
-                        </>
-                        : ''
-                }
-            </button>
+        <>
+            {
+                vegOnly
+                    ?
+                    itemCard.itemCards.filter(item => item.card.info.isVeg! === 1).length > 0
+                    && <button key={itemCard.title} className=" font-bold text-lg text-neutral-700 flex flex-row items-center justify-between w-full px-2 py-4 "
+                        onClick={() => handleCategoryClick(itemCard.title)}>
+                        {
+                            itemCard?.title ?
+                                <>
+                                    <div className="">
+                                        {
+                                            itemCard?.title + ' (' + itemCard.itemCards.filter(item => item.card.info.isVeg! === 1).length + ')'
+                                        }
+                                    </div >
+                                    <span className="">
+                                        {itemCard?.showDetails === true ?
+                                            <IoIosArrowUp size={22} />
+                                            : <IoIosArrowDown size={22} />
+                                        }
+                                    </span>
+                                </>
+                                : ''
+                        }
+                    </button >
+                    : itemCard?.itemCards?.length > 0 &&
+                    <button className="font-bold text-lg text-neutral-700 flex flex-row items-center justify-between w-full px-2 py-4 border-b-8"
+                        onClick={() => handleCategoryClick(itemCard.title)}>
+                        {
+                            itemCard?.title ?
+                                <>
+                                    <div className="">
+                                        {
+                                            itemCard?.title + ' (' + itemCard?.itemCards?.length + ')'
+                                        }
+                                    </div>
+                                    <span className="">
+                                        {itemCard?.showDetails === true ?
+                                            <IoIosArrowUp size={22} />
+                                            : <IoIosArrowDown size={22} />
+                                        }
+                                    </span>
+                                </>
+                                : ''
+                        }
+                    </button>
+            }
+            {/* {
+                showDetails ?
+                    <MenuItem itemCard={itemCard?.itemCards} vegOnly={vegOnly} />
+                    : ''
+            } */}
+
             {
                 showDetails ?
-                    <MenuItem itemCard={itemCard?.itemCards} />
+                    vegOnly ?
+                        <MenuItem itemCard={itemCard.itemCards.filter(item => item.card.info.isVeg === 1)} />
+                        : <MenuItem itemCard={itemCard?.itemCards} />
                     : ''
             }
 
-        </div>
+        </>
     )
 }
 

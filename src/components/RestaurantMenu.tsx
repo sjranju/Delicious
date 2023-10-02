@@ -15,12 +15,27 @@ import MenuCarousel from "./MenuCarousel";
 const RestaurantMenu = () => {
   const { resId } = useParams();
   const [vegOnly, setVegOnly] = useState<boolean>(false)
-
+  // const [isChecked, setIsChecked] = useState<boolean>(false)
   const { topPicks, resInfo, restaurantMenu, offerDetails, setRestaurantMenu, setOfferDetails, setResInfo, setTopPicks } = useRestaurantMenu(resId!)
+
+  const handleVegOnly = () => {
+    setVegOnly(!vegOnly)
+    console.log('vegOnly?', vegOnly)
+    // if (!isChecked) {
+    //     console.log('isveg', restaurantMenu?.filter(menu => menu?.card?.card?.itemCards?.filter(item =>
+    //         item?.card?.info?.isVeg === 1 || item?.card?.info?.itemAttribute.vegClassifier === 'VEG'
+    //     ))!)
+    //     setVegOnly(restaurantMenu?.filter(menu => menu?.card?.card?.itemCards?.filter(item =>
+    //         item?.card?.info?.isVeg ? item?.card?.info?.isVeg >= 1 : ''))!)
+    // } else {
+    //     setVegOnly(restaurantMenu!)
+    // }
+  }
+
   return (
     <div className="h-full w-full bg-slate-50 ">
       <div className="flex flex-col items-center space-y-6 justify-around max-w-[800px] mx-auto ">
-        <div className="flex flex-row justify-around items-center bg-sky-50 w-full pt-10 pb-2">
+        <div className="flex flex-row justify-between items-center bg-sky-50 w-full pt-10 pb-2 px-2">
           <div>
             {
               resInfo?.card?.card?.info?.cloudinaryImageId ?
@@ -68,11 +83,20 @@ const RestaurantMenu = () => {
             </div>
           ))}
         </div>
-        <div className="flex flex-col justify-center w-full space-y-4 ">
+        <div className="flex flex-col justify-center w-full ">
           {
-            restaurantMenu ?
-              restaurantMenu.map((menu, i) => (
-                menu.card.card["@type"] === TYPES.CardType.MenuCarousel ?
+            restaurantMenu &&
+            restaurantMenu.map((menu, i) => (
+              menu.card.card["@type"] === TYPES.CardType.MenuVegFilterAndBadge ?
+                <label key={i} className="relative inline-flex items-center cursor-pointer my-4">
+                  <input type="checkbox" value='' className="sr-only peer" checked={vegOnly} onChange={handleVegOnly} />
+                  <span className="text-sm font-medium text-gray-900 dark:text-gray-700 mr-2">Veg Only</span>
+                  <div className="w-[36px] h-[16px] bg-gray-50 rounded-sm peer dark:bg-gray-700 peer-checked:after:translate-x-full 
+              peer-checked:after:border-gray-700 after:content-[''] after:absolute after:top-[2.8px] after:left-[66px] 
+              peer-checked:after:left-[69px] after:bg-white after:border-gray-300 after:border after:rounded-sm 
+              after:h-[15px] after:w-[16px] after:transition-all dark:border-gray-600 peer-checked:bg-green-700"></div>
+                </label>
+                : menu.card.card["@type"] === TYPES.CardType.MenuCarousel ?
                   <MenuCarousel key={i} items={menu.card.card} />
                   : menu.card.card["@type"] === TYPES.CardType.ItemCategory ?
                     resId &&
@@ -81,22 +105,11 @@ const RestaurantMenu = () => {
                       resId &&
                       <NestedItemCategory key={i} nestedCategories={menu?.card?.card} resId={resId} vegOnly={vegOnly} />
                       : menu.card.card["@type"] === TYPES.CardType.RestaurantAddress ?
-                        <RestaurantAddress key={i} />
+                        <RestaurantAddress key={i} itemCard={menu.card.card} />
                         : menu.card.card["@type"] === TYPES.CardType.RestaurantLicenseInfo ?
-                          <RestaurantLicenseInfo key={i} />
+                          <RestaurantLicenseInfo key={i} itemCard={menu.card.card} />
                           : ''
-              ))
-              : ''
-            // i === 0 ?
-            //   <label key={i} className="relative inline-flex items-center cursor-pointer my-4">
-            //     <input type="checkbox" value='' className="sr-only peer" checked={isChecked} onChange={handleVegOnly} />
-            //     <span className="text-sm font-medium text-gray-900 dark:text-gray-700 mr-2">Veg Only</span>
-            //     <div className="w-[36px] h-[16px] bg-gray-50 rounded-sm peer dark:bg-gray-700 peer-checked:after:translate-x-full 
-            //   peer-checked:after:border-gray-700 after:content-[''] after:absolute after:top-[2.8px] after:left-[66px] 
-            //   peer-checked:after:left-[69px] after:bg-white after:border-gray-300 after:border after:rounded-sm 
-            //   after:h-[15px] after:w-[16px] after:transition-all dark:border-gray-600 peer-checked:bg-green-700"></div>
-            //   </label>
-
+            ))
           }
 
         </div>
