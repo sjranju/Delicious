@@ -5,17 +5,23 @@ import { CLOUDINARY_URL } from "../utils/constants"
 import veg from '../../public/images/veg.png'
 import nonveg from '../../public/images/non-veg.png'
 import logo from '../../public/images/logo-no-background.png'
+import { useAppDispatch } from "../store/useStateDispatch"
+import { addItem } from "../slices/cartSlice"
+import cloneDeep from "clone-deep"
 
 interface iProps {
     itemCard: TYPES.RestaurantMenuItem[]
-    // vegOnly: boolean
+    restaurantName?: string
 }
 
 const MenuItem = (props: iProps) => {
     const { itemCard } = props
+    const dispatch = useAppDispatch()
 
-    const handleCart = () => {
-
+    const handleCart = (card: TYPES.MenuItemInfo) => {
+        let cardClone = cloneDeep(card)
+        cardClone.quantity === undefined ? cardClone.quantity = 1 : cardClone.quantity++
+        dispatch(addItem(cardClone))
     }
 
     return (
@@ -93,12 +99,12 @@ const MenuItem = (props: iProps) => {
                                         <>
                                             <img src={CLOUDINARY_URL + item?.card?.info?.imageId} className="w-[118px] h-24 rounded-md object-cover"></img>
                                             <button className="absolute top-[70px] w-24 h-8 text-lime-600 bg-white border border-lime-400 text-xs font-bold px-6 py-2 rounded-md object-cover"
-                                                onClick={() => handleCart}>
+                                                onClick={() => handleCart(item?.card?.info)}>
                                                 ADD +
                                             </button>
                                         </>
                                         : <button className="flex items-center justify-center w-24 h-8 text-lime-600 bg-white border border-lime-400 text-xs font-bold rounded-md object-cover"
-                                            onClick={() => handleCart}>
+                                            onClick={() => handleCart(item?.card?.info)}>
                                             ADD +
                                         </button>}
 

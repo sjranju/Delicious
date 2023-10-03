@@ -56,7 +56,7 @@ const NestedItemCategory = (props: iNestedItemCategoryProps) => {
                     <>
                         {vegOnly ?
                             category?.itemCards?.filter(item => item?.card?.info?.isVeg === 1).length > 0 &&
-                            <button className="font-semibold text-gray-600 flex flex-row items-center justify-between w-full border-b border-gray-300 py-4"
+                            <button key={category.title} className="font-semibold text-gray-600 flex flex-row items-center justify-between w-full border-b border-gray-300 py-4"
                                 onClick={() => handleCategoryClick(category.title)}>
                                 {
                                     category?.title ?
@@ -74,7 +74,7 @@ const NestedItemCategory = (props: iNestedItemCategoryProps) => {
                                         : ''
                                 }
                             </button>
-                            : <button className="font-semibold text-gray-600 flex flex-row items-center justify-between w-full border-b py-4 border-gray-300"
+                            : <button key={category.title} className="font-semibold text-gray-600 flex flex-row items-center justify-between w-full border-b py-4 border-gray-300"
                                 onClick={() => handleCategoryClick(category.title)}>
                                 {
                                     category?.title ?
@@ -97,7 +97,9 @@ const NestedItemCategory = (props: iNestedItemCategoryProps) => {
                             {
                                 showDetails ?
                                     vegOnly ?
-                                        <MenuItem itemCard={category?.itemCards?.filter(item => item?.card?.info?.isVeg === 1)} />
+                                        <MenuItem
+                                            itemCard={category?.itemCards?.filter(item => item?.card?.info?.isVeg === 1)}
+                                        />
                                         : <MenuItem itemCard={category?.itemCards} />
                                     : ''
                             }

@@ -5,7 +5,7 @@ import { CLOUDINARY_URL } from "../utils/constants";
 interface iRestaurantLicenseInfoProp {
     itemCard: {
         "@type": TYPES.CardType.RestaurantLicenseInfo,
-        imageId: string,
+        imageId?: string,
         text: string[]
     }
 }

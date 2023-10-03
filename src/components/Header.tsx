@@ -4,9 +4,12 @@ import { AiOutlineShoppingCart } from 'react-icons/ai'
 import logo from '../../public/images/logo-no-background.png'
 import { Link } from 'react-router-dom'
 import useOnlineStatus from '../utils/useOnlineStatus'
+import { useAppSelector } from '../store/useStateDispatch'
 
 const Header = () => {
+    const cartState = useAppSelector((state) => state.cart)
     const onlineStatus = useOnlineStatus()
+
     return (
         <div className=''>
             <div className='flex flex-row justify-around items-center shadow-md'>
@@ -23,7 +26,12 @@ const Header = () => {
                         <li><Link to='/'>Home</Link></li>
                         <li><Link to='/about'>About</Link></li>
                         <li><Link to='/contact'>Contact</Link></li>
-                        <li><AiOutlineShoppingCart size={26} /></li>
+                        <li className='relative'>
+                            <Link to={'/cart'}>
+                                <AiOutlineShoppingCart size={26} />
+                            </Link>
+                            <span className='absolute bottom-[19px] right-0 text-xs font-semibold'> {cartState.length}</span>
+                        </li>
                         <li><FaRegUser size={22} /></li>
                     </ul>
                 </div>

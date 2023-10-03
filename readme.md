@@ -54,3 +54,17 @@ It is a JavaScript function that takes a component as input, enhances it and ret
 If a component is being controlled by its parent or if a component is relying on its parent then it is called Controlled Component
 
 If a component controlled by itself then it is called Controlled Component (having own state)
+
+
+### Lifting the state up and COntext
+
+
+## Episode 12 - Let's build out store
+
+- Install @reduxjs/toolkit and react-redux 
+- Build our store
+- Connect store to our app
+- Slice (CartSlice)
+- dispatch action (addItem)
+- Selector (subsribing to the store to get data)
+- Redux Dev Tools

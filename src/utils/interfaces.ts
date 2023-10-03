@@ -449,6 +449,7 @@ export interface MenuItemInfo {
     backgroundColor: string
   }[]
   price?: number;
+  quantity?: number;
   ratings: {
     aggregatedRating: {
       rating: string;
@@ -601,7 +602,7 @@ export type Card =
     card: {
       card: {
         "@type": CardType.RestaurantLicenseInfo,
-        imageId: string,
+        imageId?: string,
         text: string[]
       }
     }
