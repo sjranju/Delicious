@@ -28,7 +28,7 @@ const Body = () => {
         const data = await fetch(RESTAURANT_API)
         const jsonData = await data.json()
         setRestaurantList(jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants || jsonData?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
-        console.log(jsonData);
+        // console.log(jsonData);
 
         setFilterRestaurants(jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants || jsonData?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
     }

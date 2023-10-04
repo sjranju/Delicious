@@ -9,6 +9,7 @@ const Cart = () => {
             {
                 cartState.map(cartItem =>
                     <div key={cartItem.id} className="flex flex-col items-center justify-center font-semibold ">
+                        {cartItem.restaurantName}
                         {cartItem.id} - {cartItem.name} - {cartItem.quantity}
                     </div>)
             }

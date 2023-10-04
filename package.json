@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/sjranju/Namaste-React#readme",
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^4.36.0",
     "@types/clone-deep": "^4.0.2",
     "@types/react-dom": "^18.2.7",
     "buffer": "^6.0.3",
@@ -29,6 +30,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.6",
+    "@tanstack/react-query": "^4.35.7",
     "@types/react": "^18.2.23",
     "@types/react-redux": "^7.1.27",
     "@types/react-router-dom": "^5.3.3",

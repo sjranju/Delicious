@@ -456,7 +456,8 @@ export interface MenuItemInfo {
       ratingCount: string;
       ratingCountV2: string;
     }
-  }
+  };
+  restaurantName?: string,
   ribbon: Record<string, unknown>;
   showImage?: boolean,
   type: string,

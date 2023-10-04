@@ -10,7 +10,6 @@ interface iRestaurantProp {
 export const RestaurantCard = (props: iRestaurantProp) => {
     const { resData } = props
     const { name, avgRating, cuisines, areaName, cloudinaryImageId } = resData?.info
-    console.log
     return (
         <div className="flex flex-col justify-center items-start hover:transition hover:duration-250 hover:ease-in-out hover:scale-95">
             <img className='w-44 h-40 rounded-lg mb-1'

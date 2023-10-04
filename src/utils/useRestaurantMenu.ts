@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import * as TYPES from '../utils/interfaces'
-import { RESTAURANT_ITEM, CLOUDINARY_URL, COUPON_URL } from "../utils/constants";
+import { RESTAURANT_ITEM } from "../utils/constants";
 
 const useRestaurantMenu = (resId: string) => {
     const [resInfo, setResInfo] = useState<TYPES.RestaurantDataItem | null>(null)
@@ -17,7 +17,7 @@ const useRestaurantMenu = (resId: string) => {
         let json = await result.json()
         setResInfo(json?.data?.cards[0])
         setOfferDetails(json?.data?.cards[1]?.card);
-        console.log('json', json.data)
+        // console.log('json', json.data)
         setTopPicks(json?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1])
         setRestaurantMenu(json?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards)
         // setVegOnly(json?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards)

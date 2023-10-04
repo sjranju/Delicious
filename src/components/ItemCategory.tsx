@@ -25,36 +25,17 @@ const ItemCategory = (props: iProps) => {
 
         let restaurantMenuClone: TYPES.Card[] = cloneDeep(restaurantMenu!)
         restaurantMenuClone?.find(menu => {
-            menu?.card?.card["@type"] === TYPES.CardType.ItemCategory ?
+            menu?.card?.card["@type"] === TYPES.CardType.ItemCategory &&
                 menu?.card?.card?.title === title ?
-                    (
-                        menu?.card?.card?.showDetails === undefined ?
-                            menu.card.card.showDetails = true
-                            : menu.card.card.showDetails = false
-                    )
-                    : ''
-                : menu?.card?.card["@type"] === TYPES.CardType.NestedItemCategory ?
-                    menu?.card?.card?.title === title ?
-                        (
-                            menu?.card?.card?.showDetails === undefined ?
-                                menu.card.card.showDetails = true
-                                : menu.card.card.showDetails = false
-                        )
-                        : ''
-                    : ''
+                (
+                    menu?.card?.card?.showDetails === undefined ?
+                        menu.card.card.showDetails = true
+                        : menu.card.card.showDetails = false
+                )
+                : ''
         })
         setShowDetails(!showDetails)
         setRestaurantMenu(restaurantMenuClone)
-        // if(restaurantMenuClone["@type"]===CardType.ItemCategory){
-        //   restaurantMenuClone.title===title? restaurantMenuClone.
-        // }
-        // if (restaurantMenuClone) {
-        //   restaurantMenuClone["@type"].includes('itemCategory')? restaurantMenuClone["@type"]
-        //   restaurantMenuClone?.find(menu => menu?.card?.card?.title === title)?.card?.card?.showDetails === true ?
-        //     restaurantMenuClone.find(menu => menu.card.card.title === title)!.card.card.showDetails = false
-        //     : restaurantMenuClone.find(menu => menu.card.card.title === title)!.card.card.showDetails = true
-        //   setVegOnly(restaurantMenuClone!)
-        // }
     }
 
     return (
@@ -105,11 +86,6 @@ const ItemCategory = (props: iProps) => {
                         }
                     </button>
             }
-            {/* {
-                showDetails ?
-                    <MenuItem itemCard={itemCard?.itemCards} vegOnly={vegOnly} />
-                    : ''
-            } */}
 
             {
                 showDetails ?

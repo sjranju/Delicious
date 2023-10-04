@@ -15,6 +15,7 @@ import MenuCarousel from "./MenuCarousel";
 const RestaurantMenu = () => {
   const { resId } = useParams();
   const [vegOnly, setVegOnly] = useState<boolean>(false)
+  const [carouselIndicator, setCarouselIndicator] = useState(0)
   // const [isChecked, setIsChecked] = useState<boolean>(false)
   const { topPicks, resInfo, restaurantMenu, offerDetails, setRestaurantMenu, setOfferDetails, setResInfo, setTopPicks } = useRestaurantMenu(resId!)
 
@@ -64,10 +65,10 @@ const RestaurantMenu = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-row items-center justify-between overflow-x-auto space-x-4 pt-2 max-w-[800px]">
+        <div className="flex flex-row items-center space-x-4 pt-2 max-w-[500px] md:max-w-[800px] overflow-x-scroll [&::-webkit-scrollbar]:hidden">
           {offerDetails?.card?.gridElements?.infoWithStyle?.offers?.map(offerItem => (
-            <div key={offerItem.info.offerIds[0]} className="">
-              <div className="flex flex-col items-center border rounded-md border-zinc-400 w-44 h-12 justify-around ">
+            <div key={offerItem.info.offerIds[0]} className="shrink-0 w-44">
+              <div className="flex flex-col items-center border rounded-md border-zinc-300 w-44 h-12 justify-around ">
                 <div className="flex flex-row text-sm text-[#686b70] font-bold justify-center items-center">
                   <img src={COUPON_URL + offerItem?.info?.offerLogo} alt="" className="w-4 h-4" />
                   {
@@ -88,7 +89,7 @@ const RestaurantMenu = () => {
             restaurantMenu &&
             restaurantMenu.map((menu, i) => (
               menu.card.card["@type"] === TYPES.CardType.MenuVegFilterAndBadge ?
-                <label key={i} className="relative inline-flex items-center cursor-pointer my-4">
+                <label key={i} className="relative inline-flex items-center cursor-pointer  border-b pb-4">
                   <input type="checkbox" value='' className="sr-only peer" checked={vegOnly} onChange={handleVegOnly} />
                   <span className="text-sm font-medium text-gray-900 dark:text-gray-700 mr-2">Veg Only</span>
                   <div className="w-[36px] h-[16px] bg-gray-50 rounded-sm peer dark:bg-gray-700 peer-checked:after:translate-x-full 
@@ -96,8 +97,12 @@ const RestaurantMenu = () => {
               peer-checked:after:left-[69px] after:bg-white after:border-gray-300 after:border after:rounded-sm 
               after:h-[15px] after:w-[16px] after:transition-all dark:border-gray-600 peer-checked:bg-green-700"></div>
                 </label>
-                : menu.card.card["@type"] === TYPES.CardType.MenuCarousel ?
-                  <MenuCarousel key={i} items={menu.card.card} />
+                : menu.card.card["@type"] === TYPES.CardType.MenuCarousel ? (
+                  <>
+                    <p className="font-bold text-xl pt-4">{menu.card.card.title}</p>
+                    <MenuCarousel key={i} items={menu.card.card} />
+                  </>
+                )
                   : menu.card.card["@type"] === TYPES.CardType.ItemCategory ?
                     resId &&
                     <ItemCategory key={i} itemCard={menu.card.card} resId={resId} vegOnly={vegOnly} />
