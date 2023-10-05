@@ -11,6 +11,8 @@ import RestaurantAddress from "./RestaurantAddress";
 import RestaurantLicenseInfo from "./RestaurantLicenseInfo";
 import NestedItemCategory from "./NestedItemCategory";
 import MenuCarousel from "./MenuCarousel";
+import Carousel from "react-multi-carousel";
+import 'react-multi-carousel/lib/styles.css'
 
 const RestaurantMenu = () => {
   const { resId } = useParams();

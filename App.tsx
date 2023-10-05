@@ -10,17 +10,25 @@ import './index.css'
 import { Provider } from "react-redux"
 import appStore from "./src/store/appStore"
 import Cart from "./src/components/Cart"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import BodyRQ from "./src/components/BodyRQ"
+import { SkeletonTheme } from "react-loading-skeleton"
 
 const About = lazy(() => import('./src/components/Contact'))
+const queryClient = new QueryClient()
 
 const App = () => {
     return (
-        <Provider store={appStore}>
-            <div className="app">
-                <Header />
-                <Outlet />
-            </div>
-        </Provider>
+        <QueryClientProvider client={queryClient}>
+            <Provider store={appStore}>
+                <SkeletonTheme baseColor="#ebebeb" highlightColor="#f5f5f5">
+                    <div className="app">
+                        <Header />
+                        <Outlet />
+                    </div>
+                </SkeletonTheme>
+            </Provider>
+        </QueryClientProvider>
     )
 }
 
@@ -31,7 +39,8 @@ const appRouter = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element: <Body />
+                // element: <Body />
+                element: <BodyRQ />
             },
             {
                 path: '/about',

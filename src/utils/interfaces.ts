@@ -593,9 +593,9 @@ export type Card =
         categories: {
           itemCards: RestaurantMenuItem[],
           title: string
+          showDetails: boolean
         }[]
         title: string,
-        showDetails: boolean
       }
     }
   } |

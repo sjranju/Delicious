@@ -7,18 +7,17 @@ import { RESTAURANT_API } from '../utils/constants'
 import useOnlineStatus from '../utils/useOnlineStatus'
 import * as TYPES from "../utils/interfaces"
 import withOneAccountFreeDelivery from './withOneAccountFreeDelivery'
+import Skeleton from 'react-loading-skeleton'
 
 const Body = () => {
 
     const [restaurantList, setRestaurantList] = useState<TYPES.RestaurantType[]>([])
     const [searchText, setSearchText] = useState('')
     const [filterRestaurants, setFilterRestaurants] = useState<TYPES.RestaurantType[]>([])
-    const [topRatedRestaurants, setTopRatedRestaurants] = useState<TYPES.RestaurantType[]>([])
 
     useEffect(() => {
         fetchData()
     }, [])
-    // console.log(restaurantList);
 
     const handleFilterRestaurants = () => {
         setFilterRestaurants(filterRestaurants?.filter(restaurant => restaurant?.info?.name?.toLowerCase().includes(searchText.toLowerCase())))
@@ -28,8 +27,6 @@ const Body = () => {
         const data = await fetch(RESTAURANT_API)
         const jsonData = await data.json()
         setRestaurantList(jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants || jsonData?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
-        // console.log(jsonData);
-
         setFilterRestaurants(jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants || jsonData?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
     }
 
@@ -40,7 +37,7 @@ const Body = () => {
 
     const RestaurantCardGold = withOneAccountFreeDelivery(RestaurantCard)
 
-    return (restaurantList?.length === 0) ? <h1>Loading shimmer</h1> : (
+    return (
         <div className='flex flex-col justify-center items-center space-y-8 mt-8 bg-slate-50'>
             <div className='flex flex-row items-center justify-center space-x-8'>
                 <div className='flex flex-row space-x-2'>
@@ -77,9 +74,9 @@ const Body = () => {
                         filterRestaurants?.map(restaurant => (
                             <Link to={`/restaurant/${restaurant.info.id}`} key={restaurant.info.id} >
                                 {restaurant?.info?.loyaltyDiscoverPresentationInfo?.freedelMessage ?
-                                    <RestaurantCardGold resData={restaurant} />
+                                    <RestaurantCardGold resData={restaurant} /> || <Skeleton count={10} />
                                     :
-                                    <RestaurantCard resData={restaurant} />
+                                    <RestaurantCard resData={restaurant} /> || <Skeleton count={10} />
                                 }
 
                             </Link>
@@ -88,9 +85,9 @@ const Body = () => {
                         : restaurantList?.map(restaurant => (
                             <Link to={`/restaurant/${restaurant.info.id}`} key={restaurant.info.id} >
                                 {restaurant?.info?.loyaltyDiscoverPresentationInfo?.freedelMessage ?
-                                    <RestaurantCardGold resData={restaurant} />
+                                    <RestaurantCardGold resData={restaurant} /> || <Skeleton count={10} />
                                     :
-                                    <RestaurantCard resData={restaurant} />
+                                    <RestaurantCard resData={restaurant} /> || <Skeleton count={10} />
                                 }
 
                             </Link>
