@@ -18,24 +18,28 @@ interface iProps {
 
 const ItemCategory = (props: iProps) => {
     const { itemCard, resId, vegOnly } = props
-    const { restaurantMenu, setRestaurantMenu } = useRestaurantMenu(resId)
+    const data = useRestaurantMenu(resId)
     const [showDetails, setShowDetails] = useState<boolean>(false)
 
     const handleCategoryClick = (title: string) => {
+        if (!data) {
+            console.log('Sorry, something went wrong!');
+        } else {
+            const { restaurantMenu } = data
 
-        let restaurantMenuClone: TYPES.Card[] = cloneDeep(restaurantMenu!)
-        restaurantMenuClone?.find(menu => {
-            menu?.card?.card["@type"] === TYPES.CardType.ItemCategory &&
-                menu?.card?.card?.title === title ?
-                (
-                    menu?.card?.card?.showDetails === undefined ?
-                        menu.card.card.showDetails = true
-                        : menu.card.card.showDetails = false
-                )
-                : ''
-        })
-        setShowDetails(!showDetails)
-        setRestaurantMenu(restaurantMenuClone)
+            let restaurantMenuClone: TYPES.Card[] = cloneDeep(restaurantMenu!)
+            restaurantMenuClone?.find(menu => {
+                menu?.card?.card["@type"] === TYPES.CardType.ItemCategory &&
+                    menu?.card?.card?.title === title ?
+                    (
+                        menu?.card?.card?.showDetails === undefined ?
+                            menu.card.card.showDetails = true
+                            : menu.card.card.showDetails = false
+                    )
+                    : ''
+            })
+            setShowDetails(!showDetails)
+        }
     }
 
     return (

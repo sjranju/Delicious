@@ -1,38 +1,37 @@
 import { useEffect, useState } from "react"
 import * as TYPES from '../utils/interfaces'
 import { RESTAURANT_ITEM } from "../utils/constants";
+import { useQuery } from "@tanstack/react-query";
 
 const useRestaurantMenu = (resId: string) => {
-    const [resInfo, setResInfo] = useState<TYPES.RestaurantDataItem | null>(null)
-    const [offerDetails, setOfferDetails] = useState<TYPES.OfferCards | null>(null)
-    const [restaurantMenu, setRestaurantMenu] = useState<TYPES.Card[] | null>(null)
-    const [topPicks, setTopPicks] = useState<TYPES.Card[] | null>(null)
+    // const [resInfo, setResInfo] = useState<TYPES.RestaurantDataItem | null>(null)
+    // const [offerDetails, setOfferDetails] = useState<TYPES.OfferCards | null>(null)
+    // const [restaurantMenu, setRestaurantMenu] = useState<TYPES.Card[] | null>(null)
+    // const [topPicks, setTopPicks] = useState<TYPES.Card[] | null>(null)
 
-    useEffect(() => {
-        fetchData()
-    }, [])
-
-    const fetchData = async () => {
-        let result = await fetch(RESTAURANT_ITEM + resId)
-        let json = await result.json()
-        setResInfo(json?.data?.cards[0])
-        setOfferDetails(json?.data?.cards[1]?.card);
-        // console.log('json', json.data)
-        setTopPicks(json?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1])
-        setRestaurantMenu(json?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards)
-        // setVegOnly(json?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards)
-
-        // if(json?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[0]?.card?.card?.vegOnlyDetails?.title?.includes('vegetarian')){
-        //     setVegOnly(json?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR)
-        // }
-        // if(json?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[0]?.card?.card?.corousel.length>0 || json?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card?.card?.corousel.length>0){
-        // setTopPicks(json?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1])      
-        // }
-        // setRestaurantMenu(json?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR)
+    const fetchData = async (): Promise<{
+        resInfo: TYPES.RestaurantDataItem
+        offerDetails: TYPES.OfferCards
+        restaurantMenu: TYPES.Card[]
+    }> => {
+        const res = await fetch(RESTAURANT_ITEM + resId);
+        const jsonData = await res.json();
+        let offerDetails = jsonData?.data?.cards[1]?.card;
+        let restaurantMenu = jsonData.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR.cards;
+        let resInfo = jsonData?.data?.cards[0];
+        return { resInfo, offerDetails, restaurantMenu };
     }
-    // console.log(restaurantMenu)
+    const { data, isError, isLoading } = useQuery({
+        queryKey: ['restaurantMenu'],
+        queryFn: fetchData
+    })
 
-    return { resInfo, offerDetails, topPicks, restaurantMenu, setRestaurantMenu, setOfferDetails, setResInfo, setTopPicks }
+    if (!data || isLoading || isError) {
+        return null
+    }
+
+    const { resInfo, offerDetails, restaurantMenu } = data
+    return { resInfo, offerDetails, restaurantMenu }
 }
 
 export default useRestaurantMenu
