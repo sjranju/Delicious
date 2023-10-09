@@ -1,6 +1,8 @@
 import React from "react"
 import * as TYPES from '../utils/interfaces'
 import { CLOUDINARY_URL } from "../utils/constants";
+import CustomButtonGroupAsArrows from "./CustomButtonGroupAsArrows";
+import Carousel from "react-multi-carousel";
 
 interface iProps {
     items: {
@@ -12,13 +14,63 @@ interface iProps {
 
 const MenuCarousel = (props: iProps) => {
     const { items } = props
+    const responsive = {
+        superLargeDesktop: {
+            // the naming can be any, depends on you.
+            breakpoint: { max: 4000, min: 3000 },
+            items: 5
+        },
+        desktop: {
+            breakpoint: { max: 3000, min: 1024 },
+            items: 2.8
+        },
+        tablet: {
+            breakpoint: { max: 1024, min: 464 },
+            items: 2.2
+        },
+        mobile: {
+            breakpoint: { max: 464, min: 0 },
+            items: 1.5
+        }
+    };
+
     return (
-        <div className="flex flex-row items-center justify-between overflow-x-scroll [&::-webkit-scrollbar]:hidden space-x-8 my-6">
-            {
-                items?.carousel?.map(card =>
-                    <img key={card?.bannerId} src={CLOUDINARY_URL + card.creativeId} className="h-28 w-32 md:h-72 md:w-64"></img>
-                )
-            }
+        <div className="flex flex-col my-4">
+            <p className="font-bold text-xl py-4">{items.title}</p>
+            <Carousel
+                additionalTransfrom={0}
+                arrows
+                autoPlaySpeed={3000}
+                centerMode={false}
+                className=""
+                containerClass="container"
+                dotListClass=""
+                draggable
+                focusOnSelect={false}
+                infinite={false}
+                itemClass=""
+                keyBoardControl
+                minimumTouchDrag={80}
+                pauseOnHover
+                renderArrowsWhenDisabled={false}
+                renderButtonGroupOutside={false}
+                renderDotsOutside={false}
+                responsive={responsive}
+                rewind={false}
+                rewindWithAnimation={false}
+                rtl={false}
+                shouldResetAutoplay
+                showDots={false}
+                sliderClass=""
+                slidesToSlide={1}
+                swipeable
+            >
+                {
+                    items?.carousel?.map(card =>
+                        <img key={card?.bannerId} src={CLOUDINARY_URL + card.creativeId} className="h-36 w-44 md:h-72 md:w-64"></img>
+                    )
+                }
+            </Carousel>
 
         </div>
     )

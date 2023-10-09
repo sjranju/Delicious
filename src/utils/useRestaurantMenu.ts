@@ -21,17 +21,16 @@ const useRestaurantMenu = (resId: string) => {
         let resInfo = jsonData?.data?.cards[0];
         return { resInfo, offerDetails, restaurantMenu };
     }
-    const { data, isError, isLoading } = useQuery({
+    const { data, isError, isLoading, error } = useQuery({
         queryKey: ['restaurantMenu'],
         queryFn: fetchData
     })
 
-    if (!data || isLoading || isError) {
+    if (!data || isLoading || isError)
         return null
-    }
-
     const { resInfo, offerDetails, restaurantMenu } = data
-    return { resInfo, offerDetails, restaurantMenu }
-}
+    console.log(data.restaurantMenu)
+    return { resInfo, offerDetails, restaurantMenu, isLoading }
 
+}
 export default useRestaurantMenu

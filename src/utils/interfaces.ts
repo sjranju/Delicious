@@ -37,14 +37,25 @@ export interface RestaurantType {
         iconId: string;
         shortDescription: string;
         fontColor: string;
-      }[];
+      }[],
+      imageBadges?: {
+        description: string,
+        imageId: string
+      }[]
     };
     select?: boolean;
     isOpen: boolean;
     type: string;
     badgesV2: {
       entityBadges: {
-        imageBased: Record<string, never>;
+        imageBased: {
+          badgeObject: {
+            attributes: {
+              description: string,
+              imageId: string,
+            }
+          }[]
+        }
         textBased: Record<string, never>;
         textExtendedBadges: {
           badgeObject: {
@@ -531,6 +542,7 @@ interface MenuVegFilterAndBadge {
   card: {
     "@type": string;
     badges: Record<string, unknown>;
+    isPureVeg?: boolean
     vegOnlyDetails: {
       imageId: string;
       title: string;
@@ -554,16 +566,14 @@ export type Card =
     card: {
       card: {
         "@type": CardType.MenuVegFilterAndBadge;
-        card: {
-          "@type": string;
-          badges: Record<string, unknown>;
-          vegOnlyDetails: {
-            imageId: string;
-            title: string;
-            description: string;
-          };
-          topRatedFilter: Record<string, unknown>;
-        }
+        badges: Record<string, unknown>;
+        isPureVeg?: boolean
+        vegOnlyDetails: {
+          imageId: string;
+          title: string;
+          description: string;
+        };
+        topRatedFilter: Record<string, unknown>;
       }
     }
   } |

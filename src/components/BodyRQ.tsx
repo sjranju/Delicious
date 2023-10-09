@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { useQuery } from '@tanstack/react-query'
 import { RESTAURANT_API } from '../utils/constants'
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton"
 import { AiOutlineClose } from "react-icons/ai"
 import { BiSearch } from "react-icons/bi"
 import { Link } from "react-router-dom"

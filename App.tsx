@@ -13,6 +13,7 @@ import Cart from "./src/components/Cart"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import BodyRQ from "./src/components/BodyRQ"
 import { SkeletonTheme } from "react-loading-skeleton"
+import RestaurantContext from "./src/context/RestaurantContext"
 
 const About = lazy(() => import('./src/components/Contact'))
 const queryClient = new QueryClient()
@@ -20,14 +21,16 @@ const queryClient = new QueryClient()
 const App = () => {
     return (
         <QueryClientProvider client={queryClient}>
-            <Provider store={appStore}>
-                <SkeletonTheme baseColor="#ebebeb" highlightColor="#f5f5f5">
-                    <div className="app">
-                        <Header />
-                        <Outlet />
-                    </div>
-                </SkeletonTheme>
-            </Provider>
+            <RestaurantContext>
+                <Provider store={appStore}>
+                    <SkeletonTheme baseColor="#ebebeb" highlightColor="#f5f5f5">
+                        <div className="app">
+                            <Header />
+                            <Outlet />
+                        </div>
+                    </SkeletonTheme>
+                </Provider>
+            </RestaurantContext>
         </QueryClientProvider>
     )
 }
