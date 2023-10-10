@@ -43,14 +43,15 @@ const MenuCarousel = (props: iProps) => {
                 autoPlaySpeed={3000}
                 centerMode={false}
                 className=""
-                containerClass="container"
+                containerClass="container-padding-bottom"
                 dotListClass=""
                 draggable
-                focusOnSelect={false}
-                infinite={false}
+                focusOnSelect
+                infinite
                 itemClass=""
                 keyBoardControl
                 minimumTouchDrag={80}
+                partialVisible
                 pauseOnHover
                 renderArrowsWhenDisabled={false}
                 renderButtonGroupOutside={false}
@@ -58,16 +59,16 @@ const MenuCarousel = (props: iProps) => {
                 responsive={responsive}
                 rewind={false}
                 rewindWithAnimation={false}
-                rtl={false}
+                rtl
                 shouldResetAutoplay
-                showDots={false}
+                showDots
                 sliderClass=""
-                slidesToSlide={1}
+                slidesToSlide={2}
                 swipeable
             >
                 {
                     items?.carousel?.map(card =>
-                        <img key={card?.bannerId} src={CLOUDINARY_URL + card.creativeId} className="h-36 w-44 md:h-72 md:w-64"></img>
+                        <img key={card?.bannerId} src={CLOUDINARY_URL + card.creativeId} className="h-36 w-44 md:h-72 md:w-64 mb-8"></img>
                     )
                 }
             </Carousel>

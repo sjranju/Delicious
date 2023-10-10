@@ -14,6 +14,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import BodyRQ from "./src/components/BodyRQ"
 import { SkeletonTheme } from "react-loading-skeleton"
 import RestaurantContext from "./src/context/RestaurantContext"
+import Login from "./src/components/Login"
+import UserContext from "./src/context/UserContext"
 
 const About = lazy(() => import('./src/components/Contact'))
 const queryClient = new QueryClient()
@@ -21,16 +23,18 @@ const queryClient = new QueryClient()
 const App = () => {
     return (
         <QueryClientProvider client={queryClient}>
-            <RestaurantContext>
-                <Provider store={appStore}>
-                    <SkeletonTheme baseColor="#ebebeb" highlightColor="#f5f5f5">
-                        <div className="app">
-                            <Header />
-                            <Outlet />
-                        </div>
-                    </SkeletonTheme>
-                </Provider>
-            </RestaurantContext>
+            <UserContext>
+                <RestaurantContext>
+                    <Provider store={appStore}>
+                        <SkeletonTheme baseColor="#ebebeb" highlightColor="#f5f5f5">
+                            <div className="app">
+                                <Header />
+                                <Outlet />
+                            </div>
+                        </SkeletonTheme>
+                    </Provider>
+                </RestaurantContext>
+            </UserContext>
         </QueryClientProvider>
     )
 }
@@ -66,6 +70,10 @@ const appRouter = createBrowserRouter([
             {
                 path: '/cart',
                 element: <Cart />
+            },
+            {
+                path: '/login',
+                element: <Login />
             }
         ],
         errorElement: <Error />
