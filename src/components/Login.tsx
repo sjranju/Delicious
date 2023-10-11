@@ -14,14 +14,15 @@ const Login = (props: iLoginStateProp) => {
     const [password, setPassword] = useState<string>('')
     const { user, setUser } = useContext(userContext)
 
-    const handleLogin = (emailAddress: string, password: string) => {
+    const handleLogin = async (emailAddress: string, password: string) => {
         const auth = getAuth(app)
-        signInWithEmailAndPassword(auth, emailAddress, password)
+        await signInWithEmailAndPassword(auth, emailAddress, password)
             .then(userCredential => {
                 console.log(userCredential)
                 props.setUserLoginOrSignup!(false)
                 setUser(userCredential.user)
             })
+            .catch(error => console.log(error))
             .catch(error => console.log(error))
     }
 
@@ -42,8 +43,6 @@ const Login = (props: iLoginStateProp) => {
                             </span>
                         </p>
                         <input type="text" placeholder="Enter your email address"
-                            name="email"
-                            id="email"
                             className="mt-12 border rounded-sm px-2 py-4 placeholder:text-xs placeholder:-translate-y-4 text-sm placeholder:pb-2"
                             value={emailAddress} onChange={(e) => setEmailAddress(e.target.value)} />
                         <input type="password" placeholder="Enter your password"

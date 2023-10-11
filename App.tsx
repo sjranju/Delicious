@@ -8,7 +8,7 @@ import Error from "./src/components/Error"
 import RestaurantMenu from "./src/components/RestaurantMenu"
 import './index.css'
 import { Provider } from "react-redux"
-import appStore from "./src/store/appStore"
+import { store } from './src/store/appStore'
 import Cart from "./src/components/Cart"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import BodyRQ from "./src/components/BodyRQ"
@@ -25,7 +25,7 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
             <UserContext>
                 <RestaurantContext>
-                    <Provider store={appStore}>
+                    <Provider store={store}>
                         <SkeletonTheme baseColor="#ebebeb" highlightColor="#f5f5f5">
                             <div className="app">
                                 <Header />

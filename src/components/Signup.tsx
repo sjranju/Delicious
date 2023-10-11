@@ -1,8 +1,8 @@
 import React, { Dispatch, useContext, useState } from "react"
 import Login from "./Login"
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth"
+import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth"
 import { userContext } from "../context/UserContext"
-import { app } from "../utils/firebaseConfig"
+import { auth } from "../utils/firebaseConfig"
 
 const Signup = (props: { setUserLoginOrSignup: Dispatch<React.SetStateAction<boolean>> }) => {
 
@@ -10,15 +10,18 @@ const Signup = (props: { setUserLoginOrSignup: Dispatch<React.SetStateAction<boo
     const [haveReferralCode, setHaveReferralCode] = useState<boolean>(false)
     const [emailAddress, setEmailAddress] = useState<string>('')
     const [password, setPassword] = useState<string>('')
+    const [name, setName] = useState<string>('')
     const { setUser } = useContext(userContext)
 
-    const handleSignup = () => {
-        const auth = getAuth(app)
-        createUserWithEmailAndPassword(auth, emailAddress, password)
-            .then(userCred => {
+    const handleSignup = async (name: string, emailAddress: string, password: string) => {
+        await createUserWithEmailAndPassword(auth, emailAddress, password)
+            .then(async (userCred) => {
                 console.log(userCred)
-                props.setUserLoginOrSignup(false)
-                setUser(userCred.user)
+                await updateProfile(userCred.user, { displayName: name })
+                    .then(() => {
+                        props.setUserLoginOrSignup(false)
+                        setUser(userCred.user)
+                    })
             })
             .catch(error => console.log(error))
     }
@@ -36,7 +39,8 @@ const Signup = (props: { setUserLoginOrSignup: Dispatch<React.SetStateAction<boo
                         </span>
                     </p>
                     <input type="text" placeholder="Enter your name"
-                        className="border rounded-sm px-2 py-4 placeholder:text-xs placeholder:-translate-y-4 text-sm" />
+                        className="border rounded-sm px-2 py-4 placeholder:text-xs placeholder:-translate-y-4 text-sm"
+                        value={name} onChange={(e) => setName(e.target.value)} />
                     <input type="text" placeholder="Enter your email address"
                         className="mt-12 border rounded-sm px-2 py-4 placeholder:text-xs placeholder:-translate-y-4 text-sm placeholder:pb-2"
                         value={emailAddress} onChange={(e) => setEmailAddress(e.target.value)} />
@@ -49,7 +53,7 @@ const Signup = (props: { setUserLoginOrSignup: Dispatch<React.SetStateAction<boo
                         :
                         <button className="text-blue-500 text-left text-sm font-semibold" onClick={() => { setHaveReferralCode(true) }}>Have a referral code?</button>}
                     <button className="bg-red-600 text-white text-sm p-4 font-semibold rounded-sm"
-                        onClick={() => handleSignup}>SIGN UP</button>
+                        onClick={() => handleSignup(name, emailAddress, password)}>SIGN UP</button>
                 </>
         }
         </>
