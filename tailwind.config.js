@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
   content: ["./src/**/*.{html,js,ts,jsx,tsx}",],
   theme: {
@@ -18,11 +20,16 @@ module.exports = {
         moveLeftToRight: {
           '0%': { transform: '-translateX(30%)' },
           '100%': { transform: 'translateX(100%)' },
+        },
+        moveBottomToTop: {
+          '0%': { tranform: 'translateY(100%)' },
+          '100%': { tranform: '-translateY(20%)' },
         }
       },
       animation: {
         moveRightToLeft: 'moveRightToLeft 0.3s ease-out',
-        moveLeftToRight: 'moveLeftToRight 0.2s ease-in'
+        moveLeftToRight: 'moveLeftToRight 0.2s ease-in',
+        moveBottomToTop: 'moveBottomToTop 0.2s ease-in'
       }
     },
   },

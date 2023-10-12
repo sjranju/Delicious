@@ -100,7 +100,7 @@
     "./**.ts",
     "./**.tsx",
     "postcss.config.ts",
-    "tailwind.config.ts",
+    "tailwind.config.js",
     "declaration.d.ts"
   ],
   "exclude": [

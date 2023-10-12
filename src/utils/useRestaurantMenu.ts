@@ -29,7 +29,7 @@ const useRestaurantMenu = (resId: string) => {
     if (!data || isLoading || isError)
         return null
     const { resInfo, offerDetails, restaurantMenu } = data
-    console.log(data.restaurantMenu)
+    // console.log(data.restaurantMenu)
     return { resInfo, offerDetails, restaurantMenu, isLoading }
 
 }

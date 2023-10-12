@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import * as TYPES from "../utils/interfaces"
 import { BiRupee } from "react-icons/bi"
 import { CLOUDINARY_URL } from "../utils/constants"
@@ -9,8 +9,9 @@ import { restuarantContext } from "../context/RestaurantContext"
 import useRestaurantMenu from "../utils/useRestaurantMenu"
 import { fetchData } from "../utils/fetchRestaurantDetails"
 import { useQuery } from "@tanstack/react-query"
-import { api, useAddToCartQuery } from "../RTKQuery/cartQuery"
+import { api, useAddToCartMutation, useGetCartItemsQuery } from "../RTKQuery/cartQuery"
 import { userContext } from "../context/UserContext"
+import { resetCartContext } from "../context/ResetCartContext"
 
 interface iProps {
     itemCard: TYPES.RestaurantMenuItem[]
@@ -18,24 +19,34 @@ interface iProps {
 
 const MenuItem = (props: iProps) => {
     const { itemCard } = props
-    const { restuarantId } = useContext(restuarantContext)
-    // const dispatch = useAppDispatch()
-    // const cartState = useAppSelector((state) => state.cart)
-    const restaurantDetails = restuarantId && useRestaurantMenu(restuarantId)
-    const restaurantData = useQuery(['restaurantMenu', restuarantId], () => fetchData(restuarantId!))
+    const { restaurantId } = useContext(restuarantContext)
+    const [confirmResetCart, setConfirmResetCart] = useState<boolean>(false)
+    const { resetCart, setResetCart } = useContext(resetCartContext)
+    const restaurantDetails = restaurantId && useRestaurantMenu(restaurantId)
+    const restaurantData = useQuery(['restaurantMenu', restaurantId], () => fetchData(restaurantId!))
     const { user } = useContext(userContext)
-    const [addToCart, { data }] = api.endpoints.addToCart.useLazyQuery()
+    const [addToCart] = useAddToCartMutation()
+    const { data } = useGetCartItemsQuery(user?.uid!)
 
-
-    const handleCart = (card: TYPES.MenuItemInfo) => {
+    const handleCart = async (card: TYPES.MenuItemInfo) => {
         let uid = user?.uid
-        restuarantId && uid &&
-            addToCart({ restuarantId, itemIds: card.id, user: uid })
-        console.log(data)
+        console.log('inside reset cart1', data)
+        if (data === undefined || data === 'notExists' || Object.keys(data).length === 0) {
+            let updatedResult = await addToCart({ restaurantId: restaurantId!, itemIds: card.id, user: uid!, resetCart: false })
+            console.log('inside reset cart updatedResult', updatedResult)
+        } else {
+            console.log('inside reset cart2', data)
+            if (restaurantId && data.restaurantId !== restaurantId) {
+                setResetCart({ itemId: card.id, reset: false })
+            } else {
+                let updatedResult = await addToCart({ restaurantId: restaurantId!, itemIds: card.id, user: uid!, resetCart: false })
+                console.log('inside reset cart updatedResult', updatedResult)
+            }
+        }
     }
 
     return (
-        <div className="space-y-4 my-4">
+        <div className="relative space-y-4 my-4 w-full">
             {
                 itemCard.length > 0 && itemCard.map(item => (
                     <div key={item.card.info.id} className="">

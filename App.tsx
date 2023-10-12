@@ -16,6 +16,7 @@ import { SkeletonTheme } from "react-loading-skeleton"
 import RestaurantContext from "./src/context/RestaurantContext"
 import Login from "./src/components/Login"
 import UserContext from "./src/context/UserContext"
+import ResetCartContext from "./src/context/ResetCartContext"
 
 const About = lazy(() => import('./src/components/Contact'))
 const queryClient = new QueryClient()
@@ -25,14 +26,16 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
             <UserContext>
                 <RestaurantContext>
-                    <Provider store={store}>
-                        <SkeletonTheme baseColor="#ebebeb" highlightColor="#f5f5f5">
-                            <div className="app">
-                                <Header />
-                                <Outlet />
-                            </div>
-                        </SkeletonTheme>
-                    </Provider>
+                    <ResetCartContext>
+                        <Provider store={store}>
+                            <SkeletonTheme baseColor="#ebebeb" highlightColor="#f5f5f5">
+                                <div className="app">
+                                    <Header />
+                                    <Outlet />
+                                </div>
+                            </SkeletonTheme>
+                        </Provider>
+                    </ResetCartContext>
                 </RestaurantContext>
             </UserContext>
         </QueryClientProvider>

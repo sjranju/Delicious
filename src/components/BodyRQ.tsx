@@ -16,16 +16,18 @@ const BodyRQ = () => {
     const [filterRestaurants, setFilterRestaurants] = useState<TYPES.RestaurantType[]>([])
 
     const fetchData = (): Promise<TYPES.RestaurantType[]> => fetch(RESTAURANT_API)
-        .then(response => response.json()
-            .catch(err => console.log(err))
-            .then(jsonData => jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants || jsonData?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
-        )
+        .then(response => {
+            console.log('response.body', response.json())
+            return response.json()
+        })
+        .catch(err => console.log(err))
+        .then(jsonData => jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants || jsonData?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
 
     const { isLoading, data, isError, error } = useQuery({
         queryKey: ['restaurantsList'],
         queryFn: fetchData
     })
-    console.log(data)
+    // console.log(data)
 
     const handleFilterRestaurants = () => {
         data && setFilterRestaurants(data?.filter(restaurant => restaurant?.info?.name?.toLowerCase().includes(searchText.toLowerCase())))

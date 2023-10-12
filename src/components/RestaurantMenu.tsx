@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { CLOUDINARY_URL, COUPON_URL, RESTAURANT_ITEM } from "../utils/constants";
 import { AiFillStar } from 'react-icons/ai'
@@ -15,24 +15,39 @@ import { restuarantContext } from "../context/RestaurantContext";
 import SkeletonRestaurantDetails from "./SkeletonRestaurantDetails";
 import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "../utils/fetchRestaurantDetails";
+import { resetCartContext } from "../context/ResetCartContext";
+import { useAddToCartMutation } from "../RTKQuery/cartQuery";
+import { userContext } from "../context/UserContext";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
-  const { setRestaurantId } = useContext(restuarantContext)
+  const { restaurantId, setRestaurantId } = useContext(restuarantContext)
+  const { user } = useContext(userContext)
   const [vegOnly, setVegOnly] = useState<boolean>(false)
-  const [carouselIndicator, setCarouselIndicator] = useState(0)
-  // const [isChecked, setIsChecked] = useState<boolean>(false)
-
+  const { resetCart, setResetCart } = useContext(resetCartContext)
   const { data, isError, isLoading, error } = useQuery(['restaurantMenu', resId], () => fetchData(resId!))
+  const [addToCart] = useAddToCartMutation()
 
   useEffect(() => {
     if (resId !== undefined)
       setRestaurantId(resId)
   }, [resId])
 
+  // useEffect(() => {
+  //   window.addEventListener('click', () => {
+  //     setResetCart(null)
+  //   })
+  // })
+
   const handleVegOnly = () => {
     setVegOnly(!vegOnly)
-    console.log('vegOnly?', vegOnly)
+  }
+
+  const handleCartReset = async () => {
+    console.log('resetCart?.itemId', resetCart?.itemId)
+    let updatedResult = await addToCart({ restaurantId: restaurantId!, itemIds: resetCart?.itemId!, user: user?.uid!, resetCart: true })
+    setResetCart(null)
+    console.log('handleCartReset', updatedResult)
   }
 
   if (!data) {
@@ -129,9 +144,20 @@ const RestaurantMenu = () => {
                               : ''
                 ))
               }
-
             </div>
           </div >
+          {resetCart?.itemId &&
+            <div className="fixed bottom-6 inset-x-1/3 flex flex-col w-4/12 h-44 animate-moveBottomToTop bg-white shadow-lg p-4 items-start justify-around">
+              <p className="font-bold">Items already in cart</p>
+              <p className="text-sm">Your cart contains items from other restaurant. Would you like to reset your cart for adding items from this restaurant?</p>
+              <div className="flex justify-center text-lime-600 font-semibold w-full space-x-4">
+                <button className="w-6/12 py-2 px-4 border-2 border-lime-600 hover:bg-gray-100"
+                  onClick={() => setResetCart(null)}>NO</button>
+                <button className="w-6/12 py-2 px-4 bg-lime-600 text-white border-2 border-lime-600 hover:bg-lime-700"
+                  onClick={handleCartReset}>YES, START AFRESH</button>
+              </div>
+            </div>
+          }
         </div>
       );
   }

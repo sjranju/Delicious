@@ -1,17 +1,24 @@
-import React from "react"
+import React, { useContext } from "react"
 import { useAppSelector } from "../store/useStateDispatch"
+import { useGetCartItemsQuery } from "../RTKQuery/cartQuery"
+import { restuarantContext } from "../context/RestaurantContext"
+import { userContext } from "../context/UserContext"
 
 const Cart = () => {
-    const cartState = useAppSelector((state) => state.cart)
-    console.log(cartState)
+    const { restaurantId } = useContext(restuarantContext)
+    const { user } = useContext(userContext)
+    const { data } = useGetCartItemsQuery(user?.uid!)
+    // console.log(data)
     return (
         <div className="">
             {
-                cartState.map(cartItem =>
-                    <div key={cartItem.id} className="flex flex-col items-center justify-center font-semibold ">
-                        {cartItem.restaurantName}
-                        {cartItem.id} - {cartItem.name} - {cartItem.quantity}
-                    </div>)
+                data === undefined || data === 'notExists' ?
+                    <div className="">You cart is empty, please add some items</div>
+                    : <div className="">
+                        {
+                            data?.itemIds + '-' + data?.restaurantId
+                        }
+                    </div>
             }
         </div>
     )
