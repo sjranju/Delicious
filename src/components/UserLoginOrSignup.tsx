@@ -1,7 +1,6 @@
 import React, { Dispatch } from "react"
 import { AiOutlineClose } from "react-icons/ai"
 import Login from "./Login"
-import Signup from "./Signup"
 
 const UserLoginOrSignup = (props: { userLoginOrSignup: boolean, setUserLoginOrSignup: Dispatch<React.SetStateAction<boolean>> }) => {
 

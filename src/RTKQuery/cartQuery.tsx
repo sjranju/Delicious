@@ -12,7 +12,7 @@ type AddItemArg = {
     resetCart: boolean
 }
 
-type GetCartItemsReturn = {
+export type GetCartItemsReturn = {
     itemIds: string[],
     restaurantId: string
 }

@@ -628,3 +628,159 @@ export type Card =
       }
     }
   }
+
+type TopicalImageBanner = {
+  info: {
+    id: string;
+    imageId: string;
+    action: {
+      link: string;
+      text: string;
+      type: string;
+    };
+    entityType: string;
+    accessibility: {
+      altText: string;
+      altTextCta: string;
+    };
+    entityId: string;
+    frequencyCapping: {
+      cappingEnabled: boolean;
+      cappingMode: string;
+    };
+    isManualAds?: boolean;
+  }[];
+  style: {
+    width: {
+      type: string;
+      value: number;
+      reference: string;
+    };
+    height: {
+      type: string;
+      value: number;
+      reference: string;
+    };
+  };
+}
+
+type TopicalGridElements = {
+  infoWithStyle: {
+    "@type": string;
+    info: {
+      id: string;
+      imageId: string;
+      action: {
+        link: string;
+        text: string;
+        type: string;
+      };
+      entityType: string;
+      accessibility: {
+        altText: string;
+        altTextCta: string;
+      };
+      entityId: string;
+      frequencyCapping: {
+        cappingEnabled: boolean;
+        cappingMode: string;
+      };
+      isManualAds?: boolean;
+    }[];
+    style: {
+      width: {
+        type: string;
+        value: number;
+        reference: string;
+      };
+      height: {
+        type: string;
+        value: number;
+        reference: string;
+      };
+    };
+  };
+}
+
+export enum MainCardID {
+  topical_banner = "topical_banner",
+  whats_on_your_mind = "whats_on_your_mind",
+  top_brands_for_you = "top_brands_for_you",
+  popular_restaurants_title = "popular_restaurants_title",
+  restaurant_grid_listing = "restaurant_grid_listing",
+  show_more_button = "show_more_button",
+  restaurant_near_me_links = "restaurant_near_me_links",
+}
+
+
+export type MainContent =
+  {
+    card: {
+      card: {
+        "@type": "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget",
+        header: {},
+        id: MainCardID.topical_banner,
+        layout: {},
+        imageGridCards: TopicalImageBanner
+        gridElements: TopicalGridElements
+      }
+    }
+  }
+  |
+  {
+    card: {
+      card: {
+        "@type": "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget",
+        id: MainCardID.whats_on_your_mind,
+        header: {
+          title: string
+        }
+        layout: {}
+        imageGridCards: TopicalImageBanner,
+        gridElements: TopicalGridElements
+
+      }
+    }
+  }
+  |
+  {
+    card: {
+      card: {
+        "@type": "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget",
+        header: {
+          title: string
+        }
+        id: MainCardID.top_brands_for_you
+        layout: {},
+        gridElements: RestaurantType[]
+      }
+    }
+  }
+  |
+  {
+    card: {
+      card: {
+        "@type": "type.googleapis.com/swiggy.seo.widgets.v1.BasicContent",
+        id: MainCardID.popular_restaurants_title
+        title: string
+      }
+    }
+  }
+  |
+  {
+    card: {
+      card: {
+        id: MainCardID.restaurant_grid_listing
+        "@type": "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget",
+        layout: {}
+        gridElements: {
+          infoWithStyle: {
+            "@type": "type.googleapis.com/swiggy.presentation.food.v2.FavouriteRestaurantInfoWithStyle",
+            restaurants: RestaurantType[]
+            theme: string
+          }
+        }
+      }
+    }
+  }
+

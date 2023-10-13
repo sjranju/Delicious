@@ -61,7 +61,7 @@ const Header = () => {
             {/* {login && */}
             {
                 !user &&
-                <div className={`fixed absolute right-0 inset-y-0 h-screen w-4/12 p-12 bg-white shadow-2xl ${userLoginOrSignup ? 'animate-moveRightToLeft' : 'hidden animate-moveLeftToRight'}  overflow-hidden`}>
+                <div className={`fixed right-0 inset-y-0 h-screen w-4/12 p-12 bg-white shadow-2xl ${userLoginOrSignup ? 'animate-moveRightToLeft' : 'hidden animate-moveLeftToRight'}  overflow-hidden`}>
                     <UserLoginOrSignup userLoginOrSignup={userLoginOrSignup} setUserLoginOrSignup={setUserLoginOrSignup} />
                 </div>
 
