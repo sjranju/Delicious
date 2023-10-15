@@ -64,7 +64,9 @@ const Cart = () => {
                                     {
                                         data?.restaurantMenu.map(menu =>
                                             <div>
-
+                                                {
+                                                    menu.card.card["@type"]
+                                                }
                                             </div>)
                                     }
                                 </div>

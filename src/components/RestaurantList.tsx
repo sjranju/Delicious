@@ -26,8 +26,9 @@ const RestaurantList = (props: iRestaurantListProps) => {
     console.log('restaurants', restaurants)
 
     return (
-        <div className="">
-            <div className='flex flex-col justify-center items-center space-y-8 mt-8 bg-slate-50'>
+        <>
+            <div className=' w-9/12 m-auto'>
+                <div className="text-2xl font-bold mb-8">Restaurants with online food delivery</div>
                 {/* <div className='flex flex-row items-center justify-center space-x-8'>
                     <div className='flex flex-row space-x-2'>
                         <input type='text' placeholder='Search'
@@ -58,7 +59,7 @@ const RestaurantList = (props: iRestaurantListProps) => {
                     </div>
                 </div> */}
                 {
-                    <div className='grid grid-cols-4 gap-10 '>
+                    <div className='grid grid-cols-4 gap-10 items-start'>
                         {/* {filterRestaurants?.length !== 0 ?
                             filterRestaurants?.map(restaurant => (
                                 <Link to={`/restaurant/${restaurant.info.id}`} key={restaurant.info.id} >
@@ -90,7 +91,7 @@ const RestaurantList = (props: iRestaurantListProps) => {
                     </div>
                 }
             </div>
-        </div>
+        </>
     )
 }
 

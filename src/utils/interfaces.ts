@@ -629,7 +629,7 @@ export type Card =
     }
   }
 
-type TopicalImageBanner = {
+export type TopicalImageBanner = {
   info: {
     id: string;
     imageId: string;

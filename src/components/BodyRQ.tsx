@@ -7,9 +7,10 @@ import { Link } from "react-router-dom"
 import useOnlineStatus from "../utils/useOnlineStatus"
 import RestaurantCard from "./RestaurantCard"
 import * as TYPES from "../utils/interfaces"
-import withOneAccountFreeDelivery from "./withOneAccountFreeDelivery"
 import SkeletonRestaurantCard from "./SkeletonRestaurantCard"
 import RestaurantList from "./RestaurantList"
+import TopicalBanner from "./TopicalBanner"
+import CuisineBanner from "./CuisineBanner"
 
 const BodyRQ = () => {
 
@@ -49,10 +50,16 @@ const BodyRQ = () => {
             <SkeletonRestaurantCard />
             :
             (
-                data.map(dataCard =>
-                    dataCard.card.card.id === TYPES.MainCardID.restaurant_grid_listing &&
-                    <RestaurantList key={dataCard.card.card.id} card={dataCard.card.card} />
-                )
+                <div className="bg-slate-50">
+                    {data.map(dataCard =>
+                        dataCard.card.card.id === TYPES.MainCardID.restaurant_grid_listing ?
+                            <RestaurantList key={dataCard.card.card.id} card={dataCard.card.card} />
+                            : dataCard.card.card.id === TYPES.MainCardID.topical_banner ?
+                                <TopicalBanner key={dataCard.card.card.id} card={dataCard.card.card.imageGridCards} />
+                                : dataCard.card.card.id === TYPES.MainCardID.whats_on_your_mind &&
+                                <CuisineBanner key={dataCard.card.card.id} card={dataCard.card.card.imageGridCards} />
+                    )}
+                </div>
             )
 }
 
