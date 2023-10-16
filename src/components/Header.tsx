@@ -43,17 +43,19 @@ const Header = () => {
                                 <AiOutlineUser size={24} className='' />
                                 <span className='text-sm'>{user && user.displayName}</span>
                             </button>
-                            <div className="group-hover/profile:block hidden absolute bg-white font-semibold w-40 p-4 bg-red-50 text-sm shadow-md">
-                                <ul className='space-y-4'>
-                                    <li className='hover:font-bold'>Profile</li>
-                                    <li className='hover:font-bold'>Orders</li>
-                                    <li className='hover:font-bold'>Favourites</li>
-                                    <li className='hover:font-bold'><button onClick={() => {
-                                        signOut(auth)
-                                        setUserLoginOrSignup(true)
-                                    }}>Logout</button></li>
-                                </ul>
-                            </div>
+                            {user &&
+                                <div className="hidden absolute group-hover/profile:block font-semibold z-10 w-40 p-4 bg-red-50 text-sm shadow-md">
+                                    <ul className='space-y-4'>
+                                        <li className='hover:font-bold'>Profile</li>
+                                        <li className='hover:font-bold'>Orders</li>
+                                        <li className='hover:font-bold'>Favourites</li>
+                                        <li className='hover:font-bold'><button onClick={() => {
+                                            signOut(auth)
+                                            setUserLoginOrSignup(true)
+                                        }}>Logout</button></li>
+                                    </ul>
+                                </div>
+                            }
                         </li>
                     </ul>
                 </div>
@@ -61,7 +63,7 @@ const Header = () => {
             {/* {login && */}
             {
                 !user &&
-                <div className={`fixed right-0 inset-y-0 h-screen w-4/12 p-12 bg-white shadow-2xl ${userLoginOrSignup ? 'animate-moveRightToLeft' : 'hidden animate-moveLeftToRight'}  overflow-hidden`}>
+                <div className={`absolute right-0 inset-y-0 h-screen z-10 w-4/12 p-12 bg-white shadow-2xl ${userLoginOrSignup ? 'animate-moveRightToLeft' : 'hidden animate-moveLeftToRight'}  overflow-hidden`}>
                     <UserLoginOrSignup userLoginOrSignup={userLoginOrSignup} setUserLoginOrSignup={setUserLoginOrSignup} />
                 </div>
 

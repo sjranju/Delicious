@@ -12,7 +12,7 @@ type TopicalBannerImageProps = {
 const TopicalBannerImage = (props: TopicalBannerImageProps) => {
     const { width, height } = props.imgStyle
     return (
-        <div className={`w-${width} h-${height} px-4`}>
+        <div className={`w-${width} h-${height} pr-4 bg-slate-50`}>
             <img src={CLOUDINARY_URL + props.imageId} alt="" className={`w-${width} h-${height}`} />
         </div>
     )
