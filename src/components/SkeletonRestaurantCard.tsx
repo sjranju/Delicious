@@ -18,8 +18,7 @@ const SkeletonRestaurantCard = () => {
             </div>
             <div className="flex mb-16 justify-between">
                 {Array(7).fill(1).map((arr, i) =>
-                    <div className='mr-2'><Skeleton width={'140px'} height={'160px'}></Skeleton></div>
-
+                    <div key={i} className='mr-2'><Skeleton width={'140px'} height={'160px'}></Skeleton></div>
                 )}
             </div>
             <div className='mb-12'>

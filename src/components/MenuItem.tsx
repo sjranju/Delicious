@@ -30,23 +30,27 @@ const MenuItem = (props: iProps) => {
 
     const handleCart = async (card: TYPES.MenuItemInfo) => {
         let uid = user?.uid
-        console.log('inside reset cart1', data)
         if (data === undefined || data === 'notExists' || Object.keys(data).length === 0) {
             let updatedResult = await addToCart({
                 restaurantId: restaurantId!, itemId: card.id, user: uid!, resetCart: false,
                 quantity: 1
             })
-            console.log('inside reset cart updatedResult', updatedResult)
         } else {
-            console.log('inside reset cart2', data)
             if (restaurantId && data.restaurantId !== restaurantId) {
                 setResetCart({ itemId: card.id, reset: false })
             } else {
-                let updatedResult = await addToCart({
-                    restaurantId: restaurantId!, itemId: card.id, user: uid!, resetCart: false,
-                    quantity: 1
-                })
-                console.log('inside reset cart updatedResult', updatedResult)
+                let foundCartItem = Object.entries(data.itemWithQuantity).find(([key, value]) => key === card.id)
+                if (foundCartItem !== undefined) {
+                    let result = await addToCart({
+                        restaurantId: restaurantId!, itemId: foundCartItem[0], user: uid!, resetCart: false,
+                        quantity: foundCartItem[1] + 1
+                    })
+                } else {
+                    let updatedResult = await addToCart({
+                        restaurantId: restaurantId!, itemId: card.id, user: uid!, resetCart: false,
+                        quantity: 1
+                    })
+                }
             }
         }
     }

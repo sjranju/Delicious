@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react"
 import { useAppSelector } from "../store/useStateDispatch"
-import { GetCartItemsReturn, useGetCartItemsQuery } from "../RTKQuery/cartQuery"
+import { GetCartItemsReturn, useAddToCartMutation, useGetCartItemsQuery } from "../RTKQuery/cartQuery"
 import { restuarantContext } from "../context/RestaurantContext"
 import { userContext } from "../context/UserContext"
 import { HiLocationMarker } from 'react-icons/hi'
@@ -12,10 +12,12 @@ import * as TYPES from '../utils/interfaces'
 import { Link } from "react-router-dom"
 import veg from '../../public/images/veg.png'
 import nonveg from '../../public/images/non-veg.png'
+import { increment } from "firebase/firestore"
 
 const Cart = () => {
     const { restaurantId } = useContext(restuarantContext)
     const { user } = useContext(userContext)
+    const [addToCart] = useAddToCartMutation()
     const { data: cartItem } = useGetCartItemsQuery(user?.uid!)
     let restId = ''
     let cartItemSet = new Set()
@@ -27,10 +29,18 @@ const Cart = () => {
 
     const { data, isError, isLoading, error } = useQuery(['restaurantMenu', restId], () => fetchData(restId))
     // const { data: restaurantData, isError, isLoading, error } = useQuery(['restaurantMenu', data.restaurantId], () => fetchData(restaurantId!))
-    console.log('restaurantData', data)
 
-    const handleIncreaseQuantity = () => {
-
+    const handleQuantity = async (itemId: string, increse: boolean) => {
+        if (cartItem === undefined || cartItem === 'notExists') {
+            console.log('data is either undefined or doesnt exist')
+        } else {
+            restId = cartItem.restaurantId
+            let foundItem = Object.entries(cartItem.itemWithQuantity).find(([key, value]) => key === itemId)
+            if (foundItem) {
+                await addToCart(
+                    { restaurantId: cartItem.restaurantId, quantity: increse ? foundItem[1] + 1 : foundItem[1] - 1, user: user?.uid!, itemId: foundItem?.[0], resetCart: false })
+            }
+        }
     }
 
     return cartItem === undefined || cartItem === 'notExists' ?
@@ -44,7 +54,7 @@ const Cart = () => {
                         <div className="w-8/12">
                             <div className="flex flex-col justify-around space-y-10 ">
                                 <div className="flex flex-col items-start bg-white space-y-6 py-6 px-8 w-full shadow-lg">
-                                    <div className="font-semibold text-lg">Enter delivery address</div>
+                                    <div className="font-bold text-lg">Add a delivery address</div>
                                     <input type="text" placeholder="House No/Flat/Building"
                                         className="border border-b-black w-3/4 placeholder:text-xs placeholder:pl-2 outline-none" />
                                     <input type="text" placeholder="Street Address/Colony/Area"
@@ -57,7 +67,7 @@ const Cart = () => {
                                 </div>
                                 <div className="bg-white px-8 items-start shadow-lg py-4">
                                     <div className="text-lg text-gray-500 py-4 px-2 font-bold">Payment</div>
-                                    <div className="absolute flex items-center justify-center top-[360px] left-[200px] bg-black p-1 shadow-xl w-10 h-10"><GiWallet size={24} className="text-white text-center" /></div>
+                                    <div className="absolute flex items-center justify-center top-[375px] left-[200px] bg-black p-1 shadow-xl w-10 h-10"><GiWallet size={24} className="text-white text-center" /></div>
                                 </div>
                             </div>
                         </div>
@@ -65,7 +75,8 @@ const Cart = () => {
                             <Link to={`/restaurant/${data?.resInfo.card.card.info.id}`}>
                                 <div className="flex flex-row items-center space-x-4 mb-4">
                                     <img src={`${CLOUDINARY_URL + data?.resInfo?.card?.card?.info?.cloudinaryImageId}`} alt="" className="w-12 h-12" />
-                                    <div className="flex flex-col font-semibold after:content-[' '] after:bg-[#282c3f] after:w-10 after:h-[3px] min-h-[50px]">
+                                    <div className="flex flex-col font-semibold after:content-[' '] after:bg-[#282c3f] after:w-10 after:h-[3px] min-h-[50px]
+                                    truncate max-w-xs">
                                         <p className="text-[17px]">{data?.resInfo?.card?.card?.info?.name}</p>
                                         <p className="text-xs font-normal text-[#686B78] mb-2">{data?.resInfo.card.card.info.areaName}</p>
                                     </div>
@@ -85,24 +96,23 @@ const Cart = () => {
                                                         else {
                                                             cartItemSet.add(itemId)
                                                             return (
-                                                                <div className="flex flex-row items-center space-x-2">
-                                                                    <div>
+                                                                <div key={itemId} className="flex flex-row items-center justify-start space-x-2 py-2">
+                                                                    <div className="relative top-1 self-start">
                                                                         {
                                                                             restaurant.card.card.itemCards.find(itemCard => itemCard.card.info.id === itemId)!.card?.info?.isVeg === 1 ?
                                                                                 <img src={veg} className="w-[15px]" />
                                                                                 : <img src={nonveg} className="w-[15px]" />
                                                                         }
                                                                     </div>
-                                                                    <div className="flex flex-wrap text-sm w-2/4">
-                                                                        <div>
-                                                                            {restaurant.card.card.itemCards.find(itemCard => itemCard.card.info.id === itemId)?.card?.info?.name}
-                                                                        </div>
+                                                                    <div className="flex flex-wrap text-sm w-2/4 self-start">
+                                                                        {restaurant.card.card.itemCards.find(itemCard => itemCard.card.info.id === itemId)?.card?.info?.name}
                                                                     </div>
                                                                     <div className="flex flex-row items-center justify-center space-x-3 border border-gray-200 px-1">
-                                                                        <button className="text-lime-500 font-bold text-xl">-</button>
+                                                                        <button className="text-lime-500 font-bold text-xl"
+                                                                            onClick={() => handleQuantity(itemId, false)}>-</button>
                                                                         <div className="text-xs text-lime-500 font-bold">{quantity}</div>
                                                                         <button className="text-lime-500 font-bold text-xl"
-                                                                            onClick={handleIncreaseQuantity}>+</button>
+                                                                            onClick={() => handleQuantity(itemId, true)}>+</button>
                                                                     </div>
                                                                 </div>)
                                                         }

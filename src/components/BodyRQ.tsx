@@ -26,7 +26,7 @@ const BodyRQ = () => {
         queryKey: ['restaurantsList'],
         queryFn: fetchData
     })
-    console.log(data)
+    // console.log(data)
 
     const handleFilterRestaurants = () => {
         data &&

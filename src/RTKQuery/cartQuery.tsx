@@ -1,5 +1,5 @@
 import { BaseQueryApi, createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
-import { DocumentData, SnapshotOptions, arrayUnion, deleteDoc, deleteField, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
+import { DocumentData, FieldValue, SnapshotOptions, arrayRemove, arrayUnion, deleteDoc, deleteField, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import { db } from '../utils/firebaseConfig'
 import { userContext } from '../context/UserContext'
 import { useContext } from 'react'
@@ -34,8 +34,6 @@ export const api = createApi({
                     const getDocResult = await getDoc(cartDocRef)
                     if (getDocResult.exists()) {
                         const result: GetCartItemsReturn = getDocResult.data() as GetCartItemsReturn
-                        console.log('getDocResult', result)
-                        // if(result!==undefined)
                         return { data: result }
                     } else {
                         return { data: 'notExists' }
@@ -49,19 +47,26 @@ export const api = createApi({
 
         addToCart: build.mutation<string, AddItemArg>({
             async queryFn({ restaurantId, itemId, quantity, user, resetCart }, api: BaseQueryApi) {
-                console.log('addtocart');
                 try {
                     const cartDocRef = doc(db, `cart/${user}`)
                     if (resetCart) {
                         await updateDoc(cartDocRef, { itemWithQuantity: deleteField(), restaurantId: deleteField() })
                     }
-                    const cartData = {
-                        restaurantId,
-                        itemWithQuantity: {
-                            [itemId]: quantity
-                        }
+                    let cartData: GetCartItemsReturn
+                    if (quantity === 0) {
+                        cartData = (await getDoc(cartDocRef)).data() as GetCartItemsReturn
+                        delete cartData.itemWithQuantity[itemId];
+                        await setDoc(cartDocRef, cartData)
                     }
-                    await setDoc(cartDocRef, cartData, { merge: true })
+                    else {
+                        cartData = {
+                            restaurantId,
+                            itemWithQuantity: {
+                                [itemId]: quantity,
+                            }
+                        }
+                        await setDoc(cartDocRef, cartData, { merge: true })
+                    }
                     return { data: 'updated' }
                 } catch (err) {
                     console.log(err)

@@ -45,7 +45,10 @@ const RestaurantMenu = () => {
 
   const handleCartReset = async () => {
     console.log('resetCart?.itemId', resetCart?.itemId)
-    let updatedResult = await addToCart({ restaurantId: restaurantId!, itemIds: resetCart?.itemId!, user: user?.uid!, resetCart: true })
+    let updatedResult = await addToCart({
+      restaurantId: restaurantId!, itemId: resetCart?.itemId!, user: user?.uid!, resetCart: true,
+      quantity: 1
+    })
     setResetCart(null)
     console.log('handleCartReset', updatedResult)
   }
