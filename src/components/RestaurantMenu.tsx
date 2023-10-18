@@ -11,22 +11,23 @@ import RestaurantLicenseInfo from "./RestaurantLicenseInfo";
 import NestedItemCategory from "./NestedItemCategory";
 import MenuCarousel from "./MenuCarousel";
 import 'react-multi-carousel/lib/styles.css'
-import { restuarantContext } from "../context/RestaurantContext";
+import { restaurantContext } from "../context/RestaurantContext";
 import SkeletonRestaurantDetails from "./SkeletonRestaurantDetails";
 import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "../utils/fetchRestaurantDetails";
 import { resetCartContext } from "../context/ResetCartContext";
-import { useAddToCartMutation } from "../RTKQuery/cartQuery";
+import { useDeleteCartItemMutation, useUpdateCartMutation } from "../RTKQuery/cartQuery";
 import { userContext } from "../context/UserContext";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
-  const { restaurantId, setRestaurantId } = useContext(restuarantContext)
+  const { restaurantId, setRestaurantId } = useContext(restaurantContext)
   const { user } = useContext(userContext)
   const [vegOnly, setVegOnly] = useState<boolean>(false)
   const { resetCart, setResetCart } = useContext(resetCartContext)
   const { data, isError, isLoading, error } = useQuery(['restaurantMenu', resId], () => fetchData(resId!))
-  const [addToCart] = useAddToCartMutation()
+  const [deleteCart] = useDeleteCartItemMutation()
+  const [addToCart] = useUpdateCartMutation()
 
   useEffect(() => {
     if (resId !== undefined)
@@ -45,10 +46,14 @@ const RestaurantMenu = () => {
 
   const handleCartReset = async () => {
     console.log('resetCart?.itemId', resetCart?.itemId)
-    let updatedResult = await addToCart({
-      restaurantId: restaurantId!, itemId: resetCart?.itemId!, user: user?.uid!, resetCart: true,
+    let updatedResult = await deleteCart(user?.uid!)
+    await addToCart({
+      restaurantId: restaurantId!,
+      itemId: resetCart?.itemId!,
+      user: user?.uid!,
       quantity: 1
     })
+
     setResetCart(null)
     console.log('handleCartReset', updatedResult)
   }
@@ -116,7 +121,7 @@ const RestaurantMenu = () => {
                 restaurantMenu.map((menu, i) => (
                   menu.card.card["@type"] === TYPES.CardType.MenuVegFilterAndBadge ?
                     menu?.card?.card?.isPureVeg === true ?
-                      <div className="flex items-center">
+                      <div key={i} className="flex items-center">
                         <img src={CLOUDINARY_URL + menu.card.card?.vegOnlyDetails?.imageId} className="w-10 h-10" />
                         <p className="text-xs font-semibold">PURE VEG</p>
                       </div>

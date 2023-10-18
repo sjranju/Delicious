@@ -5,11 +5,11 @@ import { CLOUDINARY_URL } from "../utils/constants"
 import veg from '../../public/images/veg.png'
 import nonveg from '../../public/images/non-veg.png'
 import { useAppDispatch, useAppSelector } from "../store/useStateDispatch"
-import { restuarantContext } from "../context/RestaurantContext"
+import { restaurantContext } from "../context/RestaurantContext"
 import useRestaurantMenu from "../utils/useRestaurantMenu"
 import { fetchData } from "../utils/fetchRestaurantDetails"
 import { useQuery } from "@tanstack/react-query"
-import { api, useAddToCartMutation, useGetCartItemsQuery } from "../RTKQuery/cartQuery"
+import { api, useUpdateCartMutation, useGetCartItemsQuery } from "../RTKQuery/cartQuery"
 import { userContext } from "../context/UserContext"
 import { resetCartContext } from "../context/ResetCartContext"
 
@@ -19,20 +19,22 @@ interface iProps {
 
 const MenuItem = (props: iProps) => {
     const { itemCard } = props
-    const { restaurantId } = useContext(restuarantContext)
+    const { restaurantId } = useContext(restaurantContext)
     const [confirmResetCart, setConfirmResetCart] = useState<boolean>(false)
     const { resetCart, setResetCart } = useContext(resetCartContext)
     const restaurantDetails = restaurantId && useRestaurantMenu(restaurantId)
     const restaurantData = useQuery(['restaurantMenu', restaurantId], () => fetchData(restaurantId!))
     const { user } = useContext(userContext)
-    const [addToCart] = useAddToCartMutation()
+    const [updateCart] = useUpdateCartMutation()
     const { data } = useGetCartItemsQuery(user?.uid!)
 
     const handleCart = async (card: TYPES.MenuItemInfo) => {
         let uid = user?.uid
-        if (data === undefined || data === 'notExists' || Object.keys(data).length === 0) {
-            let updatedResult = await addToCart({
-                restaurantId: restaurantId!, itemId: card.id, user: uid!, resetCart: false,
+        if (data === undefined || data === 'notExists' || Object.entries(data).length === 0) {
+            let updatedResult = await updateCart({
+                restaurantId: restaurantId!,
+                itemId: card.id,
+                user: uid!,
                 quantity: 1
             })
         } else {
@@ -41,13 +43,17 @@ const MenuItem = (props: iProps) => {
             } else {
                 let foundCartItem = Object.entries(data.itemWithQuantity).find(([key, value]) => key === card.id)
                 if (foundCartItem !== undefined) {
-                    let result = await addToCart({
-                        restaurantId: restaurantId!, itemId: foundCartItem[0], user: uid!, resetCart: false,
+                    await updateCart({
+                        restaurantId: restaurantId!,
+                        itemId: foundCartItem[0],
+                        user: uid!,
                         quantity: foundCartItem[1] + 1
                     })
                 } else {
-                    let updatedResult = await addToCart({
-                        restaurantId: restaurantId!, itemId: card.id, user: uid!, resetCart: false,
+                    await updateCart({
+                        restaurantId: restaurantId!,
+                        itemId: card.id,
+                        user: uid!,
                         quantity: 1
                     })
                 }

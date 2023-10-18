@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react"
 import * as TYPES from "../utils/interfaces"
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 import MenuItem from "./MenuItem"
-import { restuarantContext } from "../context/RestaurantContext"
+import { restaurantContext } from "../context/RestaurantContext"
 
 
 interface iProps {
@@ -16,7 +16,7 @@ interface iProps {
 
 const NestedMenuItem = (props: iProps) => {
     const { itemCard, vegOnly } = props
-    const { restaurantId, setRestaurantId } = useContext(restuarantContext)
+    const { restaurantId, setRestaurantId } = useContext(restaurantContext)
     const [showDetails, setShowDetails] = useState<boolean>(false)
 
     const handleCategoryClick = (title: string) => {

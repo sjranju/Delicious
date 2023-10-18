@@ -12,6 +12,9 @@ module.exports = {
       fontSize: {
         '2xs': '8px',
       },
+      colors: {
+        'slightBlack': '#282c3f'
+      },
       keyframes: {
         moveRightToLeft: {
           '0%': { transform: 'translateX(100%)' },
