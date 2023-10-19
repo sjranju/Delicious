@@ -16,7 +16,7 @@ import SkeletonRestaurantDetails from "./SkeletonRestaurantDetails";
 import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "../utils/fetchRestaurantDetails";
 import { resetCartContext } from "../context/ResetCartContext";
-import { useDeleteCartItemMutation, useUpdateCartMutation } from "../RTKQuery/cartQuery";
+import { useAddToCartMutation, useDeleteCartItemMutation, useUpdateCartMutation } from "../RTKQuery/cartQuery";
 import { userContext } from "../context/UserContext";
 
 const RestaurantMenu = () => {
@@ -27,7 +27,7 @@ const RestaurantMenu = () => {
   const { resetCart, setResetCart } = useContext(resetCartContext)
   const { data, isError, isLoading, error } = useQuery(['restaurantMenu', resId], () => fetchData(resId!))
   const [deleteCart] = useDeleteCartItemMutation()
-  const [addToCart] = useUpdateCartMutation()
+  const [updateCart] = useUpdateCartMutation()
 
   useEffect(() => {
     if (resId !== undefined)
@@ -47,7 +47,7 @@ const RestaurantMenu = () => {
   const handleCartReset = async () => {
     console.log('resetCart?.itemId', resetCart?.itemId)
     let updatedResult = await deleteCart(user?.uid!)
-    await addToCart({
+    await updateCart({
       restaurantId: restaurantId!,
       itemId: resetCart?.itemId!,
       user: user?.uid!,
@@ -62,6 +62,7 @@ const RestaurantMenu = () => {
     console.log('Sorry, something went wrong!');
   } else {
     const { resInfo, offerDetails, restaurantMenu } = data
+    console.log(data)
     return isLoading ?
       <SkeletonRestaurantDetails />
       : (

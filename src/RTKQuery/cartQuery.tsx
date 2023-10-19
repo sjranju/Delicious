@@ -9,6 +9,12 @@ type AddItemArg = {
     itemId: string
     restaurantId: string
     user: string
+}
+
+type UpdateCartArg = {
+    itemId: string
+    restaurantId: string
+    user: string
     quantity: number
 }
 
@@ -49,7 +55,27 @@ export const api = createApi({
             providesTags: ['GetCartItems']
         }),
 
-        updateCart: build.mutation<string, AddItemArg>({
+        addToCart: build.mutation<string, AddItemArg>({
+            async queryFn({ restaurantId, itemId, user }, api: BaseQueryApi) {
+                try {
+                    const cartDocRef = doc(db, `cart/${user}`)
+                    await setDoc(cartDocRef,
+                        {
+                            restaurantId,
+                            itemWithQuantity: {
+                                [itemId]: 1,
+                            }
+                        })
+                    return { data: 'updated' }
+                } catch (err) {
+                    console.log(err)
+                    return { error: err };
+                }
+            },
+            invalidatesTags: ['GetCartItems'],
+        }),
+
+        updateCart: build.mutation<string, UpdateCartArg>({
             async queryFn({ restaurantId, itemId, quantity, user }, api: BaseQueryApi) {
                 try {
                     const cartDocRef = doc(db, `cart/${user}`)
@@ -146,4 +172,4 @@ export const api = createApi({
     })
 });
 
-export const { useUpdateCartMutation, useGetCartItemsQuery, useDeleteCartItemMutation, useUpdateQuantityMutation } = api
+export const { useUpdateCartMutation, useGetCartItemsQuery, useDeleteCartItemMutation, useUpdateQuantityMutation, useAddToCartMutation } = api

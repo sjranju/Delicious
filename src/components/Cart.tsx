@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { useAppSelector } from "../store/useStateDispatch"
 import { GetCartItemsReturn, useUpdateCartMutation, useGetCartItemsQuery, useDeleteCartItemMutation, useUpdateQuantityMutation } from "../RTKQuery/cartQuery"
 import { restaurantContext } from "../context/RestaurantContext"
@@ -13,10 +13,12 @@ import { Link } from "react-router-dom"
 import veg from '../../public/images/veg.png'
 import nonveg from '../../public/images/non-veg.png'
 import { increment } from "firebase/firestore"
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai"
 
 const Cart = () => {
     const { restaurantId } = useContext(restaurantContext)
     const { user } = useContext(userContext)
+    const [totalPrice, setTotalPrice] = useState(0)
     const [updateCart] = useUpdateCartMutation()
     const [deleteCart] = useDeleteCartItemMutation()
     const [updateQuantity] = useUpdateQuantityMutation()
@@ -24,13 +26,44 @@ const Cart = () => {
     let restId = ''
     let cartItemSet = new Set()
     if (cartItem === undefined || cartItem === 'notExists') {
-        console.log('data is either undefined or doesnt exist')
+        console.log('cartItem data is either undefined or doesnt exist', cartItem)
     } else {
         restId = cartItem.restaurantId
+        console.log('cartitem item id', cartItem.itemWithQuantity)
     }
 
     const { data, isError, isLoading, error } = useQuery(['restaurantMenu', restId], () => fetchData(restId))
     // const { data: restaurantData, isError, isLoading, error } = useQuery(['restaurantMenu', data.restaurantId], () => fetchData(restaurantId!))
+
+    const calculatePrice = () => {
+        let sum = 0
+        if (cartItem === undefined || cartItem === 'notExists') {
+            console.log('cartItem data is either undefined or doesnt exist', cartItem)
+        } else {
+            Object.entries(cartItem.itemWithQuantity).map(([key, value]) => {
+                data?.restaurantMenu.map(restaurant => {
+                    if (restaurant.card.card["@type"] === TYPES.CardType.ItemCategory) {
+                        let foundItem = restaurant.card.card.itemCards.find(itemCard => itemCard.card.info.id === key)
+                        if (foundItem !== undefined) {
+                            sum += ((foundItem?.card?.info?.price ?
+                                foundItem?.card?.info?.price
+                                : foundItem?.card?.info?.defaultPrice) * value) / 100
+                        }
+                    } else if (restaurant.card.card["@type"] === TYPES.CardType.NestedItemCategory) {
+                        let foundItem = restaurant.card.card.categories.find(category => category.itemCards.find(itemCard => {
+                            if (itemCard.card.info.id === key) {
+                                sum += ((itemCard.card.info.price
+                                    ? itemCard.card.info.price
+                                    : itemCard.card.info.defaultPrice) * value) / 100
+                            }
+                        }))
+
+                    }
+                })
+            })
+        }
+        return sum
+    }
 
     // const handleQuantity = async (itemId: string, increase: boolean) => {
     //     if (cartItem === undefined || cartItem === 'notExists') {
@@ -55,37 +88,51 @@ const Cart = () => {
     //     }
     // }
 
-    const handleIncreament = async (itemId: string) => {
-        user &&
-            await updateQuantity({
-                itemId,
-                user: user?.uid,
-                increamentQuantity: true
-            })
-    }
+    useEffect(() => {
+        setTotalPrice(calculatePrice())
+    }, [])
 
-    const handleDecreament = async (itemId: string) => {
+    const handleIncreament = async (itemId: string, price: number) => {
         if (cartItem === undefined || cartItem === 'notExists') {
             console.log('data is either undefined or doesnt exist', cartItem)
         } else {
             restId = cartItem.restaurantId
+            let foundItem = Object.entries(cartItem.itemWithQuantity).find(([key, value]) => key === itemId)
+            if (foundItem && user) {
+                await updateCart({
+                    itemId,
+                    user: user?.uid,
+                    restaurantId: restId,
+                    quantity: foundItem[1] + 1
+                })
+            }
+            setTotalPrice(prev => prev + price)
+        }
+    }
 
+    const handleDecreament = async (itemId: string, price: number) => {
+        if (cartItem === undefined || cartItem === 'notExists') {
+            console.log('data is either undefined or doesnt exist', cartItem)
+        } else {
+            restId = cartItem.restaurantId
             let foundItem = Object.entries(cartItem.itemWithQuantity).find(([key, value]) => key === itemId)
             if (foundItem && user) {
                 const cartData = {
                     itemId,
                     user: user?.uid,
-                    increamentQuantity: false
+                    restaurantId: restId,
+                    quantity: foundItem[1] - 1
                 }
                 if (foundItem[1] === 1) {
                     Object.entries(cartItem.itemWithQuantity).length === 1 ?
                         await deleteCart(user?.uid)
-                        : await updateCart({ itemId, restaurantId: restId, user: user.uid, quantity: foundItem[1] - 1 })
+                        : await updateCart(cartData)
                 } else {
                     user &&
-                        await updateQuantity(cartData)
+                        await updateCart(cartData)
                 }
             }
+            setTotalPrice(prev => prev - price)
         }
     }
 
@@ -137,40 +184,74 @@ const Cart = () => {
 
                             <div className="flex flex-col w-full">
                                 {
-                                    Object.entries(cartItem.itemWithQuantity).map(([itemId, quantity]) =>
+                                    Object.entries(cartItem.itemWithQuantity)?.map(([itemId, quantity]) =>
                                         <div key={itemId} className="">
                                             {
-                                                data?.restaurantMenu.map(restaurant => {
+                                                data?.restaurantMenu?.map(restaurant => {
                                                     if (restaurant.card.card["@type"] === TYPES.CardType.ItemCategory
                                                         && restaurant.card.card.itemCards.find(itemCard => itemCard.card.info.id === itemId) !== undefined) {
-                                                        if (cartItemSet.has(itemId))
-                                                            return ''
-                                                        else {
-                                                            cartItemSet.add(itemId)
-                                                            return (
-                                                                <div key={itemId} className="flex flex-row items-center justify-start space-x-2 py-2 w-full">
-                                                                    <div className="relative top-1 self-start">
-                                                                        {
-                                                                            restaurant.card.card.itemCards.find(itemCard => itemCard.card.info.id === itemId)!.card?.info?.isVeg === 1 ?
-                                                                                <img src={veg} className="w-[15px]" />
-                                                                                : <img src={nonveg} className="w-[15px]" />
-                                                                        }
-                                                                    </div>
-                                                                    <div className="flex flex-wrap text-sm w-2/4 self-start">
-                                                                        {restaurant.card.card.itemCards.find(itemCard => itemCard.card.info.id === itemId)?.card?.info?.name}
-                                                                    </div>
-                                                                    <div className="flex flex-row items-center justify-center space-x-3 border border-gray-200 px-1 text-lime-500 font-bold text-sm">
-                                                                        <button className=""
-                                                                            onClick={() => handleDecreament(itemId)}>-</button>
-                                                                        <div className="">{quantity}</div>
-                                                                        <button className=""
-                                                                            onClick={() => handleIncreament(itemId)}>+</button>
-                                                                    </div>
-                                                                    <div className="flex text-xs font-semibold justify-center pl-2">
-                                                                        ₹{(restaurant.card.card.itemCards.find(itemCard => itemCard.card.info.id === itemId)?.card?.info?.price! * quantity) / 100}
-                                                                    </div>
-                                                                </div>)
+                                                        const foundCartItem = restaurant.card.card.itemCards.find(itemCard => itemCard.card.info.id === itemId)
+                                                        if (foundCartItem) {
+                                                            if (!cartItemSet.has(itemId)) {
+                                                                cartItemSet.add(itemId)
+                                                                return (
+                                                                    <div key={itemId} className="flex flex-row items-center justify-start space-x-2 py-2 w-full">
+                                                                        <div className="relative top-1 self-start">
+                                                                            {
+                                                                                foundCartItem!.card?.info?.isVeg === 1 ?
+                                                                                    <img src={veg} className="w-[15px]" />
+                                                                                    : <img src={nonveg} className="w-[15px]" />
+                                                                            }
+                                                                        </div>
+                                                                        <div className="flex flex-wrap text-sm w-2/4 self-start">
+                                                                            {foundCartItem?.card?.info?.name}
+                                                                        </div>
+                                                                        <div className="flex flex-row items-center justify-center space-x-3 border border-gray-200 p-1  font-bold ">
+                                                                            <button className=""
+                                                                                onClick={() => handleDecreament(itemId, foundCartItem.card.info.price ? foundCartItem.card.info.price : foundCartItem.card.info.defaultPrice)}><AiOutlineMinus size={13} className="mt-[2px] text-gray-300" /></button>
+                                                                            <div className="text-xs text-lime-500">{quantity}</div>
+                                                                            <button className=""
+                                                                                onClick={() => handleIncreament(itemId, foundCartItem.card.info.price ? foundCartItem.card.info.price : foundCartItem.card.info.defaultPrice)}><AiOutlinePlus size={13} className="mt-[2px] text-lime-600" /></button>
+                                                                        </div>
+                                                                        <div className="flex text-xs font-semibold justify-center pl-2">
+                                                                            ₹{((foundCartItem?.card?.info?.price ? foundCartItem?.card?.info?.price : foundCartItem?.card?.info?.defaultPrice) * quantity) / 100}
+                                                                        </div>
+                                                                    </div>)
+                                                            }
                                                         }
+                                                    } else if (restaurant.card.card["@type"] === TYPES.CardType.NestedItemCategory
+                                                        && restaurant.card.card.categories.find(category => category.itemCards.find(itemCard => itemCard.card.info.id === itemId)) !== undefined) {
+                                                        restaurant.card.card.categories.map(catgory => {
+                                                            const foundCartItem = catgory.itemCards.find(itemCard => itemCard.card.info.id)
+                                                            if (foundCartItem) {
+                                                                if (!cartItemSet.has(itemId)) {
+                                                                    cartItemSet.add(itemId)
+                                                                    return (
+                                                                        <div key={itemId} className="flex flex-row items-center justify-start space-x-2 py-2 w-full">
+                                                                            <div className="relative top-1 self-start">
+                                                                                {
+                                                                                    foundCartItem?.card.info?.isVeg === 1 ?
+                                                                                        <img src={veg} className="w-[15px]" />
+                                                                                        : <img src={nonveg} className="w-[15px]" />
+                                                                                }
+                                                                            </div>
+                                                                            <div className="flex flex-wrap text-sm w-2/4 self-start">
+                                                                                {foundCartItem?.card?.info?.name}
+                                                                            </div>
+                                                                            <div className="flex flex-row items-center justify-center space-x-3 border border-gray-200 p-1  font-bold ">
+                                                                                <button className=""
+                                                                                    onClick={() => handleDecreament(itemId, foundCartItem.card.info.price ? foundCartItem.card.info.price : foundCartItem.card.info.defaultPrice)}><AiOutlineMinus size={14} className="mt-[2px] text-gray-300" /></button>
+                                                                                <div className="text-xs text-lime-500">{quantity}</div>
+                                                                                <button className=""
+                                                                                    onClick={() => handleIncreament(itemId, foundCartItem.card.info.price ? foundCartItem.card.info.price : foundCartItem.card.info.defaultPrice)}><AiOutlinePlus size={14} className="mt-[2px] text-lime-600" /></button>
+                                                                            </div>
+                                                                            <div className="flex text-xs font-semibold justify-center pl-2">
+                                                                                ₹{Math.round((((foundCartItem?.card?.info?.price ? foundCartItem?.card?.info?.price : foundCartItem?.card?.info?.defaultPrice) * quantity)) / 100)}
+                                                                            </div>
+                                                                        </div>)
+                                                                }
+                                                            }
+                                                        })
                                                     }
                                                 }
                                                 )}
@@ -186,7 +267,10 @@ const Cart = () => {
                                 <p className="font-medium text-slightBlack">Bill details</p>
                                 <div className="flex items-center justify-between text-[#686b78]">
                                     <p>Item total</p>
-                                    <p>₹</p>
+                                    <p>₹
+                                        {
+                                            totalPrice
+                                        }</p>
                                 </div>
                                 <div className="flex items-center justify-between text-[#686b78]">
                                     <p>Delivery Fee</p>

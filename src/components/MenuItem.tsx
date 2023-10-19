@@ -9,7 +9,7 @@ import { restaurantContext } from "../context/RestaurantContext"
 import useRestaurantMenu from "../utils/useRestaurantMenu"
 import { fetchData } from "../utils/fetchRestaurantDetails"
 import { useQuery } from "@tanstack/react-query"
-import { api, useUpdateCartMutation, useGetCartItemsQuery } from "../RTKQuery/cartQuery"
+import { api, useUpdateCartMutation, useGetCartItemsQuery, useUpdateQuantityMutation, useAddToCartMutation } from "../RTKQuery/cartQuery"
 import { userContext } from "../context/UserContext"
 import { resetCartContext } from "../context/ResetCartContext"
 
@@ -30,32 +30,34 @@ const MenuItem = (props: iProps) => {
 
     const handleCart = async (card: TYPES.MenuItemInfo) => {
         let uid = user?.uid
-        if (data === undefined || data === 'notExists' || Object.entries(data).length === 0) {
-            let updatedResult = await updateCart({
-                restaurantId: restaurantId!,
-                itemId: card.id,
-                user: uid!,
-                quantity: 1
-            })
-        } else {
-            if (restaurantId && data.restaurantId !== restaurantId) {
-                setResetCart({ itemId: card.id, reset: false })
+        if (restaurantId) {
+            if (data === undefined || data === 'notExists' || Object.entries(data).length === 0) {
+                await updateCart({
+                    restaurantId,
+                    itemId: card.id,
+                    user: uid!,
+                    quantity: 1
+                })
             } else {
-                let foundCartItem = Object.entries(data.itemWithQuantity).find(([key, value]) => key === card.id)
-                if (foundCartItem !== undefined) {
-                    await updateCart({
-                        restaurantId: restaurantId!,
-                        itemId: foundCartItem[0],
-                        user: uid!,
-                        quantity: foundCartItem[1] + 1
-                    })
+                if (data.restaurantId !== restaurantId) {
+                    setResetCart({ itemId: card.id, reset: false })
                 } else {
-                    await updateCart({
-                        restaurantId: restaurantId!,
-                        itemId: card.id,
-                        user: uid!,
-                        quantity: 1
-                    })
+                    let foundCartItem = Object.entries(data.itemWithQuantity).find(([key, value]) => key === card.id)
+                    if (foundCartItem !== undefined) {
+                        await updateCart({
+                            itemId: foundCartItem[0],
+                            user: uid!,
+                            quantity: foundCartItem[1] + 1,
+                            restaurantId
+                        })
+                    } else {
+                        await updateCart({
+                            restaurantId,
+                            itemId: card.id,
+                            user: uid!,
+                            quantity: 1
+                        })
+                    }
                 }
             }
         }
@@ -91,18 +93,20 @@ const MenuItem = (props: iProps) => {
                                         {item?.card?.info?.description?.slice(item?.card?.info?.description?.indexOf('|') + 1)}
                                     </p>
                                 </div><div className="relative flex flex-col items-center justify-center min-w-[118px]">
-                                    {item?.card?.info?.imageId ?
-                                        <>
-                                            <img src={CLOUDINARY_URL + item?.card?.info?.imageId} className="w-[118px] h-24 rounded-md object-cover"></img>
-                                            <button className="absolute top-[70px] w-24 h-8 text-lime-600 bg-white border border-lime-400 text-xs font-bold px-6 py-2 rounded-md object-cover"
+                                    {
+                                        item?.card?.info?.imageId ?
+                                            <>
+                                                <img src={CLOUDINARY_URL + item?.card?.info?.imageId} className="w-[118px] h-24 rounded-md object-cover"></img>
+                                                <button className="absolute top-[70px] w-24 h-8 text-lime-600 bg-white border border-lime-400 text-xs font-bold px-6 py-2 rounded-md object-cover"
+                                                    onClick={() => handleCart(item.card.info)}>
+                                                    ADD +
+                                                </button>
+                                            </>
+                                            : <button className="flex items-center justify-center w-24 h-8 text-lime-600 bg-white border border-lime-400 text-xs font-bold rounded-md object-cover"
                                                 onClick={() => handleCart(item.card.info)}>
                                                 ADD +
                                             </button>
-                                        </>
-                                        : <button className="flex items-center justify-center w-24 h-8 text-lime-600 bg-white border border-lime-400 text-xs font-bold rounded-md object-cover"
-                                            onClick={() => handleCart(item.card.info)}>
-                                            ADD +
-                                        </button>}
+                                    }
                                 </div>
                             </div>
                         }
