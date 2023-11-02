@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect, useMemo, useState } from "react"
 import { useAppSelector } from "../store/useStateDispatch"
 import { GetCartItemsReturn, useUpdateCartMutation, useGetCartItemsQuery, useDeleteCartItemMutation, useUpdateQuantityMutation } from "../RTKQuery/cartQuery"
 import { restaurantContext } from "../context/RestaurantContext"
@@ -18,16 +18,19 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai"
 const Cart = () => {
     const { restaurantId } = useContext(restaurantContext)
     const { user } = useContext(userContext)
-    const [totalPrice, setTotalPrice] = useState(0)
+    // const [totalPrice, setTotalPrice] = useState(0)
     const [updateCart] = useUpdateCartMutation()
     const [deleteCart] = useDeleteCartItemMutation()
     const [updateQuantity] = useUpdateQuantityMutation()
     const { data: cartItem } = useGetCartItemsQuery(user?.uid!)
     let restId = ''
     let cartItemSet = new Set()
+    let myCartItems: GetCartItemsReturn | undefined
+
     if (cartItem === undefined || cartItem === 'notExists') {
         console.log('cartItem data is either undefined or doesnt exist', cartItem)
     } else {
+        myCartItems = cartItem
         restId = cartItem.restaurantId
         console.log('cartitem item id', cartItem.itemWithQuantity)
     }
@@ -35,9 +38,9 @@ const Cart = () => {
     const { data, isError, isLoading, error } = useQuery(['restaurantMenu', restId], () => fetchData(restId))
     // const { data: restaurantData, isError, isLoading, error } = useQuery(['restaurantMenu', data.restaurantId], () => fetchData(restaurantId!))
 
-    const calculatePrice = () => {
+    const calculatePrice = useMemo(() => {
         let sum = 0
-        if (cartItem === undefined || cartItem === 'notExists') {
+        if (cartItem === undefined || cartItem === 'notExists' || cartItem === null) {
             console.log('cartItem data is either undefined or doesnt exist', cartItem)
         } else {
             Object.entries(cartItem.itemWithQuantity).map(([key, value]) => {
@@ -45,16 +48,19 @@ const Cart = () => {
                     if (restaurant.card.card["@type"] === TYPES.CardType.ItemCategory) {
                         let foundItem = restaurant.card.card.itemCards.find(itemCard => itemCard.card.info.id === key)
                         if (foundItem !== undefined) {
-                            sum += ((foundItem?.card?.info?.price ?
+                            sum += (((foundItem?.card?.info?.price ?
                                 foundItem?.card?.info?.price
-                                : foundItem?.card?.info?.defaultPrice) * value) / 100
+                                : foundItem?.card?.info?.defaultPrice) * value) / 100)
+                            console.log('sum =', sum, 'item price', foundItem?.card?.info?.price ?
+                                foundItem?.card?.info?.price
+                                : foundItem?.card?.info?.defaultPrice)
                         }
                     } else if (restaurant.card.card["@type"] === TYPES.CardType.NestedItemCategory) {
                         let foundItem = restaurant.card.card.categories.find(category => category.itemCards.find(itemCard => {
                             if (itemCard.card.info.id === key) {
-                                sum += ((itemCard.card.info.price
+                                sum += (((itemCard.card.info.price
                                     ? itemCard.card.info.price
-                                    : itemCard.card.info.defaultPrice) * value) / 100
+                                    : itemCard.card.info.defaultPrice) * value) / 100)
                             }
                         }))
 
@@ -63,7 +69,7 @@ const Cart = () => {
             })
         }
         return sum
-    }
+    }, [cartItem])
 
     // const handleQuantity = async (itemId: string, increase: boolean) => {
     //     if (cartItem === undefined || cartItem === 'notExists') {
@@ -88,10 +94,6 @@ const Cart = () => {
     //     }
     // }
 
-    useEffect(() => {
-        setTotalPrice(calculatePrice())
-    }, [])
-
     const handleIncreament = async (itemId: string, price: number) => {
         if (cartItem === undefined || cartItem === 'notExists') {
             console.log('data is either undefined or doesnt exist', cartItem)
@@ -106,7 +108,7 @@ const Cart = () => {
                     quantity: foundItem[1] + 1
                 })
             }
-            setTotalPrice(prev => prev + price)
+            // setTotalPrice(prev => prev + price)
         }
     }
 
@@ -132,7 +134,7 @@ const Cart = () => {
                         await updateCart(cartData)
                 }
             }
-            setTotalPrice(prev => prev - price)
+            // setTotalPrice(prev => prev - price)
         }
     }
 
@@ -269,7 +271,7 @@ const Cart = () => {
                                     <p>Item total</p>
                                     <p>₹
                                         {
-                                            totalPrice
+                                            calculatePrice
                                         }</p>
                                 </div>
                                 <div className="flex items-center justify-between text-[#686b78]">
@@ -291,7 +293,7 @@ const Cart = () => {
                             <div className="border-b border-black border-[1.5px]"></div>
                             <div className="flex items-center justify-between text-sm font-bold text-slightBlack ">
                                 <p>TO PAY</p>
-                                <p>₹</p>
+                                <p>₹ {Math.round(calculatePrice + 51.10 + 3)}</p>
                             </div>
                         </div>
 

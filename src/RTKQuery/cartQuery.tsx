@@ -43,8 +43,13 @@ export const api = createApi({
                     const cartDocRef = doc(db, `cart/${user}`)
                     const getDocResult = await getDoc(cartDocRef)
                     if (getDocResult.exists()) {
-                        const result: GetCartItemsReturn = getDocResult.data() as GetCartItemsReturn
-                        return { data: result }
+                        let temp = getDocResult.data()
+                        if (temp !== undefined) {
+                            const result: GetCartItemsReturn = getDocResult.data() as GetCartItemsReturn
+                            return { data: result }
+                        } else {
+                            return { data: 'notExists' }
+                        }
                     } else {
                         return { data: 'notExists' }
                     }
