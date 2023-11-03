@@ -1,9 +1,8 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { FiHelpCircle } from 'react-icons/fi'
 import logo from '../../public/images/logo-no-background.png'
 import { Link } from 'react-router-dom'
 import useOnlineStatus from '../utils/useOnlineStatus'
-import { useAppSelector } from '../store/useStateDispatch'
 import { AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai'
 import UserLoginOrSignup from './UserLoginOrSignup'
 import useAuthListener from '../utils/useAuthListener'
@@ -11,7 +10,6 @@ import { signOut } from 'firebase/auth'
 import { auth } from '../utils/firebaseConfig'
 
 const Header = () => {
-    // const cartState = useAppSelector((state) => state.cart)
     const onlineStatus = useOnlineStatus()
     const [userLoginOrSignup, setUserLoginOrSignup] = useState<boolean>(false)
     const user = useAuthListener()
@@ -60,7 +58,6 @@ const Header = () => {
                     </ul>
                 </div>
             </div>
-            {/* {login && */}
             {
                 !user &&
                 <div className={`absolute right-0 inset-y-0 h-screen z-10 w-4/12 p-12 bg-white shadow-2xl ${userLoginOrSignup ? 'animate-moveRightToLeft' : 'hidden animate-moveLeftToRight'}  overflow-hidden`}>
@@ -68,8 +65,6 @@ const Header = () => {
                 </div>
 
             }
-
-            {/* } */}
         </div >
     )
 }

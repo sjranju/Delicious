@@ -60,26 +60,6 @@ export const api = createApi({
             providesTags: ['GetCartItems']
         }),
 
-        addToCart: build.mutation<string, AddItemArg>({
-            async queryFn({ restaurantId, itemId, user }, api: BaseQueryApi) {
-                try {
-                    const cartDocRef = doc(db, `cart/${user}`)
-                    await setDoc(cartDocRef,
-                        {
-                            restaurantId,
-                            itemWithQuantity: {
-                                [itemId]: 1,
-                            }
-                        })
-                    return { data: 'updated' }
-                } catch (err) {
-                    console.log(err)
-                    return { error: err };
-                }
-            },
-            invalidatesTags: ['GetCartItems'],
-        }),
-
         updateCart: build.mutation<string, UpdateCartArg>({
             async queryFn({ restaurantId, itemId, quantity, user }, api: BaseQueryApi) {
                 try {
@@ -114,53 +94,6 @@ export const api = createApi({
             invalidatesTags: ['GetCartItems'],
         }),
 
-        updateQuantity: build.mutation<string, updateQuantity>({
-            async queryFn({ user, itemId, increamentQuantity }, api: BaseQueryApi) {
-                try {
-                    const cartDocRef = doc(db, `cart/${user}`)
-                    const getDocResult = await getDoc(cartDocRef)
-                    if (getDocResult.exists()) {
-                        const cartData = getDocResult.data() as GetCartItemsReturn
-                        const foundCartItem = Object.entries(cartData.itemWithQuantity).find(item => item[0] === itemId)
-                        const cartDataObj = {
-                            restaurantId: cartData.restaurantId,
-                            itemWithQuantity: {
-                                [itemId]: increamentQuantity ? foundCartItem && foundCartItem?.[1] + 1 : foundCartItem && foundCartItem?.[1] - 1,
-                            }
-                        }
-                        await setDoc(cartDocRef, cartDataObj, { merge: true })
-                    }
-                    return { data: 'updated' }
-
-                    // const cartDocRef = doc(db, `cart/${user}`)
-                    // const getDocResult = await getDoc(cartDocRef)
-                    // if (getDocResult.exists()) {
-                    //     const cartData = getDocResult.data() as GetCartItemsReturn
-                    //     const foundCartItem = Object.entries(cartData.itemWithQuantity).find(item => item[0] === itemId)
-                    //     if (foundCartItem) {
-                    //         if (foundCartItem[1] === 1 && increamentQuantity === false) {
-                    //             if (Object.entries(cartData.itemWithQuantity).length > 1) {
-                    //                 let updatedCart = {
-                    //                     restaurantId: cartData.restaurantId,
-                    //                     itemWithQuantity: {
-                    //                         [itemId]: foundCartItem?.[1] + 1,
-                    //                     }
-                    //                 }
-                    //                 await setDoc(cartDocRef, updatedCart, { merge: true })
-                    //             } else {
-
-                    //             }
-                    //         }
-
-                    //     }
-                    // }
-                } catch (err) {
-                    return { error: err }
-                }
-            },
-            invalidatesTags: ['GetCartItems'],
-        }),
-
         deleteCartItem: build.mutation<string, string>({
             async queryFn(user) {
                 try {
@@ -177,4 +110,4 @@ export const api = createApi({
     })
 });
 
-export const { useUpdateCartMutation, useGetCartItemsQuery, useDeleteCartItemMutation, useUpdateQuantityMutation, useAddToCartMutation } = api
+export const { useUpdateCartMutation, useGetCartItemsQuery, useDeleteCartItemMutation } = api

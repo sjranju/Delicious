@@ -1,7 +1,6 @@
 import React from "react"
 import * as TYPES from '../utils/interfaces'
 import { CLOUDINARY_URL } from "../utils/constants";
-import CustomButtonGroupAsArrows from "./CustomButtonGroupAsArrows";
 import Carousel from "react-multi-carousel";
 
 interface iProps {

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { CLOUDINARY_URL, COUPON_URL, RESTAURANT_ITEM } from "../utils/constants";
+import { CLOUDINARY_URL, COUPON_URL } from "../utils/constants";
 import { AiFillStar } from 'react-icons/ai'
 import { HiOutlineCurrencyRupee } from 'react-icons/hi'
 import { MdOutlineTimelapse } from 'react-icons/md'
@@ -16,7 +16,7 @@ import SkeletonRestaurantDetails from "./SkeletonRestaurantDetails";
 import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "../utils/fetchRestaurantDetails";
 import { resetCartContext } from "../context/ResetCartContext";
-import { useAddToCartMutation, useDeleteCartItemMutation, useUpdateCartMutation } from "../RTKQuery/cartQuery";
+import { useDeleteCartItemMutation, useUpdateCartMutation } from "../RTKQuery/cartQuery";
 import { userContext } from "../context/UserContext";
 
 const RestaurantMenu = () => {
@@ -25,7 +25,7 @@ const RestaurantMenu = () => {
   const { user } = useContext(userContext)
   const [vegOnly, setVegOnly] = useState<boolean>(false)
   const { resetCart, setResetCart } = useContext(resetCartContext)
-  const { data, isError, isLoading, error } = useQuery(['restaurantMenu', resId], () => fetchData(resId!))
+  const { data, isLoading } = useQuery(['restaurantMenu', resId], () => fetchData(resId!))
   const [deleteCart] = useDeleteCartItemMutation()
   const [updateCart] = useUpdateCartMutation()
 
@@ -34,19 +34,12 @@ const RestaurantMenu = () => {
       setRestaurantId(resId)
   }, [resId])
 
-  // useEffect(() => {
-  //   window.addEventListener('click', () => {
-  //     setResetCart(null)
-  //   })
-  // })
-
   const handleVegOnly = () => {
     setVegOnly(!vegOnly)
   }
 
   const handleCartReset = async () => {
-    console.log('resetCart?.itemId', resetCart?.itemId)
-    let updatedResult = await deleteCart(user?.uid!)
+    await deleteCart(user?.uid!)
     await updateCart({
       restaurantId: restaurantId!,
       itemId: resetCart?.itemId!,
@@ -55,7 +48,6 @@ const RestaurantMenu = () => {
     })
 
     setResetCart(null)
-    console.log('handleCartReset', updatedResult)
   }
 
   if (!data) {
@@ -89,7 +81,6 @@ const RestaurantMenu = () => {
                     <div className="flex items-center space-x-1"><MdOutlineTimelapse size={20} />{resInfo?.card?.card?.info?.sla?.deliveryTime} MINS</div>
                     <div className="flex items-center space-x-1"><HiOutlineCurrencyRupee size={20} />{parseInt(resInfo?.card?.card?.info?.costForTwo!) / 100} for two</div>
                   </div>
-                  {/* <p>Cost for Two: {resInfo?.card?.info?.costForTwo / 100}</p> */}
                   <div className="flex items-center space-x-2 divide-x-2 divide-slate-400 border border-slate-300 my-1">
                     <div className="flex items-center space-x-2 text-green-700 font-bold p-1"><AiFillStar color="green" size={18} />{resInfo?.card?.card?.info?.avgRating} </div>
                     <div className="text-xs pl-2">{resInfo?.card?.card?.info?.totalRatings}+ ratings</div>

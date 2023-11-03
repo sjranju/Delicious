@@ -26,8 +26,6 @@ const Login = (props: iLoginStateProp) => {
             .catch(error => console.log(error))
     }
 
-    console.log('login component', user)
-
     return (
         <div className="flex flex-col justify-between space-y-4">
             {

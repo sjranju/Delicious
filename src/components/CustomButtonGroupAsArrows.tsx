@@ -7,15 +7,11 @@ interface CarouselButtonGroupProps extends ButtonGroupProps {
 }
 
 const CustomButtonGroupAsArrows = ({ next, previous, carouselState }: CarouselButtonGroupProps) => {
-    const [active, setActive] = useState<boolean>(false)
-    const handleClick = () => {
-        setActive(!active)
-    }
 
     return (
         <div className="flex flex-row space-x-6 mt-6 justify-center">
-            <button onClick={previous} className={`py-1 px-2 rounded-lg ${active ? 'bg-blue-400' : 'bg-gray-400'}`}></button>
-            <button onClick={next} className={`py-1 px-2 rounded-lg ${active ? 'bg-blue-400' : 'bg-gray-400'}`}></button>
+            <button onClick={previous} className='py-1 px-2 rounded-lg bg-gray-400'></button>
+            <button onClick={next} className='py-1 px-2 rounded-lg bg-gray-400'></button>
         </div >
     )
 }

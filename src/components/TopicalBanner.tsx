@@ -5,7 +5,6 @@ import TopicalBannerImage from "./TopicalBannerImage";
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { GrFormNextLink, GrFormPreviousLink } from 'react-icons/gr'
-import { CLOUDINARY_URL } from "../utils/constants";
 
 const settings = {
     infinite: false,

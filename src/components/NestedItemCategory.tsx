@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import * as TYPES from '../utils/interfaces'
 import NestedMenuItem from "./NestedMenuItem"
 

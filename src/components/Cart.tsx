@@ -1,7 +1,5 @@
-import React, { useContext, useEffect, useMemo, useState } from "react"
-import { useAppSelector } from "../store/useStateDispatch"
-import { GetCartItemsReturn, useUpdateCartMutation, useGetCartItemsQuery, useDeleteCartItemMutation, useUpdateQuantityMutation } from "../RTKQuery/cartQuery"
-import { restaurantContext } from "../context/RestaurantContext"
+import React, { useContext, useMemo } from "react"
+import { GetCartItemsReturn, useUpdateCartMutation, useGetCartItemsQuery, useDeleteCartItemMutation } from "../RTKQuery/cartQuery"
 import { userContext } from "../context/UserContext"
 import { HiLocationMarker } from 'react-icons/hi'
 import { GiWallet } from 'react-icons/gi'
@@ -12,16 +10,12 @@ import * as TYPES from '../utils/interfaces'
 import { Link } from "react-router-dom"
 import veg from '../../public/images/veg.png'
 import nonveg from '../../public/images/non-veg.png'
-import { increment } from "firebase/firestore"
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai"
 
 const Cart = () => {
-    const { restaurantId } = useContext(restaurantContext)
     const { user } = useContext(userContext)
-    // const [totalPrice, setTotalPrice] = useState(0)
     const [updateCart] = useUpdateCartMutation()
     const [deleteCart] = useDeleteCartItemMutation()
-    const [updateQuantity] = useUpdateQuantityMutation()
     const { data: cartItem } = useGetCartItemsQuery(user?.uid!)
     let restId = ''
     let cartItemSet = new Set()
@@ -36,7 +30,6 @@ const Cart = () => {
     }
 
     const { data, isError, isLoading, error } = useQuery(['restaurantMenu', restId], () => fetchData(restId))
-    // const { data: restaurantData, isError, isLoading, error } = useQuery(['restaurantMenu', data.restaurantId], () => fetchData(restaurantId!))
 
     const calculatePrice = useMemo(() => {
         let sum = 0
@@ -71,29 +64,6 @@ const Cart = () => {
         return sum
     }, [cartItem])
 
-    // const handleQuantity = async (itemId: string, increase: boolean) => {
-    //     if (cartItem === undefined || cartItem === 'notExists') {
-    //         console.log('data is either undefined or doesnt exist')
-    //     } else {
-    //         restId = cartItem.restaurantId
-    //         let foundItem = Object.entries(cartItem.itemWithQuantity).find(([key, value]) => key === itemId)
-    //         if (foundItem) {
-    //             if (Object.entries(cartItem.itemWithQuantity).length > 1) {
-    //                 await updateCart({
-    //                     restaurantId: cartItem.restaurantId,
-    //                     quantity: increase ? foundItem[1] + 1 : foundItem[1] - 1,
-    //                     user: user?.uid!,
-    //                     itemId: foundItem?.[0],
-    //                 })
-    //             } else {
-    //                 increase ?
-
-    //                     user?.uid && deleteCart(user?.uid)
-    //             }
-    //         }
-    //     }
-    // }
-
     const handleIncreament = async (itemId: string, price: number) => {
         if (cartItem === undefined || cartItem === 'notExists') {
             console.log('data is either undefined or doesnt exist', cartItem)
@@ -108,7 +78,6 @@ const Cart = () => {
                     quantity: foundItem[1] + 1
                 })
             }
-            // setTotalPrice(prev => prev + price)
         }
     }
 
@@ -134,7 +103,6 @@ const Cart = () => {
                         await updateCart(cartData)
                 }
             }
-            // setTotalPrice(prev => prev - price)
         }
     }
 

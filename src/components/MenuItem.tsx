@@ -4,12 +4,8 @@ import { BiRupee } from "react-icons/bi"
 import { CLOUDINARY_URL } from "../utils/constants"
 import veg from '../../public/images/veg.png'
 import nonveg from '../../public/images/non-veg.png'
-import { useAppDispatch, useAppSelector } from "../store/useStateDispatch"
 import { restaurantContext } from "../context/RestaurantContext"
-import useRestaurantMenu from "../utils/useRestaurantMenu"
-import { fetchData } from "../utils/fetchRestaurantDetails"
-import { useQuery } from "@tanstack/react-query"
-import { api, useUpdateCartMutation, useGetCartItemsQuery, useUpdateQuantityMutation, useAddToCartMutation } from "../RTKQuery/cartQuery"
+import { useUpdateCartMutation, useGetCartItemsQuery } from "../RTKQuery/cartQuery"
 import { userContext } from "../context/UserContext"
 import { resetCartContext } from "../context/ResetCartContext"
 
@@ -20,10 +16,7 @@ interface iProps {
 const MenuItem = (props: iProps) => {
     const { itemCard } = props
     const { restaurantId } = useContext(restaurantContext)
-    const [confirmResetCart, setConfirmResetCart] = useState<boolean>(false)
-    const { resetCart, setResetCart } = useContext(resetCartContext)
-    const restaurantDetails = restaurantId && useRestaurantMenu(restaurantId)
-    const restaurantData = useQuery(['restaurantMenu', restaurantId], () => fetchData(restaurantId!))
+    const { setResetCart } = useContext(resetCartContext)
     const { user } = useContext(userContext)
     const [updateCart] = useUpdateCartMutation()
     const { data } = useGetCartItemsQuery(user?.uid!)

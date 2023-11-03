@@ -16,7 +16,6 @@ interface iProps {
 
 const NestedMenuItem = (props: iProps) => {
     const { itemCard, vegOnly } = props
-    const { restaurantId, setRestaurantId } = useContext(restaurantContext)
     const [showDetails, setShowDetails] = useState<boolean>(false)
 
     const handleCategoryClick = (title: string) => {
