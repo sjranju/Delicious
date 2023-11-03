@@ -36,7 +36,7 @@ const Cart = () => {
         if (cartItem === undefined || cartItem === 'notExists' || cartItem === null) {
             console.log('cartItem data is either undefined or doesnt exist', cartItem)
         } else {
-            Object.entries(cartItem.itemWithQuantity).map(([key, value]) => {
+            Object.entries(cartItem?.itemWithQuantity).map(([key, value]) => {
                 data?.restaurantMenu.map(restaurant => {
                     if (restaurant.card.card["@type"] === TYPES.CardType.ItemCategory) {
                         let foundItem = restaurant.card.card.itemCards.find(itemCard => itemCard.card.info.id === key)
@@ -60,8 +60,8 @@ const Cart = () => {
                     }
                 })
             })
+            return sum
         }
-        return sum
     }, [cartItem])
 
     const handleIncreament = async (itemId: string, price: number) => {
@@ -261,7 +261,9 @@ const Cart = () => {
                             <div className="border-b border-black border-[1.5px]"></div>
                             <div className="flex items-center justify-between text-sm font-bold text-slightBlack ">
                                 <p>TO PAY</p>
-                                <p>₹ {Math.round(calculatePrice + 51.10 + 3)}</p>
+                                <p>₹ {
+                                    calculatePrice &&
+                                    Math.round(calculatePrice + 51.10 + 3)}</p>
                             </div>
                         </div>
 

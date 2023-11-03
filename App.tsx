@@ -17,6 +17,7 @@ import RestaurantContext from "./src/context/RestaurantContext"
 import Login from "./src/components/Login"
 import UserContext from "./src/context/UserContext"
 import ResetCartContext from "./src/context/ResetCartContext"
+import Search from "./src/components/Search"
 
 const About = lazy(() => import('./src/components/Contact'))
 const queryClient = new QueryClient()
@@ -77,6 +78,10 @@ const appRouter = createBrowserRouter([
             {
                 path: '/login',
                 element: <Login />
+            },
+            {
+                path: '/search',
+                element: <Search />
             }
         ],
         errorElement: <Error />

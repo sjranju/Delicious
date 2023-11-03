@@ -21,7 +21,6 @@ interface iRestaurantListProps {
 
 const RestaurantList = (props: iRestaurantListProps) => {
     const { restaurants } = props.card.gridElements.infoWithStyle
-    const [filterRestaurants, setFilterRestaurants] = useState<TYPES.MainContent>()
     const RestaurantCardGold = withOneAccountFreeDelivery(RestaurantCard)
 
     return (

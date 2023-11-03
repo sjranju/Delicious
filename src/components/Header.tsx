@@ -27,7 +27,7 @@ const Header = () => {
                             : <div className='group'>🛑
                                 <span className='opacity-0 group-hover:opacity-100 text-xs text-slate-400'>you are offline</span>
                             </div>}</li>
-                        <li><Link to='/' className='hover:text-red-600'>Search</Link></li>
+                        <li><Link to='/search' className='hover:text-red-600'>Search</Link></li>
                         <li><Link to='/contact' className='hover:text-red-600'><FiHelpCircle size={24} /></Link></li>
                         <li className='relative'>
                             <Link to={'/cart'} >

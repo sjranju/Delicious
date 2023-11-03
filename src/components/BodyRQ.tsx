@@ -11,31 +11,14 @@ import SkeletonRestaurantCard from "./SkeletonRestaurantCard"
 import RestaurantList from "./RestaurantList"
 import TopicalBanner from "./TopicalBanner"
 import CuisineBanner from "./CuisineBanner"
+import { fetchRestaurants } from "../utils/fetchRestaurantDetails"
 
 const BodyRQ = () => {
 
-    const [searchText, setSearchText] = useState('')
-    const [filterRestaurants, setFilterRestaurants] = useState<TYPES.MainContent>()
-
-    const fetchData = (): Promise<TYPES.MainContent[]> => fetch(RESTAURANT_API)
-        .then(response => response.json())
-        .catch(err => console.log(err))
-        .then(jsonData => jsonData?.data.cards)
-
     const { isLoading, data, isError, error } = useQuery({
         queryKey: ['restaurantsList'],
-        queryFn: fetchData
+        queryFn: fetchRestaurants
     })
-    // console.log(data)
-
-    const handleFilterRestaurants = () => {
-        data &&
-            setFilterRestaurants(data?.find(restaurant =>
-                restaurant.card.card.id === TYPES.MainCardID.restaurant_grid_listing &&
-                restaurant?.card.card.gridElements.infoWithStyle.restaurants.filter(rest =>
-                    rest.info.name.toLowerCase().includes(searchText.toLowerCase()))
-            ))
-    }
 
     const onlineStatus = useOnlineStatus()
     if (onlineStatus === false) {
