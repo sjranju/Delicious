@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from "react"
+import React, { useContext, useMemo, useState } from "react"
 import { GetCartItemsReturn, useUpdateCartMutation, useGetCartItemsQuery, useDeleteCartItemMutation } from "../RTKQuery/cartQuery"
 import { userContext } from "../context/UserContext"
 import { HiLocationMarker } from 'react-icons/hi'
@@ -18,7 +18,7 @@ const Cart = () => {
     const [deleteCart] = useDeleteCartItemMutation()
     const { data: cartItem } = useGetCartItemsQuery(user?.uid!)
     let restId = ''
-    let cartItemSet = new Set()
+    let cartItemSet = new Set<string>()
     let myCartItems: GetCartItemsReturn | undefined
 
     if (cartItem === undefined || cartItem === 'notExists') {
@@ -33,7 +33,7 @@ const Cart = () => {
 
     const calculatePrice = useMemo(() => {
         let sum = 0
-        if (cartItem === undefined || cartItem === 'notExists' || cartItem === null) {
+        if (cartItem === undefined || cartItem === 'notExists' || cartItem === null || !cartItem?.itemWithQuantity) {
             console.log('cartItem data is either undefined or doesnt exist', cartItem)
         } else {
             Object.entries(cartItem?.itemWithQuantity).map(([key, value]) => {
@@ -41,9 +41,9 @@ const Cart = () => {
                     if (restaurant.card.card["@type"] === TYPES.CardType.ItemCategory) {
                         let foundItem = restaurant.card.card.itemCards.find(itemCard => itemCard.card.info.id === key)
                         if (foundItem !== undefined) {
-                            sum += (((foundItem?.card?.info?.price ?
+                            sum += ((foundItem?.card?.info?.price ?
                                 foundItem?.card?.info?.price
-                                : foundItem?.card?.info?.defaultPrice) * value) / 100)
+                                : foundItem?.card?.info?.defaultPrice) * value)
                             console.log('sum =', sum, 'item price', foundItem?.card?.info?.price ?
                                 foundItem?.card?.info?.price
                                 : foundItem?.card?.info?.defaultPrice)
@@ -51,16 +51,16 @@ const Cart = () => {
                     } else if (restaurant.card.card["@type"] === TYPES.CardType.NestedItemCategory) {
                         let foundItem = restaurant.card.card.categories.find(category => category.itemCards.find(itemCard => {
                             if (itemCard.card.info.id === key) {
-                                sum += (((itemCard.card.info.price
+                                sum += ((itemCard.card.info.price
                                     ? itemCard.card.info.price
-                                    : itemCard.card.info.defaultPrice) * value) / 100)
+                                    : itemCard.card.info.defaultPrice) * value)
                             }
                         }))
 
                     }
                 })
             })
-            return sum
+            return sum / 100
         }
     }, [cartItem])
 
@@ -95,9 +95,11 @@ const Cart = () => {
                     quantity: foundItem[1] - 1
                 }
                 if (foundItem[1] === 1) {
-                    Object.entries(cartItem.itemWithQuantity).length === 1 ?
+                    if (Object.entries(cartItem.itemWithQuantity).length === 1) {
+                        cartItemSet.delete(itemId)
                         await deleteCart(user?.uid)
-                        : await updateCart(cartData)
+                    } else
+                        await updateCart(cartData)
                 } else {
                     user &&
                         await updateCart(cartData)
@@ -240,7 +242,8 @@ const Cart = () => {
                                     <p>₹
                                         {
                                             calculatePrice
-                                        }</p>
+                                        }
+                                    </p>
                                 </div>
                                 <div className="flex items-center justify-between text-[#686b78]">
                                     <p>Delivery Fee</p>
