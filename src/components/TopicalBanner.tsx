@@ -59,7 +59,7 @@ const TopicalBanner = (props: { card: TopicalImageBanner }) => {
 
     return (
         <div className="relative w-9/12 m-auto pt-10">
-            <div className="text-2xl font-bold mb-6">Best offers for you</div>
+            <div className="text-2xl font-bold mb-8">Best offers for you</div>
             <Slider
                 className="my-8"
                 {...settings}

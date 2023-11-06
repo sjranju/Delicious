@@ -14,14 +14,16 @@ const Search = () => {
     })
     const [searchText, setSearchText] = useState('')
     const [filterRestaurants, setFilterRestaurants] = useState<TYPES.RestaurantType[]>()
+    const [filterMenuItems, setfilterMenuItems] = useState<TYPES.RestaurantType[]>()
 
     const handleFilterRestaurants = () => {
         data &&
-            data?.find(restaurant =>
-                restaurant.card.card.id === TYPES.MainCardID.restaurant_grid_listing &&
-                setFilterRestaurants(restaurant?.card.card.gridElements.infoWithStyle.restaurants.filter(rest =>
-                    rest.info.name.toLowerCase().includes(searchText.toLowerCase())))
-            )
+            data?.find(restaurant => {
+                if (restaurant.card.card.id === TYPES.MainCardID.restaurant_grid_listing) {
+                    setFilterRestaurants(restaurant?.card.card.gridElements.infoWithStyle.restaurants.filter(rest =>
+                        rest.info.name.toLowerCase().includes(searchText.toLowerCase())))
+                }
+            })
     }
 
     return (
@@ -38,11 +40,7 @@ const Search = () => {
                     {searchText?.length !== 0 ?
                         <AiOutlineClose color='brown' size={22} onClick={() => {
                             setSearchText('')
-                            data && data.find(dataCard => {
-                                if (dataCard.card.card.id === TYPES.MainCardID.restaurant_grid_listing) {
-                                    setFilterRestaurants(dataCard.card.card.gridElements.infoWithStyle.restaurants)
-                                }
-                            })
+                            setFilterRestaurants([])
                         }} />
                         : <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
                     }

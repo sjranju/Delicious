@@ -33,7 +33,7 @@ const BodyRQ = () => {
             <SkeletonRestaurantCard />
             :
             (
-                <div className="bg-slate-50">
+                <div className="bg-slate-50 h-full">
                     {data.map(dataCard =>
                         dataCard.card.card.id === TYPES.MainCardID.restaurant_grid_listing ?
                             <RestaurantList key={dataCard.card.card.id} card={dataCard.card.card} />

@@ -16,8 +16,10 @@ const Header = () => {
 
     return (
         <div className='relative'>
-            <div className='flex flex-row justify-around items-center shadow-md'>
-                <Link to='/' className='hover:transition hover:duration-250 hover:ease-in-out hover:scale-95'><img src={logo} alt='logo' className='w-16' /></Link>
+            <div className='flex flex-row justify-around items-center shadow-md py-1'>
+                <Link to='/' className='hover:transition hover:duration-250 hover:ease-in-out hover:scale-95'>
+                    <img src={logo} alt='logo' className='w-16' />
+                </Link>
                 <div className=''>
                     <ul className='flex flex-row space-x-8 font-medium'>
                         <li>{onlineStatus ?

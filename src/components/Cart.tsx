@@ -19,46 +19,44 @@ const Cart = () => {
     const { data: cartItem } = useGetCartItemsQuery(user?.uid!)
     let restId = ''
     let cartItemSet = new Set<string>()
-    let myCartItems: GetCartItemsReturn | undefined
 
     if (cartItem === undefined || cartItem === 'notExists') {
         console.log('cartItem data is either undefined or doesnt exist', cartItem)
     } else {
-        myCartItems = cartItem
         restId = cartItem.restaurantId
-        console.log('cartitem item id', cartItem.itemWithQuantity)
     }
 
     const { data, isError, isLoading, error } = useQuery(['restaurantMenu', restId], () => fetchData(restId))
+
+    const findCartItemCard = (itemId: string) => {
+        return data?.restaurantMenu.find(restaurant =>
+            restaurant.card.card["@type"] === TYPES.CardType.ItemCategory ?
+                restaurant.card.card.itemCards.find(itemCard => itemCard.card.info.id === itemId)
+                : restaurant.card.card["@type"] === TYPES.CardType.NestedItemCategory
+                && restaurant.card.card.categories.flatMap(category => category.itemCards).find(item => item.card.info.id === itemId)
+        );
+    }
+
+    const findCartItem = (restaurantCard: TYPES.Card, itemId: string) => {
+        if (restaurantCard.card.card["@type"] === TYPES.CardType.ItemCategory)
+            return restaurantCard.card.card.itemCards.find(restaurant => restaurant.card.info.id === itemId)
+        else if (restaurantCard.card.card["@type"] === TYPES.CardType.NestedItemCategory)
+            return restaurantCard.card.card.categories.flatMap(category => category.itemCards).find(item => item.card.info.id === itemId)
+    }
 
     const calculatePrice = useMemo(() => {
         let sum = 0
         if (cartItem === undefined || cartItem === 'notExists' || cartItem === null || !cartItem?.itemWithQuantity) {
             console.log('cartItem data is either undefined or doesnt exist', cartItem)
         } else {
-            Object.entries(cartItem?.itemWithQuantity).map(([key, value]) => {
-                data?.restaurantMenu.map(restaurant => {
-                    if (restaurant.card.card["@type"] === TYPES.CardType.ItemCategory) {
-                        let foundItem = restaurant.card.card.itemCards.find(itemCard => itemCard.card.info.id === key)
-                        if (foundItem !== undefined) {
-                            sum += ((foundItem?.card?.info?.price ?
-                                foundItem?.card?.info?.price
-                                : foundItem?.card?.info?.defaultPrice) * value)
-                            console.log('sum =', sum, 'item price', foundItem?.card?.info?.price ?
-                                foundItem?.card?.info?.price
-                                : foundItem?.card?.info?.defaultPrice)
-                        }
-                    } else if (restaurant.card.card["@type"] === TYPES.CardType.NestedItemCategory) {
-                        let foundItem = restaurant.card.card.categories.find(category => category.itemCards.find(itemCard => {
-                            if (itemCard.card.info.id === key) {
-                                sum += ((itemCard.card.info.price
-                                    ? itemCard.card.info.price
-                                    : itemCard.card.info.defaultPrice) * value)
-                            }
-                        }))
-
-                    }
-                })
+            Object.entries(cartItem?.itemWithQuantity).map(([itemId, quantity]) => {
+                const foundCartItemCard = data?.restaurantMenu && findCartItemCard(itemId)
+                const foundCartItem = foundCartItemCard && findCartItem(foundCartItemCard, itemId)
+                if (foundCartItem !== undefined) {
+                    sum += ((foundCartItem?.card?.info?.price ?
+                        foundCartItem?.card?.info?.price
+                        : foundCartItem?.card?.info?.defaultPrice) * quantity)
+                }
             })
             return sum / 100
         }
@@ -142,7 +140,7 @@ const Cart = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="w-4/12 flex flex-col space-y-2 bg-white p-6 shadow-lg">
+                        <div className="relative w-4/12 flex flex-col space-y-2 bg-white p-6 shadow-lg">
                             <Link to={`/restaurant/${data?.resInfo.card.card.info.id}`}>
                                 <div className="flex flex-row items-center space-x-4 mb-4">
                                     <img src={`${CLOUDINARY_URL + data?.resInfo?.card?.card?.info?.cloudinaryImageId}`} alt="" className="w-12 h-12" />
@@ -154,81 +152,49 @@ const Cart = () => {
                                 </div>
                             </Link>
 
-                            <div className="flex flex-col w-full">
+                            <div className=" flex flex-col w-full">
                                 {
-                                    Object.entries(cartItem.itemWithQuantity)?.map(([itemId, quantity]) =>
-                                        <div key={itemId} className="">
-                                            {
-                                                data?.restaurantMenu?.map(restaurant => {
-                                                    if (restaurant.card.card["@type"] === TYPES.CardType.ItemCategory
-                                                        && restaurant.card.card.itemCards.find(itemCard => itemCard.card.info.id === itemId) !== undefined) {
-                                                        const foundCartItem = restaurant.card.card.itemCards.find(itemCard => itemCard.card.info.id === itemId)
-                                                        if (foundCartItem) {
-                                                            if (!cartItemSet.has(itemId)) {
-                                                                cartItemSet.add(itemId)
-                                                                return (
-                                                                    <div key={itemId} className="flex flex-row items-center justify-start space-x-2 py-2 w-full">
-                                                                        <div className="relative top-1 self-start">
-                                                                            {
-                                                                                foundCartItem!.card?.info?.isVeg === 1 ?
-                                                                                    <img src={veg} className="w-[15px]" />
-                                                                                    : <img src={nonveg} className="w-[15px]" />
-                                                                            }
-                                                                        </div>
-                                                                        <div className="flex flex-wrap text-sm w-2/4 self-start">
-                                                                            {foundCartItem?.card?.info?.name}
-                                                                        </div>
-                                                                        <div className="flex flex-row items-center justify-center space-x-3 border border-gray-200 p-1  font-bold ">
-                                                                            <button className=""
-                                                                                onClick={() => handleDecreament(itemId, foundCartItem.card.info.price ? foundCartItem.card.info.price : foundCartItem.card.info.defaultPrice)}><AiOutlineMinus size={13} className="mt-[2px] text-gray-300" /></button>
-                                                                            <div className="text-xs text-lime-500">{quantity}</div>
-                                                                            <button className=""
-                                                                                onClick={() => handleIncreament(itemId, foundCartItem.card.info.price ? foundCartItem.card.info.price : foundCartItem.card.info.defaultPrice)}><AiOutlinePlus size={13} className="mt-[2px] text-lime-600" /></button>
-                                                                        </div>
-                                                                        <div className="flex text-xs font-semibold justify-center pl-2">
-                                                                            ₹{((foundCartItem?.card?.info?.price ? foundCartItem?.card?.info?.price : foundCartItem?.card?.info?.defaultPrice) * quantity) / 100}
-                                                                        </div>
-                                                                    </div>)
-                                                            }
-                                                        }
-                                                    } else if (restaurant.card.card["@type"] === TYPES.CardType.NestedItemCategory
-                                                        && restaurant.card.card.categories.find(category => category.itemCards.find(itemCard => itemCard.card.info.id === itemId)) !== undefined) {
-                                                        restaurant.card.card.categories.map(catgory => {
-                                                            const foundCartItem = catgory.itemCards.find(itemCard => itemCard.card.info.id)
-                                                            if (foundCartItem) {
-                                                                if (!cartItemSet.has(itemId)) {
-                                                                    cartItemSet.add(itemId)
-                                                                    return (
-                                                                        <div key={itemId} className="flex flex-row items-center justify-start space-x-2 py-2 w-full">
-                                                                            <div className="relative top-1 self-start">
-                                                                                {
-                                                                                    foundCartItem?.card.info?.isVeg === 1 ?
-                                                                                        <img src={veg} className="w-[15px]" />
-                                                                                        : <img src={nonveg} className="w-[15px]" />
-                                                                                }
-                                                                            </div>
-                                                                            <div className="flex flex-wrap text-sm w-2/4 self-start">
-                                                                                {foundCartItem?.card?.info?.name}
-                                                                            </div>
-                                                                            <div className="flex flex-row items-center justify-center space-x-3 border border-gray-200 p-1  font-bold ">
-                                                                                <button className=""
-                                                                                    onClick={() => handleDecreament(itemId, foundCartItem.card.info.price ? foundCartItem.card.info.price : foundCartItem.card.info.defaultPrice)}><AiOutlineMinus size={14} className="mt-[2px] text-gray-300" /></button>
-                                                                                <div className="text-xs text-lime-500">{quantity}</div>
-                                                                                <button className=""
-                                                                                    onClick={() => handleIncreament(itemId, foundCartItem.card.info.price ? foundCartItem.card.info.price : foundCartItem.card.info.defaultPrice)}><AiOutlinePlus size={14} className="mt-[2px] text-lime-600" /></button>
-                                                                            </div>
-                                                                            <div className="flex text-xs font-semibold justify-center pl-2">
-                                                                                ₹{Math.round((((foundCartItem?.card?.info?.price ? foundCartItem?.card?.info?.price : foundCartItem?.card?.info?.defaultPrice) * quantity)) / 100)}
-                                                                            </div>
-                                                                        </div>)
-                                                                }
-                                                            }
-                                                        })
+                                    Object.entries(cartItem.itemWithQuantity)?.map(([itemId, quantity]) => {
+                                        const matchingRestaurant = findCartItemCard(itemId)
+                                        if (!matchingRestaurant) {
+                                            return <div className="relative bg-red-50 text-xs font-semibold px-1 py-2 animate-itemNotExistsMessage ">
+                                                Sorry, the item you added is currently unavailable.
+                                            </div>
+                                        }
+
+                                        const foundCartItem = findCartItem(matchingRestaurant, itemId)
+                                        if (!foundCartItem) {
+                                            return <div className="relative bg-red-50 text-xs font-semibold px-1 py-2 animate-itemNotExistsMessage ">
+                                                Sorry, the item you added is currently unavailable.
+                                            </div>
+                                        }
+
+                                        return (
+                                            <div key={itemId} className="flex flex-row items-center justify-start space-x-2 py-2 w-full">
+                                                <div className="relative top-1 self-start">
+                                                    {
+                                                        foundCartItem.card?.info?.isVeg === 1 ?
+                                                            <img src={veg} className="w-[15px]" />
+                                                            : <img src={nonveg} className="w-[15px]" />
                                                     }
-                                                }
-                                                )}
-                                        </div>)
-                                }
+                                                </div>
+                                                <div className="flex flex-wrap text-sm w-2/4 self-start">
+                                                    {foundCartItem.card?.info?.name}
+                                                </div>
+                                                <div className="flex flex-row items-center justify-center space-x-3 border border-gray-200 p-1  font-bold ">
+                                                    <button className=""
+                                                        onClick={() => handleDecreament(itemId, foundCartItem.card.info.price ? foundCartItem.card.info.price : foundCartItem.card.info.defaultPrice)}><AiOutlineMinus size={13} className="mt-[2px] text-gray-300" /></button>
+                                                    <div className="text-xs text-lime-500">{quantity}</div>
+                                                    <button className=""
+                                                        onClick={() => handleIncreament(itemId, foundCartItem.card.info.price ? foundCartItem.card.info.price : foundCartItem.card.info.defaultPrice)}><AiOutlinePlus size={13} className="mt-[2px] text-lime-600" /></button>
+                                                </div>
+                                                <div className="flex text-xs font-semibold justify-center pl-2">
+                                                    ₹{((foundCartItem.card?.info?.price ? foundCartItem.card?.info?.price : foundCartItem.card?.info?.defaultPrice) * quantity) / 100}
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+                                    )}
                             </div>
                             <div className="flex justify-center items-center">
                                 <input type="text" placeholder="Any suggestions? We will pass it on..."

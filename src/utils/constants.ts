@@ -7,3 +7,5 @@ export const RESTAURANT_ITEM = 'https://www.swiggy.com/dapi/menu/pl?page-type=RE
 export const COUPON_URL = 'https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_28,h_28/'
 
 export const TOP_PICKS_URL = 'https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_628,h_704/TopPicks/'
+
+export const GET_MORE_RESTAURANTS = 'https://www.swiggy.com/dapi/restaurants/list/update'
