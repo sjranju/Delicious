@@ -17,8 +17,8 @@ const settings = {
         {
             breakpoint: 1024,
             settings: {
-                slidesToShow: 1.6,
-                slidesToScroll: 3,
+                slidesToShow: 2.2,
+                slidesToScroll: 1,
                 infinite: false,
                 // dots: true,
                 arrows: true,
@@ -26,11 +26,19 @@ const settings = {
             }
         },
         {
+            breakpoint: 800,
+            settings: {
+                slidesToShow: 1.4,
+                slidesToScroll: 1,
+                arrows: true,
+
+            }
+        },
+        {
             breakpoint: 600,
             settings: {
-                slidesToShow: 1,
-                slidesToScroll: 2,
-                initialSlide: 2,
+                slidesToShow: 1.3,
+                slidesToScroll: 1,
                 arrows: true,
 
             }
@@ -58,10 +66,10 @@ const TopicalBanner = (props: { card: TopicalImageBanner }) => {
     };
 
     return (
-        <div className="relative w-9/12 m-auto pt-10">
-            <div className="text-2xl font-bold mb-8">Best offers for you</div>
+        <div className="relative w-9/12 m-auto pt-10 mb-2">
+            <div className="text-2xl font-bold mb-6">Best offers for you</div>
             <Slider
-                className="my-8"
+                className=""
                 {...settings}
                 ref={(slider) => (sliderRef.current = slider)}
             >

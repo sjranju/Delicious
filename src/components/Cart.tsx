@@ -11,6 +11,7 @@ import { Link } from "react-router-dom"
 import veg from '../../public/images/veg.png'
 import nonveg from '../../public/images/non-veg.png'
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai"
+import UserLoginOrSignup from "./UserLoginOrSignup"
 
 const Cart = () => {
     const { user } = useContext(userContext)
@@ -112,9 +113,9 @@ const Cart = () => {
                 <p className="text-xl text-slate-600">Your cart is empty</p>
                 <p className="text-sm">You can go to homepage to view more restaurants</p>
             </div>
-            : <div className="">
-                <p className="text-xl text-slate-600">Your cart is empty</p>
-                <p className="text-sm">You can Login/SignUp and go to homepage to view more restaurants</p>
+            : <div className="flex flex-col justify-center items-center mt-32">
+                <p className="text-2xl font-bold text-slate-600">Your cart is empty</p>
+                <p className="text-md">You can Login/SignUp and go to homepage to view more restaurants</p>
             </div>
         : cartItem.restaurantId ? (<div className="relative w-full h-screen bg-slate-100">
             {
@@ -154,17 +155,17 @@ const Cart = () => {
 
                             <div className=" flex flex-col w-full">
                                 {
-                                    Object.entries(cartItem.itemWithQuantity)?.map(([itemId, quantity]) => {
+                                    Object.entries(cartItem.itemWithQuantity)?.map(([itemId, quantity], i) => {
                                         const matchingRestaurant = findCartItemCard(itemId)
                                         if (!matchingRestaurant) {
-                                            return <div className="relative bg-red-50 text-xs font-semibold px-1 py-2 animate-itemNotExistsMessage ">
+                                            return <div key={i} className="relative bg-red-50 text-xs font-semibold px-1 py-2 animate-itemNotExistsMessage ">
                                                 Sorry, the item you added is currently unavailable.
                                             </div>
                                         }
 
                                         const foundCartItem = findCartItem(matchingRestaurant, itemId)
                                         if (!foundCartItem) {
-                                            return <div className="relative bg-red-50 text-xs font-semibold px-1 py-2 animate-itemNotExistsMessage ">
+                                            return <div key={i} className="relative bg-red-50 text-xs font-semibold px-1 py-2 animate-itemNotExistsMessage ">
                                                 Sorry, the item you added is currently unavailable.
                                             </div>
                                         }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { FiHelpCircle } from 'react-icons/fi'
 import logo from '../../public/images/logo-no-background.png'
 import { Link } from 'react-router-dom'
@@ -8,39 +8,30 @@ import UserLoginOrSignup from './UserLoginOrSignup'
 import useAuthListener from '../utils/useAuthListener'
 import { signOut } from 'firebase/auth'
 import { auth } from '../utils/firebaseConfig'
+import { useGetCartItemsQuery } from '../RTKQuery/cartQuery'
+import { LuSearch } from 'react-icons/lu'
+import { loginOrSignUpContext } from '../context/LoginOrSignup'
 
 const Header = () => {
-    const onlineStatus = useOnlineStatus()
-    const [userLoginOrSignup, setUserLoginOrSignup] = useState<boolean>(false)
+    const { onlineStatus } = useOnlineStatus()
     const user = useAuthListener()
+    const { data } = useGetCartItemsQuery(user?.uid!)
+    const { userLoginOrSignUp, setUserLoginOrSignup } = useContext(loginOrSignUpContext)
 
     return (
         <div className='relative'>
-            <div className='flex flex-row justify-around items-center shadow-md py-1'>
+            <div className='flex flex-row justify-between items-center shadow-md py-1 px-52'>
                 <Link to='/' className='hover:transition hover:duration-250 hover:ease-in-out hover:scale-95'>
                     <img src={logo} alt='logo' className='w-16' />
                 </Link>
                 <div className=''>
                     <ul className='flex flex-row space-x-8 font-medium'>
-                        <li>{onlineStatus ?
-                            <div className='group'>✅
-                                <span className='opacity-0 group-hover:opacity-100 text-xs text-slate-400'>you are online</span>
-                            </div>
-                            : <div className='group'>🛑
-                                <span className='opacity-0 group-hover:opacity-100 text-xs text-slate-400'>you are offline</span>
-                            </div>}</li>
-                        <li><Link to='/search' className='hover:text-red-600'>Search</Link></li>
-                        <li><Link to='/contact' className='hover:text-red-600'><FiHelpCircle size={24} /></Link></li>
-                        <li className='relative'>
-                            <Link to={'/cart'} >
-                                <AiOutlineShoppingCart size={24} className='hover:text-red-600' />
-                                <span className='absolute bottom-[21px] left-4 text-sm font-bold text-red-600'></span>
-                            </Link>
-                        </li>
+                        <li><Link to='/search' className='hover:text-red-600 flex flex-row items-center space-x-2'><LuSearch size={20} className='font-bold' /><span>Search</span></Link></li>
+                        <li><Link to='/contact' className='hover:text-red-600 flex flex-row items-center space-x-2'><FiHelpCircle size={22} /><span>Help</span></Link></li>
                         <li className='group/profile'>
-                            <button onClick={() => setUserLoginOrSignup(!userLoginOrSignup)}
+                            <button onClick={() => setUserLoginOrSignup(true)}
                                 className='flex flex-row items-center hover:text-red-600'>
-                                <AiOutlineUser size={24} className='' />
+                                <AiOutlineUser size={22} className='' />
                                 <span className='text-sm'>{user && user.displayName}</span>
                             </button>
                             {user &&
@@ -57,15 +48,44 @@ const Header = () => {
                                 </div>
                             }
                         </li>
+                        <li className='relative'>
+                            <Link to={'/cart'} className='flex flex-row items-center space-x-2'>
+                                <AiOutlineShoppingCart size={22} className='hover:text-red-600' />
+                                <span>Cart</span>
+                            </Link>
+                            {
+                                data === undefined || data === 'notExists' || !data.itemWithQuantity ?
+                                    <div className='absolute font-bold text-xs text-red-600 -top-[10px] left-4'>0</div>
+                                    : <div className='absolute font-bold text-xs text-red-600 -top-[10px] left-4'>
+                                        {Object.entries(data?.itemWithQuantity)?.reduce((acc, val) =>
+                                            acc += val[1]
+                                            , 0)}</div>
+                            }
+                        </li>
                     </ul>
                 </div>
             </div>
-            {
-                !user &&
-                <div className={`absolute right-0 inset-y-0 h-screen z-10 w-4/12 p-12 bg-white shadow-2xl ${userLoginOrSignup ? 'animate-moveRightToLeft' : 'hidden animate-moveLeftToRight'}  overflow-hidden`}>
-                    <UserLoginOrSignup userLoginOrSignup={userLoginOrSignup} setUserLoginOrSignup={setUserLoginOrSignup} />
-                </div>
 
+            {
+                onlineStatus.isOnline ?
+                    onlineStatus.backOnline &&
+                    <div className='absolute w-full text-xs text-center animate-moveTopToDown'>
+                        <div className="bg-green-500 py-1">
+                            Connection established, please try refreshing the page now.
+                        </div>
+                    </div>
+                    :
+                    <div className='absolute w-full text-xs text-center animate-moveTopToDown'>
+                        <div className=' bg-red-500 py-1 '>
+                            Connection error! Please check your connection and try again.
+                        </div>
+                    </div>
+            }
+            {
+                userLoginOrSignUp &&
+                <div className={`absolute right-0 inset-y-0 h-screen z-10 w-4/12 p-12 bg-white shadow-2xl ${userLoginOrSignUp ? 'animate-moveRightToLeft' : 'hidden animate-moveLeftToRight'}  overflow-hidden`}>
+                    <UserLoginOrSignup />
+                </div>
             }
         </div >
     )

@@ -3,23 +3,21 @@ import Signup from "./Signup"
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 import { userContext } from "../context/UserContext"
 import { app } from "../utils/firebaseConfig"
+import { loginOrSignUpContext } from "../context/LoginOrSignup"
 
-interface iLoginStateProp {
-    setUserLoginOrSignup?: Dispatch<React.SetStateAction<boolean>>
-}
-
-const Login = (props: iLoginStateProp) => {
+const Login = () => {
     const [signUp, setSignUp] = useState<boolean>(false)
     const [emailAddress, setEmailAddress] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const { user, setUser } = useContext(userContext)
+    const { userLoginOrSignUp, setUserLoginOrSignup } = useContext(loginOrSignUpContext)
 
     const handleLogin = async (emailAddress: string, password: string) => {
         const auth = getAuth(app)
         await signInWithEmailAndPassword(auth, emailAddress, password)
             .then(userCredential => {
                 console.log(userCredential)
-                props.setUserLoginOrSignup!(false)
+                setUserLoginOrSignup(false)
                 setUser(userCredential.user)
             })
             .catch(error => console.log(error))
@@ -30,7 +28,7 @@ const Login = (props: iLoginStateProp) => {
         <div className="flex flex-col justify-between space-y-4">
             {
                 signUp ?
-                    <Signup setUserLoginOrSignup={props.setUserLoginOrSignup!} />
+                    <Signup />
                     :
                     <>
                         <p className="text-2xl font-semibold">Login</p>

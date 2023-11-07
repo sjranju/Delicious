@@ -8,6 +8,7 @@ import { restaurantContext } from "../context/RestaurantContext"
 import { useUpdateCartMutation, useGetCartItemsQuery } from "../RTKQuery/cartQuery"
 import { userContext } from "../context/UserContext"
 import { resetCartContext } from "../context/ResetCartContext"
+import { loginOrSignUpContext } from "../context/LoginOrSignup"
 
 interface iProps {
     itemCard: TYPES.RestaurantMenuItem[]
@@ -20,6 +21,8 @@ const MenuItem = (props: iProps) => {
     const { user } = useContext(userContext)
     const [updateCart] = useUpdateCartMutation()
     const { data } = useGetCartItemsQuery(user?.uid!)
+    const [loginToOrder, setLoginToOrder] = useState<boolean>(false)
+    const { userLoginOrSignUp, setUserLoginOrSignup } = useContext(loginOrSignUpContext)
 
     const handleCart = async (card: TYPES.MenuItemInfo) => {
         let uid = user?.uid
@@ -91,12 +94,16 @@ const MenuItem = (props: iProps) => {
                                             <>
                                                 <img src={CLOUDINARY_URL + item?.card?.info?.imageId} className="w-[118px] h-24 rounded-md object-cover"></img>
                                                 <button className="absolute top-[70px] w-24 h-8 text-lime-600 bg-white border border-lime-400 text-xs font-bold px-6 py-2 rounded-md object-cover"
-                                                    onClick={() => handleCart(item.card.info)}>
+                                                    onClick={() => !user ?
+                                                        setUserLoginOrSignup(true)
+                                                        : handleCart(item.card.info)}>
                                                     ADD +
                                                 </button>
                                             </>
                                             : <button className="flex items-center justify-center w-24 h-8 text-lime-600 bg-white border border-lime-400 text-xs font-bold rounded-md object-cover"
-                                                onClick={() => handleCart(item.card.info)}>
+                                                onClick={() => !user ?
+                                                    setUserLoginOrSignup(true)
+                                                    : handleCart(item.card.info)}>
                                                 ADD +
                                             </button>
                                     }

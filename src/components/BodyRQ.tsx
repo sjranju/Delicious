@@ -1,30 +1,27 @@
-import React, { useState } from "react"
+import React, { useContext } from "react"
 import { useQuery } from '@tanstack/react-query'
-import { RESTAURANT_API } from '../utils/constants'
-import { AiOutlineClose } from "react-icons/ai"
-import { BiSearch } from "react-icons/bi"
-import { Link } from "react-router-dom"
 import useOnlineStatus from "../utils/useOnlineStatus"
-import RestaurantCard from "./RestaurantCard"
 import * as TYPES from "../utils/interfaces"
 import SkeletonRestaurantCard from "./SkeletonRestaurantCard"
 import RestaurantList from "./RestaurantList"
 import TopicalBanner from "./TopicalBanner"
 import CuisineBanner from "./CuisineBanner"
 import { fetchRestaurants } from "../utils/fetchRestaurantDetails"
+import { loginOrSignUpContext } from "../context/LoginOrSignup"
 
 const BodyRQ = () => {
-
+    const { userLoginOrSignUp } = useContext(loginOrSignUpContext)
     const { isLoading, data, isError, error } = useQuery({
         queryKey: ['restaurantsList'],
         queryFn: fetchRestaurants
     })
 
-    const onlineStatus = useOnlineStatus()
-    if (onlineStatus === false) {
+    const { onlineStatus } = useOnlineStatus()
+    if (onlineStatus.isOnline === false) {
         return <h1>Looks like you are offline, please check your internet connection</h1>
     }
 
+    console.log('BodyRQ', userLoginOrSignUp)
     return isError ?
         <div>Oops! Something went wrong!!
             {typeof error === 'string' && error}
@@ -43,6 +40,7 @@ const BodyRQ = () => {
                                 <CuisineBanner key={dataCard.card.card.id} card={dataCard.card.card.imageGridCards} />
                     )}
                 </div>
+
             )
 }
 

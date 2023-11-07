@@ -1,17 +1,18 @@
-import React, { Dispatch } from "react"
+import React, { Dispatch, useContext } from "react"
 import { AiOutlineClose } from "react-icons/ai"
 import Login from "./Login"
+import { loginOrSignUpContext } from "../context/LoginOrSignup"
 
-const UserLoginOrSignup = (props: { userLoginOrSignup: boolean, setUserLoginOrSignup: Dispatch<React.SetStateAction<boolean>> }) => {
+const UserLoginOrSignup = () => {
 
-    const { userLoginOrSignup, setUserLoginOrSignup } = props
-
+    const { userLoginOrSignUp, setUserLoginOrSignup } = useContext(loginOrSignUpContext)
+    console.log('userLoginOrSignUp', userLoginOrSignUp)
     return (
         <div className="">
             <div className=""><AiOutlineClose onClick={() => setUserLoginOrSignup(false)} className="absolute mt-6 mb-12 top-0" /></div>
             {
-                userLoginOrSignup &&
-                <Login setUserLoginOrSignup={setUserLoginOrSignup} />
+                userLoginOrSignUp &&
+                <Login />
             }
 
         </div>

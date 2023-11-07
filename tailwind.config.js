@@ -25,19 +25,31 @@ module.exports = {
           '100%': { transform: 'translateX(100%)' },
         },
         moveBottomToTop: {
-          '0%': { tranform: 'translateY(100%)' },
-          '100%': { tranform: '-translateY(20%)' },
+          '0%': { transform: 'translateY(100%)' },
+          '100%': { transform: '-translateY(20%)' },
+        },
+        moveTopToBottom: {
+          '0%': { transform: 'translateY(0%)', opacity: 0 },
+          '50%': { transform: 'translateY(10%)', opacity: 1 },
+          '100%': { transform: 'translateY(0%)', opacity: 0 }
+        },
+        loginOrSignUpToAddToCart: {
+          '0%': { transform: 'translateY(0%)', opacity: 0 },
+          '50%': { transform: 'translateY(20%)', opacity: 1 },
+          '100%': { transform: 'translateY(-10%)', opacity: 0 }
         },
         itemNotExistsMessage: {
-          '0%': { tranform: 'translateY(100%)' },
-          '100%': { tranform: 'translateY(10%)' }
+          '0%': { transform: 'translateY(100%)' },
+          '100%': { transform: 'translateY(10%)' }
         }
       },
       animation: {
         moveRightToLeft: 'moveRightToLeft 0.3s ease-out',
         moveLeftToRight: 'moveLeftToRight 0.2s ease-in',
         moveBottomToTop: 'moveBottomToTop 0.2s ease-in',
-        itemNotExistsMessage: 'itemNotExistsMessage 0.2s ease-in'
+        moveTopToBottom: 'moveTopToBottom 0.5s ease-in',
+        itemNotExistsMessage: 'itemNotExistsMessage 0.2s ease-in',
+        loginOrSignUpToAddToCart: 'loginOrSignUpToAddToCart 1s ease-in-out'
       }
     },
   },

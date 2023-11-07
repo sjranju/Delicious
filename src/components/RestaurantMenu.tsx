@@ -18,6 +18,8 @@ import { fetchData } from "../utils/fetchRestaurantDetails";
 import { resetCartContext } from "../context/ResetCartContext";
 import { useDeleteCartItemMutation, useUpdateCartMutation } from "../RTKQuery/cartQuery";
 import { userContext } from "../context/UserContext";
+import { loginOrSignUpContext } from "../context/LoginOrSignup";
+import UserLoginOrSignup from "./UserLoginOrSignup";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
@@ -28,7 +30,8 @@ const RestaurantMenu = () => {
   const { data, isLoading } = useQuery(['restaurantMenu', resId], () => fetchData(resId!))
   const [deleteCart] = useDeleteCartItemMutation()
   const [updateCart] = useUpdateCartMutation()
-  console.log(isLoading)
+  const { userLoginOrSignUp } = useContext(loginOrSignUpContext)
+  console.log('restaurant page', userLoginOrSignUp)
 
   useEffect(() => {
     if (resId !== undefined)
@@ -65,7 +68,7 @@ const RestaurantMenu = () => {
   } else {
     const { resInfo, offerDetails, restaurantMenu } = data
     return (
-      <div className="h-full w-full bg-slate-50 ">
+      <div className="relative h-full w-full bg-slate-50 ">
         <div className="flex flex-col items-center space-y-6 justify-around max-w-[800px] mx-auto ">
           <div className="flex flex-row justify-between items-center bg-sky-50 w-full pt-10 pb-2 px-2">
             <div>

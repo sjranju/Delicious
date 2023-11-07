@@ -1,20 +1,25 @@
 import { useEffect, useState } from "react"
 
+interface iOnlineStatus {
+    isOnline: boolean,
+    backOnline: boolean
+}
+
 const useOnlineStatus = () => {
 
-    const [onlineStatus, setOnlineStatus] = useState<boolean>(true)
+    const [onlineStatus, setOnlineStatus] = useState<iOnlineStatus>({ isOnline: true, backOnline: false })
 
     useEffect(() => {
         window.addEventListener("online", () => {
-            setOnlineStatus(true)
+            setOnlineStatus(prev => { return { isOnline: true, backOnline: !prev.backOnline && true } })
         })
 
         window.addEventListener("offline", () => {
-            setOnlineStatus(false)
+            setOnlineStatus({ isOnline: false, backOnline: false })
         })
     }, [])
 
-    return onlineStatus
+    return { onlineStatus }
 
 }
 

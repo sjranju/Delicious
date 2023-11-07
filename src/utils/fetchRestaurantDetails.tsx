@@ -8,7 +8,6 @@ export const fetchData = async (resId: string): Promise<{
 }> => {
     const res = await fetch(RESTAURANT_ITEM + resId);
     const jsonData = await res.json();
-    console.log(jsonData.data.cards)
     let offerDetails = jsonData?.data?.cards[1]?.card;
     let restaurantMenu = jsonData.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR.cards;
     let resInfo = jsonData?.data?.cards[0];

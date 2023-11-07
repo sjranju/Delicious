@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client"
 import Header from "./src/components/Header"
 import Body from './src/components/Body'
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom"
-import Contact from "./src/components/Contact"
+import Help from "./src/components/Help"
 import Error from "./src/components/Error"
 import RestaurantMenu from "./src/components/RestaurantMenu"
 import './index.css'
@@ -18,26 +18,30 @@ import Login from "./src/components/Login"
 import UserContext from "./src/context/UserContext"
 import ResetCartContext from "./src/context/ResetCartContext"
 import Search from "./src/components/Search"
+import Footer from "./src/components/Footer"
+import LoginOrSignup from "./src/context/LoginOrSignup"
 
-const About = lazy(() => import('./src/components/Contact'))
+const About = lazy(() => import('./src/components/Help'))
 const queryClient = new QueryClient()
 
 const App = () => {
     return (
         <QueryClientProvider client={queryClient}>
             <UserContext>
-                <RestaurantContext>
-                    <ResetCartContext>
-                        <Provider store={store}>
-                            <SkeletonTheme baseColor="#ebebeb" highlightColor="#f5f5f5">
-                                <div className="app">
-                                    <Header />
-                                    <Outlet />
-                                </div>
-                            </SkeletonTheme>
-                        </Provider>
-                    </ResetCartContext>
-                </RestaurantContext>
+                <LoginOrSignup>
+                    <RestaurantContext>
+                        <ResetCartContext>
+                            <Provider store={store}>
+                                <SkeletonTheme baseColor="#ebebeb" highlightColor="#f5f5f5">
+                                    <div className="app">
+                                        <Header />
+                                        <Outlet />
+                                    </div>
+                                </SkeletonTheme>
+                            </Provider>
+                        </ResetCartContext>
+                    </RestaurantContext>
+                </LoginOrSignup>
             </UserContext>
         </QueryClientProvider>
     )
@@ -50,8 +54,7 @@ const appRouter = createBrowserRouter([
         children: [
             {
                 path: '/',
-                // element: <Body />
-                element: <BodyRQ />
+                element: <><BodyRQ /><Footer /></>
             },
             {
                 path: '/about',
@@ -64,7 +67,7 @@ const appRouter = createBrowserRouter([
                 path: '/contact',
                 element:
                     <Suspense>
-                        <Contact />
+                        <Help />
                     </Suspense>
             },
             {

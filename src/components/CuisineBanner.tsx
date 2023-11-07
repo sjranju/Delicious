@@ -18,8 +18,8 @@ const settings = {
         {
             breakpoint: 1024,
             settings: {
-                slidesToShow: 1.6,
-                slidesToScroll: 3,
+                slidesToShow: 6,
+                slidesToScroll: 6,
                 infinite: false,
                 // dots: true,
                 arrows: true,
@@ -27,11 +27,19 @@ const settings = {
             }
         },
         {
+            breakpoint: 800,
+            settings: {
+                slidesToShow: 4.5,
+                slidesToScroll: 4.5,
+                arrows: true,
+
+            }
+        },
+        {
             breakpoint: 600,
             settings: {
-                slidesToShow: 1,
-                slidesToScroll: 2,
-                initialSlide: 2,
+                slidesToShow: 4,
+                slidesToScroll: 4,
                 arrows: true,
 
             }
@@ -39,8 +47,8 @@ const settings = {
         {
             breakpoint: 480,
             settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1,
+                slidesToShow: 2,
+                slidesToScroll: 2,
                 arrows: true,
             }
         }
@@ -60,12 +68,13 @@ const CuisineBanner = (props: { card: TopicalImageBanner }) => {
     };
 
     return (
-        <div className="relative w-9/12 m-auto bg-slate-50 mt-4">
+        <div className="relative w-9/12 m-auto bg-slate-50 mt-6 mb-2">
             <div className="text-2xl font-bold mb-6">
-                {user ? <span>{user.displayName},What's on your mind?</span> : <span>What's on your mind?</span>}
+                {user ? <span>{user.displayName},</span> : 'Hey,'}
+                <span className="ml-1">what's on your mind?</span>
             </div>
             <Slider
-                className="mb-16"
+                className=""
                 {...settings}
                 ref={(slider) => (sliderRef.current = slider)}
             >

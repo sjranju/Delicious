@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import RestaurantCard from "./RestaurantCard";
 import * as TYPES from "../utils/interfaces"
@@ -7,6 +7,8 @@ import { GET_MORE_RESTAURANTS } from "../utils/constants";
 import withOneAccountFreeDelivery from "./withOneAccountFreeDelivery";
 import { Link } from "react-router-dom";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import SkeletonRestaurantCard from "./SkeletonRestaurantCard";
+import SkeletonMoreRestaurants from "./SkeletonMoreRestaurants";
 
 interface iRestaurantListProps {
     card: {
@@ -47,9 +49,9 @@ interface LoadMoreRestaurantsReturnType {
 const RestaurantList = (props: iRestaurantListProps) => {
     const { ref, inView } = useInView();
     const LIMIT = 15; // Number of items to load in one page
-    const [page, setPage] = useState(9)
     const restaurantData = props.card.gridElements.infoWithStyle.restaurants
     const RestaurantCardGold = withOneAccountFreeDelivery(RestaurantCard)
+    const pageNo = useRef(10)
 
     const fetchRestaurants = async (): Promise<TYPES.RestaurantType[]> => {
         const response = await fetch(`${GET_MORE_RESTAURANTS}`,
@@ -61,39 +63,44 @@ const RestaurantList = (props: iRestaurantListProps) => {
                 body: JSON.stringify({
                     lat: 12.979568962372062,
                     lng: 77.50290893018244,
-                    nextOffset: 'COVCELQ4KICozpTDzu7qdjCnEw==',
+                    // nextOffset: 'COVCELQ4KICozpTDzu7qdjCnEw==',
+                    nextOffset: 'COVCELQ4KIDI+/+bvYaXIjCnEzgD',
                     seoParams: {
                         apiName: "FoodHomePage",
                         pageType: "FOOD_HOMEPAGE",
                         seoUrl: "https://www.swiggy.com/",
                     },
                     widgetOffset: {
-                        // Include your widgetOffset values here
-                        NewListingView_Topical_Fullbleed: '',
-                        NewListingView_category_bar_chicletranking_TwoRows: '',
-                        NewListingView_category_bar_chicletranking_TwoRows_Rendition: "",
-                        collectionV5RestaurantListWidget_SimRestoRelevance_food_seo: String(page),
+                        "NewListingView_Topical_Fullbleed": "",
+                        "NewListingView_Topical_Version2": "",
+                        "NewListingView_category_bar_chicletranking_TwoRows": "",
+                        "NewListingView_category_bar_chicletranking_TwoRows_Rendition": "",
+                        "Restaurant_Group_WebView_PB_Theme": "",
+                        "Restaurant_Group_WebView_SEO_PB_Theme": "",
+                        "collectionV5RestaurantListWidget_SimRestoRelevance_food_seo": String(pageNo.current),
+                        "inlineFacetFilter": "",
+                        "restaurantCountWidget": ""
                     },
+                    _csrf: 'IDAIJflyb28a-dDXleh4DhODHKj1_M3fUXd4JWTI'
                 }),
             });
+        pageNo.current = pageNo.current + LIMIT
         const jsonValue: LoadMoreRestaurantsReturnType = await response.json() as LoadMoreRestaurantsReturnType;
         return jsonValue.data.cards[0].card.card.gridElements.infoWithStyle.restaurants
     };
 
     const { data, isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } =
-        useInfiniteQuery(["restaurants"], () => fetchRestaurants(), {
-            getNextPageParam: (lastPage, allPages) => {
-                const nextPage = lastPage.length === page ? page + LIMIT : undefined;
-                nextPage && setPage(nextPage)
-                return nextPage;
-            },
-        });
-    // {
-    //     getNextPageParam: (lastPage, allPages) => {
-    //         const nextPage = lastPage.length === page ? allPages.length + 1 : undefined;
-    //         return nextPage;
-    //     },
-    // }
+        useInfiniteQuery(["restaurants"], () => fetchRestaurants(),
+            {
+                getNextPageParam: (lastPage, allPages) => {
+                    const maxPages = 5
+                    if (allPages.length > maxPages) {
+                        return null; // No more pages to load
+                    }
+                    return lastPage.length + 1;
+                },
+            }
+        );
 
     useEffect(() => {
         if (inView && hasNextPage) {
@@ -116,22 +123,23 @@ const RestaurantList = (props: iRestaurantListProps) => {
 
     return (
         <>
-            <div className='w-9/12 m-auto pt-8'>
-                <div className="text-2xl font-bold mb-8">Restaurants with online food delivery</div>
+            <div className='w-9/12 m-auto mt-6 pb-10'>
+                <div className="text-2xl font-bold mb-6">Restaurants with online food delivery</div>
                 <div className='grid grid-cols-4 gap-10 items-start'>
                     {content}
-                    {isFetchingNextPage && <h3>Loading...</h3>}
-                    {isSuccess && hasNextPage && <div ref={ref} />}
                     {isSuccess &&
                         data.pages.map((page) =>
                             page.map((restaurant, i) => {
-                                if (page.length === i + 1) {
-                                    return <RestaurantCard key={restaurant.info.id} resData={restaurant} />;
-                                }
-                                return <RestaurantCard key={restaurant.info.id} resData={restaurant} />;
+                                return (
+                                    <Link to={`/restaurant/${restaurant.info.id}`} key={restaurant.info.id} >
+                                        <RestaurantCard key={restaurant.info.id} resData={restaurant} />
+                                    </Link>)
+
                             })
                         )
                     }
+                    {isFetchingNextPage && <SkeletonMoreRestaurants />}
+                    {isSuccess && hasNextPage && <div ref={ref} />}
                 </div>
             </div>
         </>
