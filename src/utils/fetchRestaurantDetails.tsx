@@ -17,7 +17,6 @@ export const fetchData = async (resId: string): Promise<{
 export const fetchRestaurants = (): Promise<TYPES.MainContent[]> => fetch(RESTAURANT_API)
     .then(response => {
         let res = response.json()
-        console.log(res)
         return res
     })
     .catch(err => console.log(err))

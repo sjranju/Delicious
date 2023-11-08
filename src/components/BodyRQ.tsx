@@ -2,7 +2,7 @@ import React, { useContext } from "react"
 import { useQuery } from '@tanstack/react-query'
 import useOnlineStatus from "../utils/useOnlineStatus"
 import * as TYPES from "../utils/interfaces"
-import SkeletonRestaurantCard from "./SkeletonRestaurantCard"
+import SkeletonRestaurantCard from "../Shimmer/SkeletonRestaurantCard"
 import RestaurantList from "./RestaurantList"
 import TopicalBanner from "./TopicalBanner"
 import CuisineBanner from "./CuisineBanner"
@@ -21,7 +21,6 @@ const BodyRQ = () => {
         return <h1>Looks like you are offline, please check your internet connection</h1>
     }
 
-    console.log('BodyRQ', userLoginOrSignUp)
     return isError ?
         <div>Oops! Something went wrong!!
             {typeof error === 'string' && error}

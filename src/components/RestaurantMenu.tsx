@@ -12,7 +12,7 @@ import NestedItemCategory from "./NestedItemCategory";
 import MenuCarousel from "./MenuCarousel";
 import 'react-multi-carousel/lib/styles.css'
 import { restaurantContext } from "../context/RestaurantContext";
-import SkeletonRestaurantDetails from "./SkeletonRestaurantDetails";
+import SkeletonRestaurantDetails from "../Shimmer/SkeletonRestaurantDetails";
 import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "../utils/fetchRestaurantDetails";
 import { resetCartContext } from "../context/ResetCartContext";

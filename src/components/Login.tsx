@@ -1,4 +1,4 @@
-import React, { Dispatch, useContext, useState } from "react"
+import React, { useContext, useState } from "react"
 import Signup from "./Signup"
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 import { userContext } from "../context/UserContext"
@@ -9,8 +9,8 @@ const Login = () => {
     const [signUp, setSignUp] = useState<boolean>(false)
     const [emailAddress, setEmailAddress] = useState<string>('')
     const [password, setPassword] = useState<string>('')
-    const { user, setUser } = useContext(userContext)
-    const { userLoginOrSignUp, setUserLoginOrSignup } = useContext(loginOrSignUpContext)
+    const { setUser } = useContext(userContext)
+    const { setUserLoginOrSignup } = useContext(loginOrSignUpContext)
 
     const handleLogin = async (emailAddress: string, password: string) => {
         const auth = getAuth(app)

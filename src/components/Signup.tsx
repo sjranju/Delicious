@@ -1,4 +1,4 @@
-import React, { Dispatch, useContext, useState } from "react"
+import React, { useContext, useState } from "react"
 import Login from "./Login"
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
 import { userContext } from "../context/UserContext"

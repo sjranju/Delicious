@@ -1,4 +1,4 @@
-import React, { Dispatch, useContext } from "react"
+import React, { useContext } from "react"
 import { AiOutlineClose } from "react-icons/ai"
 import Login from "./Login"
 import { loginOrSignUpContext } from "../context/LoginOrSignup"

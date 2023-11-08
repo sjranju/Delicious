@@ -1,7 +1,6 @@
 import React from "react"
 import * as TYPES from "../utils/interfaces"
 import gold from '../../public/images/gold.png'
-import RestaurantCard from "./RestaurantCard"
 
 interface iWithOneAccountFreeDeliveryProps {
     resData: TYPES.RestaurantType

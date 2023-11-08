@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { FiHelpCircle } from 'react-icons/fi'
 import logo from '../../public/images/logo-no-background.png'
 import { Link } from 'react-router-dom'
@@ -29,7 +29,7 @@ const Header = () => {
                         <li><Link to='/search' className='hover:text-red-600 flex flex-row items-center space-x-2'><LuSearch size={20} className='font-bold' /><span>Search</span></Link></li>
                         <li><Link to='/contact' className='hover:text-red-600 flex flex-row items-center space-x-2'><FiHelpCircle size={22} /><span>Help</span></Link></li>
                         <li className='group/profile'>
-                            <button onClick={() => setUserLoginOrSignup(true)}
+                            <button onClick={() => !user && setUserLoginOrSignup(true)}
                                 className='flex flex-row items-center hover:text-red-600'>
                                 <AiOutlineUser size={22} className='' />
                                 <span className='text-sm'>{user && user.displayName}</span>
@@ -49,8 +49,8 @@ const Header = () => {
                             }
                         </li>
                         <li className='relative'>
-                            <Link to={'/cart'} className='flex flex-row items-center space-x-2'>
-                                <AiOutlineShoppingCart size={22} className='hover:text-red-600' />
+                            <Link to={'/cart'} className='flex flex-row items-center space-x-2 hover:text-red-600'>
+                                <AiOutlineShoppingCart size={22} className='' />
                                 <span>Cart</span>
                             </Link>
                             {

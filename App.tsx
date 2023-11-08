@@ -20,6 +20,7 @@ import ResetCartContext from "./src/context/ResetCartContext"
 import Search from "./src/components/Search"
 import Footer from "./src/components/Footer"
 import LoginOrSignup from "./src/context/LoginOrSignup"
+import FilterRestaurantsContext from "./src/context/FilterRestaurantsContext"
 
 const About = lazy(() => import('./src/components/Help'))
 const queryClient = new QueryClient()
@@ -32,12 +33,14 @@ const App = () => {
                     <RestaurantContext>
                         <ResetCartContext>
                             <Provider store={store}>
-                                <SkeletonTheme baseColor="#ebebeb" highlightColor="#f5f5f5">
-                                    <div className="app">
-                                        <Header />
-                                        <Outlet />
-                                    </div>
-                                </SkeletonTheme>
+                                <FilterRestaurantsContext>
+                                    <SkeletonTheme baseColor="#ebebeb" highlightColor="#f5f5f5">
+                                        <div className="app">
+                                            <Header />
+                                            <Outlet />
+                                        </div>
+                                    </SkeletonTheme>
+                                </FilterRestaurantsContext>
                             </Provider>
                         </ResetCartContext>
                     </RestaurantContext>

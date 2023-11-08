@@ -1,9 +1,7 @@
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import * as TYPES from "../utils/interfaces"
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 import MenuItem from "./MenuItem"
-import { restaurantContext } from "../context/RestaurantContext"
-
 
 interface iProps {
     itemCard: {

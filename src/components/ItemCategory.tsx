@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import * as TYPES from "../utils/interfaces"
 import MenuItem from "./MenuItem"
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";

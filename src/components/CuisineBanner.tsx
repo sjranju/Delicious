@@ -21,7 +21,6 @@ const settings = {
                 slidesToShow: 6,
                 slidesToScroll: 6,
                 infinite: false,
-                // dots: true,
                 arrows: true,
 
             }

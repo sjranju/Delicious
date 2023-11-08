@@ -1,15 +1,6 @@
 import { BaseQueryApi, createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
-import { DocumentData, FieldValue, SnapshotOptions, arrayRemove, arrayUnion, deleteDoc, deleteField, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
+import { deleteField, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import { db } from '../utils/firebaseConfig'
-import { userContext } from '../context/UserContext'
-import { useContext } from 'react'
-import { User } from 'firebase/auth'
-
-type AddItemArg = {
-    itemId: string
-    restaurantId: string
-    user: string
-}
 
 type UpdateCartArg = {
     itemId: string
@@ -21,12 +12,6 @@ type UpdateCartArg = {
 type ItemWithQuantity = {
     [itemId: string | number]: number;
 };
-
-type updateQuantity = {
-    user: string,
-    itemId: string,
-    increamentQuantity: boolean
-}
 
 export type GetCartItemsReturn = {
     itemWithQuantity: ItemWithQuantity

@@ -21,8 +21,7 @@ const MenuItem = (props: iProps) => {
     const { user } = useContext(userContext)
     const [updateCart] = useUpdateCartMutation()
     const { data } = useGetCartItemsQuery(user?.uid!)
-    const [loginToOrder, setLoginToOrder] = useState<boolean>(false)
-    const { userLoginOrSignUp, setUserLoginOrSignup } = useContext(loginOrSignUpContext)
+    const { setUserLoginOrSignup } = useContext(loginOrSignUpContext)
 
     const handleCart = async (card: TYPES.MenuItemInfo) => {
         let uid = user?.uid

@@ -5,7 +5,6 @@ import * as TYPES from "../utils/interfaces"
 
 interface iRestaurantProp {
     resData: TYPES.RestaurantType
-    // ref?: (node?: Element | null | undefined) => void
 }
 
 export const RestaurantCard = (props: iRestaurantProp) => {

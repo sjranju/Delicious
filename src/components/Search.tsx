@@ -8,13 +8,12 @@ import { CLOUDINARY_URL } from "../utils/constants"
 import { Link } from "react-router-dom"
 
 const Search = () => {
-    const { isLoading, data, isError, error } = useQuery({
+    const { data } = useQuery({
         queryKey: ['restaurantsList'],
         queryFn: fetchRestaurants
     })
     const [searchText, setSearchText] = useState('')
     const [filterRestaurants, setFilterRestaurants] = useState<TYPES.RestaurantType[]>()
-    const [filterMenuItems, setfilterMenuItems] = useState<TYPES.RestaurantType[]>()
 
     const handleFilterRestaurants = () => {
         data &&

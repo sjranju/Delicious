@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { ButtonGroupProps, CarouselInternalState } from "react-multi-carousel"
 
 interface CarouselButtonGroupProps extends ButtonGroupProps {

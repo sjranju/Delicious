@@ -3,7 +3,7 @@ import { FAQ } from '../utils/constants'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 
 const Contact = () => {
-    const [showFAQ, setShowFAQ] = useState<boolean>(false)
+    const [showFAQ, setShowFAQ] = useState<boolean>(true)
     const [showDesc, setShowDesc] = useState<number>(0)
 
     return (
@@ -15,7 +15,7 @@ const Contact = () => {
                     <div className="w-1/3">
                         <ul className='bg-gray-100 text-gray-600 text-sm font-semibold py-2'>
                             <li className="ml-10 py-4 px-4 active:bg-white cursor-pointer">Help with orders</li>
-                            <li className="ml-10 py-4 px-4 active:bg-white cursor-pointer"
+                            <li className={`ml-10 py-4 px-4 active:bg-white ${showFAQ && 'bg-white'} cursor-pointer`}
                                 onClick={() => setShowFAQ(!showFAQ)}>FAQs
                             </li>
                             <li className="ml-10 py-4 px-4 active:bg-white cursor-pointer">General issues</li>

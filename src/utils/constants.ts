@@ -9,7 +9,6 @@ export const COUPON_URL = 'https://media-assets.swiggy.com/swiggy/image/upload/f
 export const TOP_PICKS_URL = 'https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_628,h_704/TopPicks/'
 
 export const GET_MORE_RESTAURANTS = 'https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/update'
-// export const GET_MORE_RESTAURANTS = 'https://www.swiggy.com/dapi/restaurants/list/update'
 
 export const LINKEDIN_PROFILE = 'https://www.linkedin.com/in/ranjana-singanoodi/'
 
@@ -65,3 +64,36 @@ export const FAQ = [
             "We currently do not support this functionality. However, you can place orders for individual items from different restaurants.",
     }
 ];
+
+export const FILTERS = {
+    TOP_RATED: {
+        isFiltered: true,
+        facets: {
+            "rating": [
+                {
+                    "value": "ratingfacetquery4"
+                }
+            ]
+        }
+    },
+    PURE_VEG: {
+        "isFiltered": true,
+        "facets": {
+            "isVeg": [
+                {
+                    "value": "isVegfacetquery2"
+                }
+            ]
+        }
+    },
+    LOW_TO_HIGH: {
+        "isFiltered": true,
+        "facets": {},
+        "sortAttribute": "costForTwoAsc"
+    },
+    HIGH_TO_LOW: {
+        "isFiltered": true,
+        "facets": {},
+        "sortAttribute": "costForTwoDesc"
+    }
+}
