@@ -95,5 +95,15 @@ export const FILTERS = {
         "isFiltered": true,
         "facets": {},
         "sortAttribute": "costForTwoDesc"
+    },
+    FAST_DELIVERY: {
+        "isFiltered": true,
+        "facets": {
+            "deliveryTime": [
+                {
+                    "value": "deliveryTimefacetquery1"
+                }
+            ]
+        }
     }
 }

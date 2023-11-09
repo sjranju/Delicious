@@ -54,8 +54,11 @@ const RestaurantList = (props: iRestaurantListProps) => {
     const restaurantData = props.card.gridElements.infoWithStyle.restaurants
     // const RestaurantCardGold = withOneAccountFreeDelivery(RestaurantCard)
     const [filterRestaurants, setFilterRestaurants] = useState<string>('')
+    const [sortBy, setSortBy] = useState<boolean>(false)
+    const [isChecked, setIsChecked] = useState<boolean>(false)
     const LIMIT = 15; // Number of items to load in one page
     const pageNo = useRef(10)
+    const sortDropDownRef = useRef<HTMLDivElement>(null)
 
     const fetchRestaurantsInfinite = async (filterType: string): Promise<TYPES.RestaurantType[]> => {
         const response = await fetch(`${GET_MORE_RESTAURANTS}`,
@@ -65,7 +68,16 @@ const RestaurantList = (props: iRestaurantListProps) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    filters: filterType === 'topRated' ? FILTERS.TOP_RATED : filterType === 'pureVeg' ? FILTERS.PURE_VEG : {},
+                    filters: filterType === 'topRated' ? FILTERS.TOP_RATED
+                        : filterType === 'pureVeg' ?
+                            FILTERS.PURE_VEG
+                            : filterType === 'fastDelivery' ?
+                                FILTERS.FAST_DELIVERY
+                                : filterType === 'highToLow' ?
+                                    FILTERS.HIGH_TO_LOW
+                                    : filterType === 'lowToHigh' ?
+                                        FILTERS.LOW_TO_HIGH
+                                        : {},
                     lat: 12.979568962372062,
                     lng: 77.50290893018244,
                     nextOffset: 'COVCELQ4KIDYjY+izN/eaDCnEw==',
@@ -116,6 +128,20 @@ const RestaurantList = (props: iRestaurantListProps) => {
         }
     }, [inView, fetchNextPage, hasNextPage]);
 
+    useEffect(() => {
+        const handleClickOutsideSortBy = (event: MouseEvent) => {
+            if (sortDropDownRef.current && !sortDropDownRef.current.contains(event.target as Node)) {
+                setSortBy(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutsideSortBy)
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutsideSortBy)
+        }
+    }, [])
+
     const content = [
         ...restaurantData.map(restaurant => (
             filterRestaurants === 'topRated' ?
@@ -143,28 +169,69 @@ const RestaurantList = (props: iRestaurantListProps) => {
                 {filterRestaurants !== '' && isLoading ? <SkeletonFilterRestaurants />
                     :
                     <div>
-                        <div className="flex flex-row space-x-4 text-black/75 mb-4 text-sm">
-                            <button className="flex flex-row space-x-1 items-center justify-center border border-[#E2E2E7] px-2 py-1 rounded-xl shadow-md">
+                        <div className="relative flex flex-row space-x-4 text-black/75 mb-6 text-sm">
+                            <button className="flex flex-row space-x-1 items-center justify-center border border-[#E2E2E7] px-2 py-1 rounded-2xl shadow-md">
                                 <span>Filter</span>
                                 <BsFilter color="black" size={20} className="mt-1" />
                             </button>
-                            <button className="flex flex-row space-x-1 items-center justify-center border border-[#E2E2E7] px-2 py-1 rounded-xl shadow-md">
+                            <button onClick={() => setSortBy(true)}
+                                className="flex flex-row space-x-1 items-center justify-center border border-[#E2E2E7] px-2 py-1 rounded-2xl shadow-md">
                                 <span>Sort By</span>
                                 <IoIosArrowDown color="black" size={20} className="mt-1" />
                             </button>
                             <button onClick={() => setFilterRestaurants('topRated')}
-                                className={`flex flex-row space-x-1 items-center justify-center border px-2 py-1 rounded-xl shadow-md ${filterRestaurants === 'topRated' ? 'border-black' : 'border-[#E2E2E7] '}`}>
+                                className={`flex flex-row space-x-1 items-center justify-center border px-2 py-1 rounded-2xl shadow-md ${filterRestaurants === 'topRated' ? 'border-black' : 'border-[#E2E2E7] '}`}>
                                 <span>Ratings 4+</span>
                                 {filterRestaurants === 'topRated' && <AiOutlineClose className="font-bold mt-[1px]" onClick={(e) => handleClearFilter(e)} />}
                             </button>
                             <button onClick={() => setFilterRestaurants('pureVeg')}
-                                className="flex flex-row space-x-1 items-center justify-center border border-[#E2E2E7] px-2 py-1 rounded-xl shadow-md">
+                                className="flex flex-row space-x-1 items-center justify-center border border-[#E2E2E7] px-2 py-1 rounded-2xl shadow-md">
                                 <span>Pure Veg</span>
                                 {filterRestaurants === 'pureVeg' && <AiOutlineClose className="font-bold mt-[1px]" onClick={(e) => handleClearFilter(e)} />}
                             </button>
-                            <button className="flex flex-row space-x-1 items-center justify-center border border-[#E2E2E7] px-2 py-1 rounded-xl shadow-md">
-                                <span>Offers</span>
+                            <button onClick={() => setFilterRestaurants('fastDelivery')}
+                                className="flex flex-row space-x-1 items-center justify-center border border-[#E2E2E7] px-2 py-1 rounded-2xl shadow-md">
+                                <span>Fast Delivery</span>
+                                {filterRestaurants === 'fastDelivery' && <AiOutlineClose className="font-bold mt-[1px]" onClick={(e) => handleClearFilter(e)} />}
                             </button>
+                            {
+                                sortBy &&
+                                <div ref={sortDropDownRef} className="absolute z-10 flex flex-col space-y-4 w-2/12 bg-white p-4 rounded-lg text-black/60">
+                                    <div className="flex flex-row-reverse justify-between">
+                                        <input type="radio" id="relevance" value={filterRestaurants} onChange={() => { setFilterRestaurants('') }}
+                                            className='form-radio checked:bg-red-600 text-red-600 appearance-none' />
+                                        <label htmlFor='relevance'>Relevance</label>
+                                    </div>
+                                    <div className="flex flex-row-reverse justify-between">
+                                        <input type="radio" id='deliveryTime' value={filterRestaurants} onChange={() => {
+                                            setFilterRestaurants('fastDelivery')
+                                        }}
+                                            className='form-radio checked:bg-red-600 text-red-600 appearance-none' />
+                                        <label htmlFor='deliveryTime'>Delivery Time</label>
+                                    </div>
+                                    <div className="flex flex-row-reverse justify-between">
+                                        <input type="radio" id='rating' value={filterRestaurants} onChange={() => {
+                                            setFilterRestaurants('topRated')
+                                        }}
+                                            className='form-radio checked:bg-red-600 text-red-600 appearance-none' />
+                                        <label htmlFor='rating'>Rating</label>
+                                    </div>
+                                    <div className="flex flex-row-reverse justify-between">
+                                        <input type="radio" id='lowToHigh' value={filterRestaurants} onChange={() => {
+                                            setFilterRestaurants('lowToHigh')
+                                        }}
+                                            className='form-radio checked:bg-red-600 text-red-600 appearance-none' />
+                                        <label htmlFor='lowToHigh'>Cost: Low to High</label>
+                                    </div>
+                                    <div className="flex flex-row-reverse justify-between">
+                                        <input type="radio" id='highToLow' value={filterRestaurants} onChange={() => {
+                                            setFilterRestaurants('highToLow')
+                                        }}
+                                            className='form-radio checked:bg-red-600 text-red-600 appearance-none' />
+                                        <label htmlFor='highToLow'>Cost: High to Low</label>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 }
