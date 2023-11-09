@@ -72,10 +72,12 @@ const ItemCategory = (props: iProps) => {
 
             {
                 showDetails ?
-                    vegOnly ?
-                        <MenuItem
-                            itemCard={itemCard.itemCards.filter(item => item.card.info.isVeg === 1)} />
-                        : <MenuItem itemCard={itemCard?.itemCards} />
+                    itemCard?.itemCards?.map(item =>
+                        vegOnly ?
+                            item.card.info.isVeg === 1 &&
+                            <MenuItem key={item.card.info.id} item={item} />
+                            : <MenuItem key={item.card.info.id} item={item} />
+                    )
                     : ''
             }
 

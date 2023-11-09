@@ -13,6 +13,7 @@ import nonveg from '../../public/images/non-veg.png'
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai"
 import { loginOrSignUpContext } from "../context/LoginOrSignup"
 import SkeletonCart from "../Shimmer/SkeletonCart"
+import useRestaurantInfo from "../utils/useRestaurantInfo"
 
 const Cart = () => {
     const { user } = useContext(userContext)
@@ -28,8 +29,7 @@ const Cart = () => {
     } else {
         restId = cartItem.restaurantId
     }
-
-    const { data, isError, isLoading, error } = useQuery(['restaurantMenu', restId], () => fetchData(restId))
+    const { data, isLoading } = useRestaurantInfo(restId)
 
     const findCartItemCard = (itemId: string) => {
         return data?.restaurantMenu.find(restaurant =>

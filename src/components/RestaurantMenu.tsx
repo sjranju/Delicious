@@ -20,6 +20,7 @@ import { useDeleteCartItemMutation, useUpdateCartMutation } from "../RTKQuery/ca
 import { userContext } from "../context/UserContext";
 import { loginOrSignUpContext } from "../context/LoginOrSignup";
 import UserLoginOrSignup from "./UserLoginOrSignup";
+import useRestaurantInfo from "../utils/useRestaurantInfo";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
@@ -27,7 +28,7 @@ const RestaurantMenu = () => {
   const { user } = useContext(userContext)
   const [vegOnly, setVegOnly] = useState<boolean>(false)
   const { resetCart, setResetCart } = useContext(resetCartContext)
-  const { data, isLoading } = useQuery(['restaurantMenu', resId], () => fetchData(resId!))
+  const { data, isLoading } = useRestaurantInfo(resId!)
   const [deleteCart] = useDeleteCartItemMutation()
   const [updateCart] = useUpdateCartMutation()
   const { userLoginOrSignUp } = useContext(loginOrSignUpContext)
