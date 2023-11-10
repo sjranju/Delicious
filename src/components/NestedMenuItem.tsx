@@ -24,7 +24,7 @@ const NestedMenuItem = (props: iProps) => {
         <>
             {vegOnly ?
                 itemCard?.itemCards?.filter(item => item?.card?.info?.isVeg === 1).length > 0 &&
-                <button key={itemCard.title} className="font-semibold text-gray-600 flex flex-row items-center justify-between w-full border-b border-gray-300 py-4"
+                <button type='button' key={itemCard.title} className="font-semibold text-gray-600 flex flex-row items-center justify-between w-full border-b border-gray-300 py-4"
                     onClick={handleCategoryClick}>
                     {
                         itemCard?.title ?
@@ -42,7 +42,7 @@ const NestedMenuItem = (props: iProps) => {
                             : ''
                     }
                 </button>
-                : <button key={itemCard.title} className="font-semibold text-gray-600 flex flex-row items-center justify-between w-full border-b py-4 border-gray-300"
+                : <button type='button' key={itemCard.title} className="font-semibold text-gray-600 flex flex-row items-center justify-between w-full border-b py-4 border-gray-300"
                     onClick={handleCategoryClick}>
                     {
                         itemCard?.title ?

@@ -44,30 +44,6 @@ const Search = () => {
                         : <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
                     }
                 </div>
-                {/* <div className='flex items-center justify-center p-1 rounded-lg focus-within:bg-red-200  bg-slate-200'>
-                    <button className=' '
-                        onClick={() => {
-                            searchText.length > 0 ?
-                                setFilterRestaurants(filterRestaurants?.card.card["@type"].filter(rest => rest?.info?.avgRating >= 4))
-                                : data && setFilterRestaurants(data?.filter(rest => rest?.info?.avgRating >= 4))
-                        }}>Top rated</button>
-                    <AiOutlineClose color='brown' size={18} onClick={() => {
-                        // searchText.length > 0 ? data && setFilterRestaurants(data?.filter(restaurant => restaurant?.info?.name?.toLowerCase().includes(searchText.toLowerCase())))
-                        searchText.length > 0 ? data && data.find(dataCard => {
-                            if (dataCard.card.card.id === TYPES.MainCardID.restaurant_grid_listing) {
-                                setFilterRestaurants(
-                                    dataCard.card.card.gridElements.infoWithStyle.restaurants.filter(restaurant =>
-                                        restaurant?.info?.name?.toLowerCase().includes(searchText.toLowerCase()))
-                                )
-                            }
-                        })
-                            : data && data.find(dataCard => {
-                                if (dataCard.card.card.id === TYPES.MainCardID.restaurant_grid_listing) {
-                                    setFilterRestaurants(dataCard.card.card.gridElements.infoWithStyle.restaurants)
-                                }
-                            })
-                    }} />
-                </div> */}
             </div>
             <div className="w-7/12 mx-auto">
                 {filterRestaurants?.map(restaurant =>

@@ -41,6 +41,10 @@ module.exports = {
         itemNotExistsMessage: {
           '0%': { transform: 'translateY(100%)' },
           '100%': { transform: 'translateY(10%)' }
+        },
+        closeResetCart: {
+          '0%': { transform: 'translateY(-20%)' },
+          '100%': { transform: 'translateY(100%)' }
         }
       },
       animation: {
@@ -49,7 +53,8 @@ module.exports = {
         moveBottomToTop: 'moveBottomToTop 0.2s ease-in',
         moveTopToBottom: 'moveTopToBottom 0.5s ease-in',
         itemNotExistsMessage: 'itemNotExistsMessage 0.2s ease-in',
-        loginOrSignUpToAddToCart: 'loginOrSignUpToAddToCart 1s ease-in-out'
+        loginOrSignUpToAddToCart: 'loginOrSignUpToAddToCart 1s ease-in-out',
+        closeResetCart: 'closeResetCart 0.5s ease-out'
       }
     },
   },

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext } from "react"
 import * as TYPES from "../utils/interfaces"
 import { BiRupee } from "react-icons/bi"
 import { CLOUDINARY_URL } from "../utils/constants"
@@ -9,6 +9,7 @@ import { useUpdateCartMutation, useGetCartItemsQuery } from "../RTKQuery/cartQue
 import { userContext } from "../context/UserContext"
 import { resetCartContext } from "../context/ResetCartContext"
 import { loginOrSignUpContext } from "../context/LoginOrSignup"
+import { handleLoginOrSignUp } from "../utils/fetchRestaurantDetails"
 
 interface iProps {
     item: TYPES.RestaurantMenuItem
@@ -89,24 +90,34 @@ const MenuItem = (props: iProps) => {
                             info?.imageId ?
                                 <>
                                     <img src={CLOUDINARY_URL + info?.imageId} className="w-[118px] h-24 rounded-md object-cover"></img>
-                                    <button className="absolute top-[70px] w-24 h-8 text-lime-600 bg-white border border-lime-400 text-xs font-bold px-6 py-2 rounded-md object-cover"
-                                        onClick={() => !user ?
-                                            setUserLoginOrSignup(true)
-                                            : handleCart(info)}>
+                                    <button type='button' className="absolute top-[70px] w-24 h-8 text-lime-600 bg-white border border-lime-400 text-xs font-bold px-6 py-2 rounded-md object-cover"
+                                        onClick={() => {
+                                            if (user) {
+                                                handleCart(info)
+                                            } else {
+                                                setUserLoginOrSignup(true)
+                                                handleLoginOrSignUp()
+                                            }
+                                        }}>
                                         ADD +
                                     </button>
                                 </>
-                                : <button className="flex items-center justify-center w-24 h-8 text-lime-600 bg-white border border-lime-400 text-xs font-bold rounded-md object-cover"
-                                    onClick={() => !user ?
-                                        setUserLoginOrSignup(true)
-                                        : handleCart(info)}>
+                                : <button type='button' className="flex items-center justify-center w-24 h-8 text-lime-600 bg-white border border-lime-400 text-xs font-bold rounded-md object-cover"
+                                    onClick={() => () => {
+                                        if (user) {
+                                            handleCart(info)
+                                        } else {
+                                            setUserLoginOrSignup(true)
+                                            handleLoginOrSignUp()
+                                        }
+                                    }}>
                                     ADD +
                                 </button>
                         }
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

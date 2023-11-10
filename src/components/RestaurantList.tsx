@@ -55,7 +55,6 @@ const RestaurantList = (props: iRestaurantListProps) => {
     // const RestaurantCardGold = withOneAccountFreeDelivery(RestaurantCard)
     const [filterRestaurants, setFilterRestaurants] = useState<string>('')
     const [sortBy, setSortBy] = useState<boolean>(false)
-    const [isChecked, setIsChecked] = useState<boolean>(false)
     const LIMIT = 15; // Number of items to load in one page
     const pageNo = useRef(10)
     const sortDropDownRef = useRef<HTMLDivElement>(null)
@@ -160,8 +159,6 @@ const RestaurantList = (props: iRestaurantListProps) => {
         setFilterRestaurants('')
     }
 
-    console.log(filterRestaurants)
-
     return (
         <>
             <div className='w-9/12 m-auto mt-6 pb-10'>
@@ -170,65 +167,81 @@ const RestaurantList = (props: iRestaurantListProps) => {
                     :
                     <div>
                         <div className="relative flex flex-row space-x-4 text-black/75 mb-6 text-sm">
-                            <button className="flex flex-row space-x-1 items-center justify-center border border-[#E2E2E7] px-2 py-1 rounded-2xl shadow-md">
+                            <button type='button' className="flex flex-row space-x-1 items-center justify-center border border-[#E2E2E7] px-2 py-1 rounded-2xl shadow-md">
                                 <span>Filter</span>
                                 <BsFilter color="black" size={20} className="mt-1" />
                             </button>
-                            <button onClick={() => setSortBy(true)}
+                            <button type='button' onClick={() => setSortBy(true)}
                                 className="flex flex-row space-x-1 items-center justify-center border border-[#E2E2E7] px-2 py-1 rounded-2xl shadow-md">
-                                <span>Sort By</span>
+                                <span>{
+                                    filterRestaurants === 'fastDelivery' ?
+                                        'Delivery Time'
+                                        : filterRestaurants === 'lowToHigh' ?
+                                            'Cost: Low to High'
+                                            : filterRestaurants === 'highToLow' ?
+                                                'Cost: High to Low'
+                                                : filterRestaurants === 'topRated' ?
+                                                    'Rating'
+                                                    : 'Sort By'
+                                }</span>
                                 <IoIosArrowDown color="black" size={20} className="mt-1" />
                             </button>
-                            <button onClick={() => setFilterRestaurants('topRated')}
+                            <button type='button' onClick={() => setFilterRestaurants('topRated')}
                                 className={`flex flex-row space-x-1 items-center justify-center border px-2 py-1 rounded-2xl shadow-md ${filterRestaurants === 'topRated' ? 'border-black' : 'border-[#E2E2E7] '}`}>
                                 <span>Ratings 4+</span>
                                 {filterRestaurants === 'topRated' && <AiOutlineClose className="font-bold mt-[1px]" onClick={(e) => handleClearFilter(e)} />}
                             </button>
-                            <button onClick={() => setFilterRestaurants('pureVeg')}
+                            <button type='button' onClick={() => setFilterRestaurants('pureVeg')}
                                 className="flex flex-row space-x-1 items-center justify-center border border-[#E2E2E7] px-2 py-1 rounded-2xl shadow-md">
                                 <span>Pure Veg</span>
                                 {filterRestaurants === 'pureVeg' && <AiOutlineClose className="font-bold mt-[1px]" onClick={(e) => handleClearFilter(e)} />}
                             </button>
-                            <button onClick={() => setFilterRestaurants('fastDelivery')}
+                            <button type='button' onClick={() => setFilterRestaurants('fastDelivery')}
                                 className="flex flex-row space-x-1 items-center justify-center border border-[#E2E2E7] px-2 py-1 rounded-2xl shadow-md">
                                 <span>Fast Delivery</span>
                                 {filterRestaurants === 'fastDelivery' && <AiOutlineClose className="font-bold mt-[1px]" onClick={(e) => handleClearFilter(e)} />}
                             </button>
                             {
                                 sortBy &&
-                                <div ref={sortDropDownRef} className="absolute z-10 flex flex-col space-y-4 w-2/12 bg-white p-4 rounded-lg text-black/60">
-                                    <div className="flex flex-row-reverse justify-between">
-                                        <input type="radio" id="relevance" value={filterRestaurants} onChange={() => { setFilterRestaurants('') }}
-                                            className='form-radio checked:bg-red-600 text-red-600 appearance-none' />
-                                        <label htmlFor='relevance'>Relevance</label>
+                                <div ref={sortDropDownRef} className="absolute left-16 z-10 flex flex-col space-y-4 w-[170px] bg-white p-4 rounded-lg border font-medium text-black/60 shadow-lg">
+                                    <div className="flex flex-row-reverse flex-wrap justify-between">
+                                        <input type="radio" id="relevance" checked={filterRestaurants === ''} value={filterRestaurants} onChange={() => { setFilterRestaurants('') }}
+                                            className='w-3 h-3 my-auto form-radio checked:bg-red-600 text-red-600 ' />
+                                        <label htmlFor='relevance'>Relevance (Default) </label>
                                     </div>
                                     <div className="flex flex-row-reverse justify-between">
-                                        <input type="radio" id='deliveryTime' value={filterRestaurants} onChange={() => {
+                                        <input type="radio" id='deliveryTime' checked={filterRestaurants === 'fastDelivery'} value={filterRestaurants} onChange={() => {
                                             setFilterRestaurants('fastDelivery')
                                         }}
-                                            className='form-radio checked:bg-red-600 text-red-600 appearance-none' />
+                                            className='w-3 h-3 my-auto form-radio checked:bg-red-600 text-red-600' />
                                         <label htmlFor='deliveryTime'>Delivery Time</label>
                                     </div>
                                     <div className="flex flex-row-reverse justify-between">
-                                        <input type="radio" id='rating' value={filterRestaurants} onChange={() => {
+                                        <input type="radio" id='rating' checked={filterRestaurants === 'topRated'} value={filterRestaurants} onChange={() => {
                                             setFilterRestaurants('topRated')
                                         }}
-                                            className='form-radio checked:bg-red-600 text-red-600 appearance-none' />
+                                            className='w-3 h-3 my-auto form-radio checked:bg-red-600 text-red-600 appearance-none' />
                                         <label htmlFor='rating'>Rating</label>
                                     </div>
                                     <div className="flex flex-row-reverse justify-between">
-                                        <input type="radio" id='lowToHigh' value={filterRestaurants} onChange={() => {
+                                        <input type="radio" id='lowToHigh' checked={filterRestaurants === 'lowToHigh'} value={filterRestaurants} onChange={() => {
                                             setFilterRestaurants('lowToHigh')
                                         }}
-                                            className='form-radio checked:bg-red-600 text-red-600 appearance-none' />
+                                            className='w-3 h-3 my-auto form-radio checked:bg-red-600 text-red-600 appearance-none' />
                                         <label htmlFor='lowToHigh'>Cost: Low to High</label>
                                     </div>
                                     <div className="flex flex-row-reverse justify-between">
-                                        <input type="radio" id='highToLow' value={filterRestaurants} onChange={() => {
+                                        <input type="radio" id='highToLow' checked={filterRestaurants === 'highToLow'} value={filterRestaurants} onChange={() => {
                                             setFilterRestaurants('highToLow')
                                         }}
-                                            className='form-radio checked:bg-red-600 text-red-600 appearance-none' />
+                                            className='w-3 h-3 my-auto form-radio checked:bg-red-600 text-red-600 appearance-none' />
                                         <label htmlFor='highToLow'>Cost: High to Low</label>
+                                    </div>
+                                    <div className="border-t pt-2">
+                                        <button type='button' className="flex items-start text-red-600 font-bold "
+                                            onClick={() => setSortBy(false)}>
+                                            Apply
+                                        </button>
                                     </div>
                                 </div>
                             }

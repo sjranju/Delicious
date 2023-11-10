@@ -61,11 +61,11 @@ const Signup = () => {
                         <input type="text" placeholder="Referral code" required={false}
                             className="border rounded-sm px-2 py-4 placeholder:text-xs placeholder:-translate-y-4 text-sm" />
                         :
-                        <button className="text-blue-500 text-left text-sm font-semibold" onClick={() => { setHaveReferralCode(true) }}>Have a referral code?</button>}
+                        <button type='button' className="text-blue-500 text-left text-sm font-semibold" onClick={() => { setHaveReferralCode(true) }}>Have a referral code?</button>}
                     {
                         error && <div className="text-red-500">{error}</div>
                     }
-                    <button className="bg-red-600 text-white text-sm p-4 font-semibold rounded-sm"
+                    <button type='button' className="bg-red-600 text-white text-sm p-4 font-semibold rounded-sm"
                         onClick={() => handleSignup(name, emailAddress, password)}>SIGN UP</button>
                 </>
         }

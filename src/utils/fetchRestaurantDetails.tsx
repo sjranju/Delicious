@@ -21,3 +21,7 @@ export const fetchRestaurants = (): Promise<TYPES.MainContent[]> => fetch(RESTAU
     })
     .catch(err => console.log(err))
     .then(jsonData => jsonData?.data.cards)
+
+export const handleLoginOrSignUp = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+}

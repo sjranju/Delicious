@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { FiHelpCircle } from 'react-icons/fi'
 import logo from '../../public/images/logo-no-background.png'
 import { Link } from 'react-router-dom'
@@ -11,6 +11,7 @@ import { auth } from '../utils/firebaseConfig'
 import { useGetCartItemsQuery } from '../RTKQuery/cartQuery'
 import { LuSearch } from 'react-icons/lu'
 import { loginOrSignUpContext } from '../context/LoginOrSignup'
+import { handleLoginOrSignUp } from '../utils/fetchRestaurantDetails'
 
 const Header = () => {
     const { onlineStatus } = useOnlineStatus()
@@ -29,7 +30,7 @@ const Header = () => {
                         <li><Link to='/search' className='hover:text-red-600 flex flex-row items-center space-x-2'><LuSearch size={20} className='font-bold' /><span>Search</span></Link></li>
                         <li><Link to='/contact' className='hover:text-red-600 flex flex-row items-center space-x-2'><FiHelpCircle size={22} /><span>Help</span></Link></li>
                         <li className='group/profile'>
-                            <button onClick={() => !user && setUserLoginOrSignup(true)}
+                            <button type='button' onClick={() => !user && setUserLoginOrSignup(true)}
                                 className='flex flex-row items-center hover:text-red-600'>
                                 <AiOutlineUser size={22} className='' />
                                 <span className='text-sm'>{user && user.displayName}</span>
@@ -40,10 +41,12 @@ const Header = () => {
                                         <li className='hover:font-bold'>Profile</li>
                                         <li className='hover:font-bold'>Orders</li>
                                         <li className='hover:font-bold'>Favourites</li>
-                                        <li className='hover:font-bold'><button onClick={() => {
-                                            signOut(auth)
-                                            setUserLoginOrSignup(true)
-                                        }}>Logout</button></li>
+                                        <li className='hover:font-bold'>
+                                            <button type='button' onClick={() => {
+                                                signOut(auth)
+                                                setUserLoginOrSignup(true)
+                                                handleLoginOrSignUp()
+                                            }}>Logout</button></li>
                                     </ul>
                                 </div>
                             }
@@ -83,7 +86,7 @@ const Header = () => {
             }
             {
                 userLoginOrSignUp &&
-                <div className={`absolute right-0 inset-y-0 h-screen z-10 w-4/12 p-12 bg-white shadow-2xl ${userLoginOrSignUp ? 'animate-moveRightToLeft' : 'hidden animate-moveLeftToRight'}  overflow-hidden`}>
+                <div className={`absolute right-0 inset-y-0 h-screen z-20 w-4/12 p-12 bg-white shadow-2xl ${userLoginOrSignUp ? 'animate-moveRightToLeft' : 'hidden animate-moveLeftToRight'}  overflow-hidden`}>
                     <UserLoginOrSignup />
                 </div>
             }

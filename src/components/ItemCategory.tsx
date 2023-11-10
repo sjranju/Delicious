@@ -27,7 +27,7 @@ const ItemCategory = (props: iProps) => {
                 vegOnly
                     ?
                     itemCard.itemCards.filter(item => item.card.info.isVeg! === 1).length > 0
-                    && <button key={itemCard.title} className=" font-bold text-lg text-neutral-700 flex flex-row items-center justify-between w-full px-2 py-4 border-b-8"
+                    && <button type='button' key={itemCard.title} className=" font-bold text-lg text-neutral-700 flex flex-row items-center justify-between w-full px-2 py-4 border-b-8"
                         onClick={() => handleCategoryClick(itemCard.title)}>
                         {
                             itemCard?.title ?
@@ -48,7 +48,7 @@ const ItemCategory = (props: iProps) => {
                         }
                     </button >
                     : itemCard?.itemCards?.length > 0 &&
-                    <button className="font-bold text-lg text-neutral-700 flex flex-row items-center justify-between w-full px-2 py-4 border-b-8"
+                    <button type='button' className="font-bold text-lg text-neutral-700 flex flex-row items-center justify-between w-full px-2 py-4 border-b-8"
                         onClick={() => handleCategoryClick(itemCard.title)}>
                         {
                             itemCard?.title ?

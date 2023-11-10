@@ -13,13 +13,9 @@ import MenuCarousel from "./MenuCarousel";
 import 'react-multi-carousel/lib/styles.css'
 import { restaurantContext } from "../context/RestaurantContext";
 import SkeletonRestaurantDetails from "../Shimmer/SkeletonRestaurantDetails";
-import { useQuery } from "@tanstack/react-query";
-import { fetchData } from "../utils/fetchRestaurantDetails";
 import { resetCartContext } from "../context/ResetCartContext";
 import { useDeleteCartItemMutation, useUpdateCartMutation } from "../RTKQuery/cartQuery";
 import { userContext } from "../context/UserContext";
-import { loginOrSignUpContext } from "../context/LoginOrSignup";
-import UserLoginOrSignup from "./UserLoginOrSignup";
 import useRestaurantInfo from "../utils/useRestaurantInfo";
 
 const RestaurantMenu = () => {
@@ -31,8 +27,6 @@ const RestaurantMenu = () => {
   const { data, isLoading } = useRestaurantInfo(resId!)
   const [deleteCart] = useDeleteCartItemMutation()
   const [updateCart] = useUpdateCartMutation()
-  const { userLoginOrSignUp } = useContext(loginOrSignUpContext)
-  console.log('restaurant page', userLoginOrSignUp)
 
   useEffect(() => {
     if (resId !== undefined)
@@ -158,13 +152,13 @@ const RestaurantMenu = () => {
           </div>
         </div >
         {resetCart?.itemId &&
-          <div className="fixed bottom-6 inset-x-1/3 flex flex-col w-4/12 h-44 animate-moveBottomToTop bg-white shadow-lg p-4 items-start justify-around">
+          <div className={`fixed bottom-6 inset-x-1/3 flex flex-col w-4/12 h-44 ${resetCart !== null ? 'animate-moveBottomToTop' : 'animate-closeResetCart'} bg-white shadow-lg p-4 items-start justify-around`}>
             <p className="font-bold">Items already in cart</p>
             <p className="text-sm">Your cart contains items from other restaurant. Would you like to reset your cart for adding items from this restaurant?</p>
             <div className="flex justify-center text-lime-600 font-semibold w-full space-x-4">
-              <button className="w-6/12 py-2 px-4 border-2 border-lime-600 hover:bg-gray-100"
+              <button type='button' className="w-6/12 py-2 px-4 border-2 border-lime-600 hover:bg-gray-100"
                 onClick={() => setResetCart(null)}>NO</button>
-              <button className="w-6/12 py-2 px-4 bg-lime-600 text-white border-2 border-lime-600 hover:bg-lime-700"
+              <button type='button' className="w-6/12 py-2 px-4 bg-lime-600 text-white border-2 border-lime-600 hover:bg-lime-700"
                 onClick={handleCartReset}>YES, START AFRESH</button>
             </div>
           </div>

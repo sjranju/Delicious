@@ -1,10 +1,8 @@
-import React, { useContext, useMemo, useState } from "react"
+import React, { useContext, useMemo } from "react"
 import { useUpdateCartMutation, useGetCartItemsQuery, useDeleteCartItemMutation } from "../RTKQuery/cartQuery"
 import { userContext } from "../context/UserContext"
 import { HiLocationMarker } from 'react-icons/hi'
 import { GiWallet } from 'react-icons/gi'
-import { useQuery } from "@tanstack/react-query"
-import { fetchData } from "../utils/fetchRestaurantDetails"
 import { CLOUDINARY_URL } from "../utils/constants";
 import * as TYPES from '../utils/interfaces'
 import { Link } from "react-router-dom"
@@ -14,6 +12,7 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai"
 import { loginOrSignUpContext } from "../context/LoginOrSignup"
 import SkeletonCart from "../Shimmer/SkeletonCart"
 import useRestaurantInfo from "../utils/useRestaurantInfo"
+import { handleLoginOrSignUp } from "../utils/fetchRestaurantDetails"
 
 const Cart = () => {
     const { user } = useContext(userContext)
@@ -113,21 +112,25 @@ const Cart = () => {
         <SkeletonCart />
         : cartItem === undefined || cartItem === 'notExists' ?
             user ?
-                <div className="">
-                    <p className="text-xl text-slate-600">Your cart is empty</p>
-                    <p className="text-sm">You can go to homepage to view more restaurants</p>
-                </div>
+                <div className="flex flex-col items-center justify-cente space-y-2 mt-24">
+                    <p className="text-xl text-slate-600 font-bold">Your cart is empty!</p>
+                    <p className="text-sm pb-4">You can go to homepage to view more restaurants</p>
+                    <Link to='/' className=" bg-red-600 text-white text-sm px-6 py-2 font-bold rounded-sm">SEE ALL RESTAURANTS</Link>
+                </div >
                 : <div className="flex flex-col justify-center items-center mt-32">
                     <p className="text-2xl font-bold text-slate-600">Your cart is empty</p>
                     <p className="text-md">
                         You can
-                        <button className="text-red-500 mx-1"
-                            onClick={() => setUserLoginOrSignup(true)}
+                        <button type='button' className="text-red-500 mx-1"
+                            onClick={() => {
+                                handleLoginOrSignUp()
+                                setUserLoginOrSignup(true)
+                            }}
                         >Login/SignUp
                         </button>
                         and go to homepage to view more restaurants
                     </p>
-                </div>
+                </div >
             : cartItem.restaurantId ? (<div className="relative w-full h-screen bg-slate-100">
                 {
                     <div className="flex mx-auto max-w-screen-xl min-w-max pt-10 px-28">
@@ -142,7 +145,7 @@ const Cart = () => {
                                             className="border border-b-black w-3/4 placeholder:text-xs placeholder:pl-2 outline-none" />
                                         <input type="text" placeholder="Landmark"
                                             className="border border-b-black w-3/4 placeholder:text-xs placeholder:pl-2 outline-none" />
-                                        <button className="bg-lime-600 font-semibold hover:bg-lime-700 text-white px-4 py-1 text-md rounded-md">Save</button>
+                                        <button type='button' className="bg-lime-600 font-semibold hover:bg-lime-700 text-white px-4 py-1 text-md rounded-md">Save</button>
                                         <div className="absolute flex items-center justify-center top-8 left-[200px] bg-black p-1 shadow-xl w-10 h-10"><HiLocationMarker size={26} className="text-white" /></div>
                                         <div className="absolute left-[220px] top-[71px] border-l border-dashed border-gray-400 h-72"></div>
                                     </div>
@@ -194,10 +197,10 @@ const Cart = () => {
                                                         {foundCartItem.card?.info?.name}
                                                     </div>
                                                     <div className="flex flex-row items-center justify-center space-x-3 border border-gray-200 p-1  font-bold ">
-                                                        <button className=""
+                                                        <button type='button' className=""
                                                             onClick={() => handleDecreament(itemId, foundCartItem.card.info.price ? foundCartItem.card.info.price : foundCartItem.card.info.defaultPrice)}><AiOutlineMinus size={13} className="mt-[2px] text-gray-300" /></button>
                                                         <div className="text-xs text-lime-500">{quantity}</div>
-                                                        <button className=""
+                                                        <button type='button' className=""
                                                             onClick={() => handleIncreament(itemId, foundCartItem.card.info.price ? foundCartItem.card.info.price : foundCartItem.card.info.defaultPrice)}><AiOutlinePlus size={13} className="mt-[2px] text-lime-600" /></button>
                                                     </div>
                                                     <div className="flex text-xs font-semibold justify-center pl-2">

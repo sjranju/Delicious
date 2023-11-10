@@ -28,7 +28,7 @@ const Contact = () => {
                             showFAQ &&
                             FAQ.map(faq =>
                                 <div key={faq.id} className='border-b '>
-                                    <button className='flex flex-row justify-between py-4 w-full hover:text-red-700 font-medium text-gray-600'
+                                    <button type='button' className='flex flex-row justify-between py-4 w-full hover:text-red-700 font-medium text-gray-600'
                                         onClick={() => setShowDesc(prev => prev === faq.id ? 0 : faq.id)}>
                                         <div>{faq.title}</div>
                                         {

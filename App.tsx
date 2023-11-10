@@ -1,7 +1,6 @@
 import React, { Suspense, lazy } from "react"
 import ReactDOM from "react-dom/client"
 import Header from "./src/components/Header"
-import Body from './src/components/Body'
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom"
 import Help from "./src/components/Help"
 import Error from "./src/components/Error"
