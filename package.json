@@ -5,7 +5,7 @@
   "description": "Learn react",
   "main": "index.js",
   "scripts": {
-    "predeploy": "npm run build",
+    "predeploy": "parcel build index.html --public-url /Delicious/",
     "deploy": "gh-pages -d dist",
     "start": "parcel index.html",
     "build": "parcel build index.html --public-url /Delicious/",
