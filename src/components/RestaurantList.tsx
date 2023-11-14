@@ -103,6 +103,7 @@ const RestaurantList = (props: iRestaurantListProps) => {
             });
         pageNo.current = pageNo.current + LIMIT
         const jsonValue: LoadMoreRestaurantsReturnType = await response.json() as LoadMoreRestaurantsReturnType;
+        console.log(jsonValue)
         return jsonValue.data.cards[0].card.card.gridElements.infoWithStyle.restaurants
     };
 
