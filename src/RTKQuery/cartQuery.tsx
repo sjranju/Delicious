@@ -1,4 +1,5 @@
-import { BaseQueryApi, createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
+import { BaseQueryApi, createApi } from '@reduxjs/toolkit/query/react'
+import { fakeBaseQuery } from '@reduxjs/toolkit/query'
 import { deleteField, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import { db } from '../utils/firebaseConfig'
 
