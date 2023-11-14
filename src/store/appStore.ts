@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { api } from "../RTKQuery/cartQuery";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
-const appStore = configureStore({
+export const appStore = configureStore({
     reducer: {
         [api.reducerPath]: api.reducer
     },

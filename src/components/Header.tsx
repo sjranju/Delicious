@@ -31,7 +31,8 @@ const Header = () => {
                         <li><Link to='/contact' className='hover:text-red-600 flex flex-row items-center space-x-2'><FiHelpCircle size={22} /><span>Help</span></Link></li>
                         <li className='group/profile'>
                             <button type='button' onClick={() => !user && setUserLoginOrSignup(true)}
-                                className='flex flex-row items-center hover:text-red-600'>
+                                className='flex flex-row items-center hover:text-red-600'
+                                role='userIcon'>
                                 <AiOutlineUser size={22} className='' />
                                 <span className='text-sm'>{user && user.displayName}</span>
                             </button>

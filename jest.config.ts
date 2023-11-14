@@ -91,6 +91,10 @@ const config: Config = {
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   // moduleNameMapper: {},
+  "moduleNameMapper": {
+    "\\.(png|jpg|jpeg|gif|svg)$": "<rootDir>/fileMock.ts"
+  },
+
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],
@@ -117,7 +121,7 @@ const config: Config = {
   // resetModules: false,
 
   // A path to a custom resolver
-  // resolver: undefined,
+  resolver: undefined,
 
   // Automatically restore mock state and implementation before every test
   // restoreMocks: false,
@@ -178,10 +182,10 @@ const config: Config = {
   // transform: undefined,
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  // transformIgnorePatterns: [
-  //   "\\\\node_modules\\\\",
-  //   "\\.pnp\\.[^\\\\]+$"
-  // ],
+  transformIgnorePatterns: [
+    "\\\\node_modules\\\\",
+    "\\.pnp\\.[^\\\\]+$"
+  ],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,
