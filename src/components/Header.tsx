@@ -23,7 +23,7 @@ const Header = () => {
         <div className='relative'>
             <div className='flex flex-row justify-between items-center shadow-md py-1 px-52'>
                 <Link to='/' className='hover:transition hover:duration-250 hover:ease-in-out hover:scale-95'>
-                    <img src={logo} alt='logo' className='w-16' />
+                    <img src={logo} alt='' className='w-16' />
                 </Link>
                 <div className=''>
                     <ul className='flex flex-row space-x-8 font-medium'>

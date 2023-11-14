@@ -1,11 +1,15 @@
 {
   "name": "namaste-react",
   "version": "1.0.0",
+  "homepage": "https://sjranju.github.io/Delicious",
   "description": "Learn react",
   "main": "App.js",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "parcel index.html",
     "build": "parcel build index.html",
+    "check": "tsc --noEmit",
     "test": "jest"
   },
   "repository": {
@@ -17,17 +21,29 @@
   "bugs": {
     "url": "https://github.com/sjranju/Namaste-React/issues"
   },
-  "homepage": "https://github.com/sjranju/Namaste-React#readme",
   "devDependencies": {
+    "@babel/core": "^7.23.3",
+    "@babel/preset-env": "^7.23.3",
+    "@babel/preset-react": "^7.23.3",
+    "@babel/preset-typescript": "^7.23.3",
     "@tanstack/eslint-plugin-query": "^4.36.0",
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/react": "^14.1.0",
     "@types/clone-deep": "^4.0.2",
+    "@types/jest": "^29.5.8",
     "@types/react-dom": "^18.2.7",
     "@types/react-slick": "^0.23.10",
+    "babel-jest": "^29.7.0",
     "buffer": "^6.0.3",
+    "gh-pages": "^6.0.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "parcel": "^2.9.3",
     "postcss": "^8.4.30",
     "process": "^0.11.10",
-    "tailwindcss": "^3.3.3"
+    "react-test-renderer": "^18.2.0",
+    "tailwindcss": "^3.3.3",
+    "ts-jest": "^29.1.1"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.6",

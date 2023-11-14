@@ -68,3 +68,32 @@ If a component controlled by itself then it is called Controlled Component (havi
 - dispatch action (addItem)
 - Selector (subsribing to the store to get data)
 - Redux Dev Tools
+
+## Episode 13 - Time for the test
+
+- Install React Testing Library (RTL)
+- Install Jest
+- Install Babel dependencies (while using Jest with Babel)
+- Config Parcel to disable default Babel transpilation- Update .parcelrc file to use the Babel that we installed above. Because react app will be confused which Babel to use? Babel that comes with parcel or the Babel that was installed above for testing.
+- npx jest --init for jest config file
+- Install jsdom library as Jest version is > 28, it has stopped including jsdom environment along with jsdom 
+- Install @babel/preset-react - for JSX to work in test cases
+- Include @babel/preset-react in babel.config.ts file
+- Include @testing-library/jest-dom to access 'toBeInTheDocument' (basically for assertion)
+- Install @types/jest
+- Install @babel/preset-typescript - This is just used to transpilation, wont check for types
+- To check types, install ts-jest and update settings in jest config file : preset: 'ts-jest'
+
+## Bonus Episode - useMemo, useRef, useCallback hooks
+
+### useMemo
+- It is used to cache the result of complex operation/calculation between re-renders
+- It will recalcaulate only when the dependencies change
+
+### useCallback
+- It is used to cache the function definition between re-renders
+
+### useRef
+- It is used to reference a value that is not needed for rendering
+- const/let variables can store data but they wont retain it when the component re-renders
+- If referenced value is updated, it will reflect once the component re-renders
