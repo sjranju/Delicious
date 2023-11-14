@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "homepage": "https://sjranju.github.io/Delicious",
   "description": "Learn react",
-  "main": "index.js",
   "scripts": {
     "predeploy": "parcel build index.html --public-url /Delicious/",
     "deploy": "gh-pages -d dist",
