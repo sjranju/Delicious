@@ -92,7 +92,8 @@ const config: Config = {
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   // moduleNameMapper: {},
   "moduleNameMapper": {
-    "\\.(png|jpg|jpeg|gif|svg)$": "<rootDir>/fileMock.ts"
+    "\\.(png|jpg|jpeg|gif|svg)$": "<rootDir>/fileMock.ts",
+    "\\.(css)$": "<rootDir>/__mocks__/skeleton.css"
   },
 
 
@@ -184,7 +185,8 @@ const config: Config = {
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   transformIgnorePatterns: [
     "\\\\node_modules\\\\",
-    "\\.pnp\\.[^\\\\]+$"
+    "\\.pnp\\.[^\\\\]+$",
+    // "/node_modules/(?!react-loading-skeleton)"
   ],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
