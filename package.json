@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "homepage": "https://sjranju.github.io/Delicious",
   "description": "Learn react",
-  "main": "App.js",
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d dist",
     "start": "parcel index.html",
     "build": "parcel build index.html",
     "check": "tsc --noEmit",
