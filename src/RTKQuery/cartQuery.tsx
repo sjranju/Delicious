@@ -23,7 +23,7 @@ export const api = createApi({
     tagTypes: ['GetCartItems'],
     endpoints: (build) => ({
         getCartItems: build.query<"notExists" | GetCartItemsReturn, string>({
-            async queryFn(user, api: BaseQueryApi) {
+            async queryFn(user) {
                 try {
                     const cartDocRef = doc(db, `cart/${user}`)
                     const getDocResult = await getDoc(cartDocRef)
@@ -46,7 +46,7 @@ export const api = createApi({
         }),
 
         updateCart: build.mutation<string, UpdateCartArg>({
-            async queryFn({ restaurantId, itemId, quantity, user }, api: BaseQueryApi) {
+            async queryFn({ restaurantId, itemId, quantity, user }) {
                 try {
                     const cartDocRef = doc(db, `cart/${user}`)
                     let cartData: GetCartItemsReturn
