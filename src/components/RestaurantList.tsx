@@ -51,7 +51,7 @@ interface LoadMoreRestaurantsReturnType {
 
 const RestaurantList = (props: iRestaurantListProps) => {
     const { ref, inView } = useInView();
-    const restaurantData = props.card.gridElements.infoWithStyle.restaurants
+    const restaurantData = props.card?.gridElements?.infoWithStyle?.restaurants
     // const RestaurantCardGold = withOneAccountFreeDelivery(RestaurantCard)
     const [filterRestaurants, setFilterRestaurants] = useState<string>('')
     const [sortBy, setSortBy] = useState<boolean>(false)
