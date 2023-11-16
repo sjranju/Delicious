@@ -12,6 +12,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { FILTERS, GET_MORE_RESTAURANTS } from "../utils/constants";
 import SkeletonFilterRestaurants from "../Shimmer/SkeletonFilterRestaurants";
 import { AiOutlineClose } from "react-icons/ai";
+import useFetchRestaurantsInfinite from "../utils/useFetchRestaurantsInfinite";
 
 interface iRestaurantListProps {
     card: {
@@ -58,74 +59,76 @@ const RestaurantList = (props: iRestaurantListProps) => {
     const LIMIT = 15; // Number of items to load in one page
     const pageNo = useRef(10)
     const sortDropDownRef = useRef<HTMLDivElement>(null)
+    const query = useFetchRestaurantsInfinite(filterRestaurants)
 
-    const fetchRestaurantsInfinite = async (filterType: string): Promise<TYPES.RestaurantType[]> => {
-        const response = await fetch(`${GET_MORE_RESTAURANTS}`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    filters: filterType === 'topRated' ? FILTERS.TOP_RATED
-                        : filterType === 'pureVeg' ?
-                            FILTERS.PURE_VEG
-                            : filterType === 'fastDelivery' ?
-                                FILTERS.FAST_DELIVERY
-                                : filterType === 'highToLow' ?
-                                    FILTERS.HIGH_TO_LOW
-                                    : filterType === 'lowToHigh' ?
-                                        FILTERS.LOW_TO_HIGH
-                                        : {},
-                    lat: 12.979568962372062,
-                    lng: 77.50290893018244,
-                    nextOffset: 'COVCELQ4KIDYjY+izN/eaDCnEw==',
-                    // nextOffset: 'COVCELQ4KIDI+/+bvYaXIjCnEzgD',
-                    seoParams: {
-                        apiName: "FoodHomePage",
-                        pageType: "FOOD_HOMEPAGE",
-                        seoUrl: "https://www.swiggy.com/",
-                    },
-                    widgetOffset: {
-                        "NewListingView_Topical_Fullbleed": "",
-                        "NewListingView_Topical_Version2": "",
-                        "NewListingView_category_bar_chicletranking_TwoRows": "",
-                        "NewListingView_category_bar_chicletranking_TwoRows_Rendition": "",
-                        "Restaurant_Group_WebView_PB_Theme": "",
-                        "Restaurant_Group_WebView_SEO_PB_Theme": "",
-                        "collectionV5RestaurantListWidget_SimRestoRelevance_food_seo": String(pageNo.current),
-                        "inlineFacetFilter": "",
-                        "restaurantCountWidget": ""
-                    },
-                    // _csrf: 'IDAIJflyb28a-dDXleh4DhODHKj1_M3fUXd4JWTI'
-                    _csrf: '6x6Vpr2CpXc1-Ot7wrNbpkMhMQv_yM0AuCXcEQFU'
-                }),
-            });
-        pageNo.current = pageNo.current + LIMIT
-        const jsonValue: LoadMoreRestaurantsReturnType = await response.json() as LoadMoreRestaurantsReturnType;
-        return jsonValue.data.cards[0].card.card.gridElements.infoWithStyle.restaurants
-    };
+    // const fetchRestaurantsInfinite = async (filterType: string): Promise<TYPES.RestaurantType[]> => {
+    //     const response = await fetch(`${GET_MORE_RESTAURANTS}`,
+    //         {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify({
+    //                 filters: filterType === 'topRated' ? FILTERS.TOP_RATED
+    //                     : filterType === 'pureVeg' ?
+    //                         FILTERS.PURE_VEG
+    //                         : filterType === 'fastDelivery' ?
+    //                             FILTERS.FAST_DELIVERY
+    //                             : filterType === 'highToLow' ?
+    //                                 FILTERS.HIGH_TO_LOW
+    //                                 : filterType === 'lowToHigh' ?
+    //                                     FILTERS.LOW_TO_HIGH
+    //                                     : {},
+    //                 lat: 12.979568962372062,
+    //                 lng: 77.50290893018244,
+    //                 nextOffset: 'COVCELQ4KIDYjY+izN/eaDCnEw==',
+    //                 // nextOffset: 'COVCELQ4KIDI+/+bvYaXIjCnEzgD',
+    //                 seoParams: {
+    //                     apiName: "FoodHomePage",
+    //                     pageType: "FOOD_HOMEPAGE",
+    //                     seoUrl: "https://www.swiggy.com/",
+    //                 },
+    //                 widgetOffset: {
+    //                     "NewListingView_Topical_Fullbleed": "",
+    //                     "NewListingView_Topical_Version2": "",
+    //                     "NewListingView_category_bar_chicletranking_TwoRows": "",
+    //                     "NewListingView_category_bar_chicletranking_TwoRows_Rendition": "",
+    //                     "Restaurant_Group_WebView_PB_Theme": "",
+    //                     "Restaurant_Group_WebView_SEO_PB_Theme": "",
+    //                     "collectionV5RestaurantListWidget_SimRestoRelevance_food_seo": String(pageNo.current),
+    //                     "inlineFacetFilter": "",
+    //                     "restaurantCountWidget": ""
+    //                 },
+    //                 // _csrf: 'IDAIJflyb28a-dDXleh4DhODHKj1_M3fUXd4JWTI'
+    //                 _csrf: '6x6Vpr2CpXc1-Ot7wrNbpkMhMQv_yM0AuCXcEQFU'
+    //             }),
+    //         });
+    //     pageNo.current = pageNo.current + LIMIT
+    //     const jsonValue: LoadMoreRestaurantsReturnType = await response.json() as LoadMoreRestaurantsReturnType;
+    //     // console.log(jsonValue.data.cards[0].card.card.gridElements.infoWithStyle.restaurants)
+    //     return jsonValue.data.cards[0].card.card.gridElements.infoWithStyle.restaurants
+    // };
 
-    const { data, isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } =
-        useInfiniteQuery(["restaurants", filterRestaurants], () => {
-            return fetchRestaurantsInfinite(filterRestaurants)
-        },
-            {
-                getNextPageParam: (lastPage, allPages) => {
-                    const maxPages = 5
-                    if (allPages.length > maxPages) {
-                        return null; // No more pages to load
-                    }
-                    return lastPage.length + 1;
-                }
-            }
-        );
+    // const { data, isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } =
+    //     useInfiniteQuery(["restaurants", filterRestaurants], () => {
+    //         return fetchRestaurantsInfinite(filterRestaurants)
+    //     },
+    //         {
+    //             getNextPageParam: (lastPage, allPages) => {
+    //                 const maxPages = 5
+    //                 if (allPages.length > maxPages) {
+    //                     return null; // No more pages to load
+    //                 }
+    //                 return lastPage;
+    //             }
+    //         }
+    //     );
 
     useEffect(() => {
-        if (inView && hasNextPage) {
-            fetchNextPage();
+        if (inView && query.hasNextPage) {
+            query.fetchNextPage();
         }
-    }, [inView, fetchNextPage, hasNextPage]);
+    }, [inView, query.fetchNextPage, query.hasNextPage]);
 
     useEffect(() => {
         const handleClickOutsideSortBy = (event: MouseEvent) => {
@@ -159,11 +162,12 @@ const RestaurantList = (props: iRestaurantListProps) => {
         setFilterRestaurants('')
     }
 
+    console.log(query.data)
     return (
         <>
             <div className='w-9/12 m-auto mt-6 pb-10'>
                 <div className="text-2xl font-bold mb-4">Restaurants with online food delivery</div>
-                {filterRestaurants !== '' && isLoading ? <SkeletonFilterRestaurants />
+                {filterRestaurants !== '' && query.isLoading ? <SkeletonFilterRestaurants />
                     :
                     <div>
                         <div className="relative flex flex-row space-x-4 text-black/75 mb-6 text-sm">
@@ -250,8 +254,8 @@ const RestaurantList = (props: iRestaurantListProps) => {
                 }
                 <div className='grid grid-cols-4 gap-10 items-start'>
                     {filterRestaurants === '' && content}
-                    {isSuccess &&
-                        data.pages.map((page) =>
+                    {query.isSuccess && query.data && query.data.pages !== undefined && Array.isArray(query.data.pages) && query.data.pages.length > 0 &&
+                        (query.data.pages.map((page) =>
                             page.map((restaurant, i) => {
                                 return (
                                     <Link to={`/restaurant/${restaurant.info.id}`} key={restaurant.info.id} >
@@ -259,11 +263,11 @@ const RestaurantList = (props: iRestaurantListProps) => {
                                     </Link>
                                 )
                             })
-                        )
+                        ))
                     }
                 </div>
-                {isFetchingNextPage && <SkeletonMoreRestaurants />}
-                {isSuccess && hasNextPage && <div ref={ref} />}
+                {query.isFetchingNextPage && <SkeletonMoreRestaurants />}
+                {query.isSuccess && query.hasNextPage && <div ref={ref} />}
             </div>
         </>
     );

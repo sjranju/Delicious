@@ -14,15 +14,9 @@ import nock from 'nock'
 import { page1 } from '../mocks/topRatedRestaurants'
 import useFetchRestaurantsInfinite from '../../utils/useFetchRestaurantsInfinite'
 
-jest.mock('../../utils/useFetchRestaurantsInfinite')
-
 type propsType = {
     children: React.ReactElement<any, string | React.JSXElementConstructor<any>>;
 }
-
-global.fetch = jest.fn(() => Promise.resolve({ json: () => Promise.resolve({ data: { cards: restaurantListMock } }) } as Response))
-
-const mockedUseFetchRestaurantsInfinite = useFetchRestaurantsInfinite as jest.Mock<any>
 
 const queryClient = new QueryClient()
 const wrapper = (props: propsType) => (
@@ -30,6 +24,11 @@ const wrapper = (props: propsType) => (
         {props.children}
     </QueryClientProvider>
 )
+global.fetch = jest.fn(() => Promise.resolve({ json: () => Promise.resolve({ data: { cards: restaurantListMock } }) } as Response))
+
+nock('https://corsproxy.io/?https://www.swiggy.com')
+    .get('/dapi/restaurants/list/v5?lat=12.979568962372062&lng=77.50290893018244&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING&__fetch_req__=true')
+    .reply(200, { data: { cards: restaurantListMock } });
 
 describe('Render Body component', () => {
 
@@ -64,34 +63,4 @@ describe('Render Body component', () => {
 
 })
 
-describe('Check sorting', () => {
 
-    nock('https://corsproxy.io/?https://www.swiggy.com')
-        .get('/dapi/restaurants/list/update')
-        .reply(200, page1)
-
-    jest.mock('@tanstack/react-query', () => ({
-        ...jest.requireActual('@tanstack/react-query'),
-        useInfiniteQuery: jest.fn()
-    }))
-
-    it('should sort by top rated restaurants', async () => {
-        console.log('mockedUseFetchRestaurantsInfinite', mockedUseFetchRestaurantsInfinite)
-        mockedUseFetchRestaurantsInfinite.mockResolvedValue({
-            status: 'Success',
-            data: {
-                pages: [{ result: page1.restaurants, next: 1 }]
-            },
-            lastPage: page1.restaurants.length + 1,
-            allPages: 2
-        })
-
-        await act(async () =>
-            render(
-                <BrowserRouter>
-                    <RestaurantList card={jsonObj.card} />
-                </BrowserRouter>
-                , { wrapper })
-        )
-    })
-})
