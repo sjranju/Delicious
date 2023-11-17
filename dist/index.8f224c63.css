@@ -900,6 +900,10 @@ select {
   margin-top: 60px;
 }
 
+.block {
+  display: block;
+}
+
 .flex {
   display: flex;
 }

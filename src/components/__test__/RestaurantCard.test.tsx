@@ -11,8 +11,7 @@ import RestaurantList from '../RestaurantList'
 import { act } from 'react-dom/test-utils'
 import { BrowserRouter } from 'react-router-dom'
 import nock from 'nock'
-import { page1 } from '../mocks/topRatedRestaurants'
-import useFetchRestaurantsInfinite from '../../utils/useFetchRestaurantsInfinite'
+import { mockPageOffsetForRestaurantList } from '../mocks/topRatedRestaurants'
 
 type propsType = {
     children: React.ReactElement<any, string | React.JSXElementConstructor<any>>;
@@ -31,7 +30,8 @@ nock('https://corsproxy.io/?https://www.swiggy.com')
     .reply(200, { data: { cards: restaurantListMock } });
 
 describe('Render Body component', () => {
-
+    afterEach(() => jest.clearAllMocks())
+    beforeAll(() => jest.clearAllMocks())
     it('should render all 13 cards', async () => {
 
         const { result } = renderHook(() => useFetchRestaurants(), { wrapper })
@@ -52,7 +52,7 @@ describe('Render Body component', () => {
             render(
                 <QueryClientProvider client={queryClient}>
                     <BrowserRouter>
-                        <RestaurantList card={jsonObj.card} />
+                        <RestaurantList card={jsonObj.card} offset={mockPageOffsetForRestaurantList} />
                     </BrowserRouter>
                 </QueryClientProvider>
             )

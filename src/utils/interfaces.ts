@@ -712,75 +712,100 @@ export enum MainCardID {
   restaurant_near_me_links = "restaurant_near_me_links",
 }
 
-
-export type MainContent =
-  {
-    card: {
-      card: {
-        "@type": "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget",
-        header: {},
-        id: MainCardID.topical_banner,
-        layout: {},
-        imageGridCards: TopicalImageBanner
-        gridElements: TopicalGridElements
-      }
-    }
+export type PageOffset = {
+  nextOffset: string,
+  widgetOffset: {
+    NewListingView_Topical_Fullbleed?: string,
+    NewListingView_Topical_Version2?: string,
+    NewListingView_category_bar_chicletranking_TwoRows: string,
+    NewListingView_category_bar_chicletranking_TwoRows_Rendition: string,
+    Restaurant_Group_WebView_PB_Theme?: string,
+    Restaurant_Group_WebView_SEO_PB_Theme?: string,
+    collectionV5RestaurantListWidget_SimRestoRelevance_food_seo: string,
+    inlineFacetFilter: string,
+    restaurantCountWidget: string
   }
-  |
-  {
-    card: {
+}
+
+export type MainContent = {
+  data: {
+    cards: {
       card: {
-        "@type": "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget",
-        id: MainCardID.whats_on_your_mind,
-        header: {
+        card: {
+          "@type": "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget",
+          header: {},
+          id: MainCardID.topical_banner,
+          layout: {},
+          imageGridCards: TopicalImageBanner
+          gridElements: TopicalGridElements
+        }
+        |
+        {
+          "@type": "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget",
+          id: MainCardID.whats_on_your_mind,
+          header: {
+            title: string
+          }
+          layout: {}
+          imageGridCards: TopicalImageBanner,
+          gridElements: TopicalGridElements
+
+        }
+        |
+        {
+          "@type": "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget",
+          header: {
+            title: string
+          }
+          id: MainCardID.top_brands_for_you
+          layout: {},
+          gridElements: RestaurantType[]
+        }
+        |
+        {
+          "@type": "type.googleapis.com/swiggy.seo.widgets.v1.BasicContent",
+          id: MainCardID.popular_restaurants_title
           title: string
         }
-        layout: {}
-        imageGridCards: TopicalImageBanner,
-        gridElements: TopicalGridElements
-
-      }
-    }
-  }
-  |
-  {
-    card: {
-      card: {
-        "@type": "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget",
-        header: {
-          title: string
-        }
-        id: MainCardID.top_brands_for_you
-        layout: {},
-        gridElements: RestaurantType[]
-      }
-    }
-  }
-  |
-  {
-    card: {
-      card: {
-        "@type": "type.googleapis.com/swiggy.seo.widgets.v1.BasicContent",
-        id: MainCardID.popular_restaurants_title
-        title: string
-      }
-    }
-  }
-  |
-  {
-    card: {
-      card: {
-        id: MainCardID.restaurant_grid_listing
-        "@type": "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget",
-        layout: {}
-        gridElements: {
-          infoWithStyle: {
-            "@type": "type.googleapis.com/swiggy.presentation.food.v2.FavouriteRestaurantInfoWithStyle",
-            restaurants: RestaurantType[]
-            theme: string
+        |
+        {
+          id: MainCardID.restaurant_grid_listing
+          "@type": "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget",
+          layout: {}
+          gridElements: {
+            infoWithStyle: {
+              "@type": "type.googleapis.com/swiggy.presentation.food.v2.FavouriteRestaurantInfoWithStyle",
+              restaurants: RestaurantType[]
+              theme: string
+            }
           }
         }
       }
-    }
+    }[],
+    nextFetch: number,
+    pageOffset: PageOffset
   }
+}
 
+export type UPDATED_RESTAURANTS_LIST = {
+  data: {
+    cards: {
+      card: {
+        card: {
+          id: MainCardID.restaurant_grid_listing
+          "@type": "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget",
+          layout: {}
+          gridElements: {
+            infoWithStyle: {
+              "@type": "type.googleapis.com/swiggy.presentation.food.v2.FavouriteRestaurantInfoWithStyle",
+              restaurants: RestaurantType[]
+              theme: string
+            }
+          }
+        }
+      }
+    }[],
+    nextFetch: number,
+    pageOffset: PageOffset
+  }
+}

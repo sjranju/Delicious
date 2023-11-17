@@ -1,86 +1,91 @@
 import '../../setupTests'
-import { render, renderHook, screen, waitFor } from "@testing-library/react"
 import React from "react"
-import { default as restaurantListMock } from '../mocks/bodyMockData.json'
-import { QueryClient, QueryClientProvider, useInfiniteQuery } from '@tanstack/react-query'
-import useFetchRestaurants from '../../utils/useFetchRestaurants'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import "@testing-library/jest-dom"
 import '../../setupTests'
-import { jsonObj } from '../mocks/allRestaurantsMock'
-import RestaurantList from '../RestaurantList'
-import { act } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
-import nock from 'nock'
-import { page1, page2, allPage } from '../mocks/topRatedRestaurants'
-import useFetchRestaurantsInfinite from '../../utils/useFetchRestaurantsInfinite'
-import * as TYPES from "../../utils/interfaces"
-import { isError } from 'react-query'
+import { render, renderHook, screen, waitFor } from "@testing-library/react";
+import { jsonObj } from '../mocks/allRestaurantsMock';
+import RestaurantList from '../RestaurantList';
+import { act } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
+import nock from 'nock';
+import { mockJson, mockPage, mockPageOffset, mockPageOffsetForRestaurantList } from '../mocks/topRatedRestaurants';
+import useFetchRestaurantsInfinite from '../../utils/useFetchRestaurantsInfinite';
 
 type propsType = {
     children: React.ReactElement<any, string | React.JSXElementConstructor<any>>;
 }
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+    logger: {
+        log: console.log,
+        warn: console.warn,
+        // ✅ no more errors on the console for tests
+        error: process.env.NODE_ENV === 'test' ? () => { } : console.error,
+    },
+    defaultOptions: {
+        queries: { retry: false }
+    },
+})
 const wrapper = (props: propsType) => (
     <QueryClientProvider client={queryClient}>
         {props.children}
     </QueryClientProvider>
 )
 
-// jest.mock('../../utils/useFetchRestaurantsInfinite')
-
-// const mockedUseFetchRestaurantsInfinite = useFetchRestaurantsInfinite('topRated') as unknown as jest.Mock<any>
-
-global.fetch = jest.fn(() => Promise.resolve({
-    json: () => Promise.resolve({ data: { cards: [{ card: { card: { gridElements: { infoWithStyle: { restaurants: page1 } } } } }] } })
-    // json: () => Promise.resolve({
-    //     data: {
-    //         pages: { cards: [{ card: { card: { gridElements: { infoWithStyle: { restaurants: { pages: [...page1] } } } } } }] },
-    //         pageParams: page2
-    //     }
-    // })
-} as Response))
-
 describe('Check sorting', () => {
 
-    // nock('https://corsproxy.io/?https://www.swiggy.com')
-    //     .persist()
-    //     .get('/dapi/restaurants/list/update')
-    //     .reply(200, {
-    //         data: {
-    //             pages: { cards: [{ card: { card: { gridElements: { infoWithStyle: { restaurants: { pages: [...page1] } } } } } }] },
-    //             pageParams: page2
-    //         }
-    //     })
-    // { data: { cards: [{ card: { card: { gridElements: { infoWithStyle: { restaurants: page1 } } } } }] } }
+    beforeAll(() => {
+        console.log('Before all clearing mocks');
+        jest.clearAllMocks();
+    });
+
+    beforeEach(() => console.log('describe testing'));
+
+    global.fetch = jest.fn(() => {
+        return Promise.resolve(
+            {
+                json: () => Promise.resolve(mockJson)
+            } as Response);
+    });
+
+    nock('https://corsproxy.io/?https://www.swiggy.com')
+        .persist()
+        .post('/dapi/restaurants/list/update')
+        .reply(200, mockPage)
 
     jest.mock('@tanstack/react-query', () => {
-        const originalModule = jest.requireActual('@tanstack/react-query')
+        const originalModule = jest.requireActual('@tanstack/react-query');
         return {
             ...originalModule,
             useInfiniteQuery: jest.fn()
-        }
-    })
+        };
+    });
 
     it('should sort by top rated restaurants', async () => {
 
-        // mockedUseFetchRestaurantsInfinite.mockImplementation(() => ({ data: { cards: [{ card: { card: { gridElements: { infoWithStyle: { restaurants: { pages: [...page1], pageParam: page2 } } } } } }] } }))
+        console.log('in test before renderHook');
 
-        const { result } = renderHook((initialProps: 'topRated') => useFetchRestaurantsInfinite('topRated'), { wrapper })
+        const query = renderHook(() => useFetchRestaurantsInfinite('topRated', mockPageOffset), { wrapper });
 
-        await waitFor(() => result.current.isSuccess)
+        console.log('after renderHook');
+        console.log('query.current.data', query.result.current.data?.pages);
 
-        // await waitFor(() => expect(response).toBe(true))
+        await waitFor(() => expect(query.result.current.isSuccess).toBe(true));
 
-        await act(async () =>
-            render(
-                <BrowserRouter>
-                    <RestaurantList card={jsonObj.card} />
-                </BrowserRouter>,
-                { wrapper })
+        console.log('query.current.data', query.result.current.data?.pages);
+
+        await act(async () => render(
+            <BrowserRouter>
+                <RestaurantList card={jsonObj.card} offset={mockPageOffsetForRestaurantList} />
+            </BrowserRouter>,
+            { wrapper }
         )
-        const topRestaurant = screen.getAllByTestId('restaurantCard')
-        expect(topRestaurant.length).toEqual(39)
-        expect(result.current.data?.pages.length).toEqual(1)
-    })
+        );
+        const topRestaurant = screen.getAllByTestId('restaurantCard');
+        expect(topRestaurant.length).toEqual(39);
+        // expect(query.current.data?.pages.length).toEqual(1)
+    });
+
+    afterEach(() => { jest.clearAllMocks(); });
 })

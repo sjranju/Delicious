@@ -30,9 +30,9 @@ const BodyRQ = () => {
             :
             (
                 <div className="bg-slate-50 h-full">
-                    {data.map(dataCard =>
+                    {data.data.cards.map(dataCard =>
                         dataCard.card.card.id === TYPES.MainCardID.restaurant_grid_listing ?
-                            <RestaurantList key={dataCard.card.card.id} card={dataCard.card.card} />
+                            <RestaurantList key={dataCard.card.card.id} card={dataCard.card.card} offset={data.data.pageOffset} />
                             : dataCard.card.card.id === TYPES.MainCardID.topical_banner ?
                                 <TopicalBanner key={dataCard.card.card.id} card={dataCard.card.card.imageGridCards} />
                                 : dataCard.card.card.id === TYPES.MainCardID.whats_on_your_mind &&
