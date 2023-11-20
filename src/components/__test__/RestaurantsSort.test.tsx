@@ -40,40 +40,46 @@ describe('Check sorting', () => {
         jest.clearAllMocks();
     });
 
-    beforeEach(() => console.log('describe testing'));
-
-    global.fetch = jest.fn(() => {
-        return Promise.resolve(
-            {
-                json: () => Promise.resolve(mockJson)
-            } as Response);
+    beforeEach(() => {
+        console.log('describe testing')
     });
 
-    nock('https://corsproxy.io/?https://www.swiggy.com')
-        .persist()
-        .post('/dapi/restaurants/list/update')
-        .reply(200, mockPage)
+    // global.fetch = jest.fn(() => {
+    //     console.log('global.fetch called')
+    //     return Promise.resolve(
+    //         {
+    //             json: () => Promise.resolve(mockJson)
+    //         } as Response);
+    // });
 
-    jest.mock('@tanstack/react-query', () => {
-        const originalModule = jest.requireActual('@tanstack/react-query');
-        return {
-            ...originalModule,
-            useInfiniteQuery: jest.fn()
-        };
-    });
+    jest.mock('../../utils/useFetchRestaurantsInfinite', () => ({
+        __esModule: true,
+        default: jest.fn(() => Promise.resolve(mockJson))
+    }))
+
+    // jest.mock('@tanstack/react-query', () => {
+    //     const originalModule = jest.requireActual('@tanstack/react-query');
+    //     return {
+    //         ...originalModule,
+    //         useInfiniteQuery: jest.fn()
+    //     };
+    // });
 
     it('should sort by top rated restaurants', async () => {
 
         console.log('in test before renderHook');
-
+        // nock('https://corsproxy.io/?https://www.swiggy.com')
+        //     .persist()
+        //     .post('/dapi/restaurants/list/update')
+        //     .reply(200, mockPage)
         const query = renderHook(() => useFetchRestaurantsInfinite('topRated', mockPageOffset), { wrapper });
 
         console.log('after renderHook');
-        console.log('query.current.data', query.result.current.data?.pages);
+        console.log('query.current.data before wait', query.result.current);
 
         await waitFor(() => expect(query.result.current.isSuccess).toBe(true));
 
-        console.log('query.current.data', query.result.current.data?.pages);
+        console.log('query.current.data after wait', query.result.current);
 
         await act(async () => render(
             <BrowserRouter>

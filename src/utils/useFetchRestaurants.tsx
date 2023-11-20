@@ -1,12 +1,15 @@
+import axios, { AxiosResponse } from 'axios'
 import * as TYPES from '../utils/interfaces'
 import { RESTAURANT_API } from './constants'
 
-const useFetchRestaurants = (): Promise<TYPES.MainContent[]> => fetch(RESTAURANT_API)
-    .then(response => {
-        let res = response.json()
-        return res
-    })
-    .catch(err => console.log(err))
-    .then(jsonData => jsonData?.data?.cards || [])
+const useFetchRestaurants = async (): Promise<TYPES.MainContent> => {
+    const response: AxiosResponse = await axios.get(RESTAURANT_API)
+        .then(response => {
+            console.log(response.data)
+            return response.data
+        })
+        .catch(err => console.log(err))
 
+    return response
+}
 export default useFetchRestaurants

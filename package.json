@@ -54,6 +54,7 @@
     "@types/react-query": "^1.2.9",
     "@types/react-redux": "^7.1.27",
     "@types/react-router-dom": "^5.3.3",
+    "axios": "^1.6.2",
     "clone-deep": "^4.0.1",
     "firebase": "^10.4.0",
     "react": "^18.2.0",

@@ -3,21 +3,21 @@ import { AiOutlineClose } from "react-icons/ai"
 import { BiSearch } from "react-icons/bi"
 import * as TYPES from "../utils/interfaces"
 import { useQuery } from "@tanstack/react-query"
-import { fetchRestaurants } from "../utils/fetchRestaurantDetails"
 import { CLOUDINARY_URL } from "../utils/constants"
 import { Link } from "react-router-dom"
+import useFetchRestaurants from "../utils/useFetchRestaurants"
 
 const Search = () => {
     const { data } = useQuery({
         queryKey: ['restaurantsList'],
-        queryFn: fetchRestaurants
+        queryFn: useFetchRestaurants
     })
     const [searchText, setSearchText] = useState('')
     const [filterRestaurants, setFilterRestaurants] = useState<TYPES.RestaurantType[]>()
 
     const handleFilterRestaurants = () => {
         data &&
-            data?.find(restaurant => {
+            data?.data.cards.find(restaurant => {
                 if (restaurant.card.card.id === TYPES.MainCardID.restaurant_grid_listing) {
                     setFilterRestaurants(restaurant?.card.card.gridElements.infoWithStyle.restaurants.filter(rest =>
                         rest.info.name.toLowerCase().includes(searchText.toLowerCase())))

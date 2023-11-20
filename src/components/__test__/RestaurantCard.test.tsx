@@ -23,15 +23,28 @@ const wrapper = (props: propsType) => (
         {props.children}
     </QueryClientProvider>
 )
-global.fetch = jest.fn(() => Promise.resolve({ json: () => Promise.resolve({ data: { cards: restaurantListMock } }) } as Response))
 
-nock('https://corsproxy.io/?https://www.swiggy.com')
-    .get('/dapi/restaurants/list/v5?lat=12.979568962372062&lng=77.50290893018244&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING&__fetch_req__=true')
-    .reply(200, { data: { cards: restaurantListMock } });
+jest.mock('../../utils/useFetchRestaurants', () => ({
+    __esModule: true,
+    default: jest.fn(() => Promise.resolve({ json: () => Promise.resolve({ data: { cards: restaurantListMock } }) } as Response)),
+}));
 
 describe('Render Body component', () => {
     afterEach(() => jest.clearAllMocks())
-    beforeAll(() => jest.clearAllMocks())
+
+    // beforeAll(() => {
+    //     jest.clearAllMocks()
+    //     nock('https://corsproxy.io/?https://www.swiggy.com')
+    //         .get('/dapi/restaurants/list/v5?lat=12.979568962372062&lng=77.50290893018244&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING&__fetch_req__=true')
+    //         .reply(200, { data: { cards: restaurantListMock } })
+    // })
+
+    // afterAll(() => {
+    //     nock.cleanAll()
+    //     nock.restore()
+    // })
+    // global.fetch = jest.fn(() => Promise.resolve({ json: () => Promise.resolve({ data: { cards: restaurantListMock } }) } as Response))
+
     it('should render all 13 cards', async () => {
 
         const { result } = renderHook(() => useFetchRestaurants(), { wrapper })

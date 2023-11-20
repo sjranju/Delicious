@@ -14,17 +14,6 @@ export const fetchData = async (resId: string): Promise<{
     return { resInfo, offerDetails, restaurantMenu };
 }
 
-export const fetchRestaurants = (): Promise<TYPES.MainContent> => fetch(RESTAURANT_API)
-    .then(response => {
-        let res = response.json()
-        return res
-    })
-    .catch(err => console.log(err))
-    .then(jsonData => {
-        console.log(jsonData)
-        return jsonData
-    })
-
 export const handleLoginOrSignUp = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }

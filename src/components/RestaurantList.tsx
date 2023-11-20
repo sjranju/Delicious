@@ -59,9 +59,9 @@ const RestaurantList = (props: iRestaurantListProps) => {
     const [filterRestaurants, setFilterRestaurants] = useState<string>('')
     const [sortBy, setSortBy] = useState<boolean>(false)
     const sortDropDownRef = useRef<HTMLDivElement>(null)
-    const query = useFetchRestaurantsInfinite(filterRestaurants, pageOffset)
-    console.log('useFetchRestaurantsInfinite called', query.data);
-    const { data, isSuccess, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = query
+    const { data, isSuccess, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useFetchRestaurantsInfinite(filterRestaurants, pageOffset)
+    console.log('useFetchRestaurantsInfinite called in restlist component')
+    isSuccess && console.log('after usefetch success', data);
 
     useEffect(() => {
         if (inView && hasNextPage && !isFetchingNextPage) {

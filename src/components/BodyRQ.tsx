@@ -6,14 +6,14 @@ import SkeletonRestaurantCard from "../Shimmer/SkeletonRestaurantCard"
 import RestaurantList from "./RestaurantList"
 import TopicalBanner from "./TopicalBanner"
 import CuisineBanner from "./CuisineBanner"
-import { fetchRestaurants } from "../utils/fetchRestaurantDetails"
 import { loginOrSignUpContext } from "../context/LoginOrSignup"
+import useFetchRestaurants from "../utils/useFetchRestaurants"
 
 const BodyRQ = () => {
     const { userLoginOrSignUp } = useContext(loginOrSignUpContext)
     const { isLoading, data, isError, error } = useQuery({
         queryKey: ['restaurantsList'],
-        queryFn: fetchRestaurants
+        queryFn: useFetchRestaurants
     })
 
     const { onlineStatus } = useOnlineStatus()
@@ -30,8 +30,8 @@ const BodyRQ = () => {
             :
             (
                 <div className="bg-slate-50 h-full">
-                    {data.data.cards.map(dataCard =>
-                        dataCard.card.card.id === TYPES.MainCardID.restaurant_grid_listing ?
+                    {data?.data?.cards?.map(dataCard =>
+                        dataCard.card?.card?.id === TYPES.MainCardID.restaurant_grid_listing ?
                             <RestaurantList key={dataCard.card.card.id} card={dataCard.card.card} offset={data.data.pageOffset} />
                             : dataCard.card.card.id === TYPES.MainCardID.topical_banner ?
                                 <TopicalBanner key={dataCard.card.card.id} card={dataCard.card.card.imageGridCards} />
