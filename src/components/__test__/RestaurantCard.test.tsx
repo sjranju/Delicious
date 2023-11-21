@@ -2,7 +2,7 @@ import '../../setupTests'
 import { render, renderHook, screen, waitFor } from "@testing-library/react"
 import React from "react"
 import { default as restaurantListMock } from '../mocks/bodyMockData.json'
-import { QueryClient, QueryClientProvider, useInfiniteQuery } from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import useFetchRestaurants from '../../utils/useFetchRestaurants'
 import "@testing-library/jest-dom"
 import '../../setupTests'
@@ -10,8 +10,10 @@ import { jsonObj } from '../mocks/allRestaurantsMock'
 import RestaurantList from '../RestaurantList'
 import { act } from 'react-dom/test-utils'
 import { BrowserRouter } from 'react-router-dom'
-import nock from 'nock'
+import axios from 'axios'
 import { mockPageOffsetForRestaurantList } from '../mocks/topRatedRestaurants'
+import MockAdapter from 'axios-mock-adapter'
+import { RESTAURANT_API } from '../../utils/constants'
 
 type propsType = {
     children: React.ReactElement<any, string | React.JSXElementConstructor<any>>;
@@ -24,28 +26,17 @@ const wrapper = (props: propsType) => (
     </QueryClientProvider>
 )
 
-jest.mock('../../utils/useFetchRestaurants', () => ({
-    __esModule: true,
-    default: jest.fn(() => Promise.resolve({ json: () => Promise.resolve({ data: { cards: restaurantListMock } }) } as Response)),
-}));
+let mock = new MockAdapter(axios)
 
 describe('Render Body component', () => {
+
     afterEach(() => jest.clearAllMocks())
 
-    // beforeAll(() => {
-    //     jest.clearAllMocks()
-    //     nock('https://corsproxy.io/?https://www.swiggy.com')
-    //         .get('/dapi/restaurants/list/v5?lat=12.979568962372062&lng=77.50290893018244&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING&__fetch_req__=true')
-    //         .reply(200, { data: { cards: restaurantListMock } })
-    // })
-
-    // afterAll(() => {
-    //     nock.cleanAll()
-    //     nock.restore()
-    // })
-    // global.fetch = jest.fn(() => Promise.resolve({ json: () => Promise.resolve({ data: { cards: restaurantListMock } }) } as Response))
-
     it('should render all 13 cards', async () => {
+
+        mock.onGet(RESTAURANT_API).reply(200, {
+            data: { cards: restaurantListMock }
+        })
 
         const { result } = renderHook(() => useFetchRestaurants(), { wrapper })
 
@@ -55,7 +46,7 @@ describe('Render Body component', () => {
             })
         })
 
-        expect(res.length).toEqual(13)
+        expect(res.data.cards.length).toEqual(13)
 
     })
 
@@ -63,12 +54,10 @@ describe('Render Body component', () => {
 
         await act(async () =>
             render(
-                <QueryClientProvider client={queryClient}>
-                    <BrowserRouter>
-                        <RestaurantList card={jsonObj.card} offset={mockPageOffsetForRestaurantList} />
-                    </BrowserRouter>
-                </QueryClientProvider>
-            )
+                <BrowserRouter>
+                    <RestaurantList card={jsonObj.card} offset={mockPageOffsetForRestaurantList} />
+                </BrowserRouter>
+                , { wrapper })
         )
 
         expect(screen.getAllByTestId('restaurantCard').length).toBe(9)

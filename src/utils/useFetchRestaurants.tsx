@@ -3,9 +3,9 @@ import * as TYPES from '../utils/interfaces'
 import { RESTAURANT_API } from './constants'
 
 const useFetchRestaurants = async (): Promise<TYPES.MainContent> => {
-    const response: AxiosResponse = await axios.get(RESTAURANT_API)
+    const response: AxiosResponse = await axios
+        .get(RESTAURANT_API)
         .then(response => {
-            console.log(response.data)
             return response.data
         })
         .catch(err => console.log(err))

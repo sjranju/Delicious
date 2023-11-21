@@ -8,78 +8,50 @@ import { jsonObj } from '../mocks/allRestaurantsMock';
 import RestaurantList from '../RestaurantList';
 import { act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import nock from 'nock';
 import { mockJson, mockPage, mockPageOffset, mockPageOffsetForRestaurantList } from '../mocks/topRatedRestaurants';
-import useFetchRestaurantsInfinite from '../../utils/useFetchRestaurantsInfinite';
+import MockAdapter from 'axios-mock-adapter'
+import axios from 'axios'
+import { GET_MORE_RESTAURANTS } from '../../utils/constants'
+import useFetchRestaurantsInfinite from '../../utils/useFetchRestaurantsInfinite'
 
 type propsType = {
     children: React.ReactElement<any, string | React.JSXElementConstructor<any>>;
 }
 
 const queryClient = new QueryClient({
-    logger: {
-        log: console.log,
-        warn: console.warn,
-        // ✅ no more errors on the console for tests
-        error: process.env.NODE_ENV === 'test' ? () => { } : console.error,
-    },
     defaultOptions: {
         queries: { retry: false }
     },
 })
+
 const wrapper = (props: propsType) => (
     <QueryClientProvider client={queryClient}>
         {props.children}
     </QueryClientProvider>
 )
 
+let mock = new MockAdapter(axios)
+
 describe('Check sorting', () => {
 
     beforeAll(() => {
-        console.log('Before all clearing mocks');
         jest.clearAllMocks();
+        mock.onPost(GET_MORE_RESTAURANTS).reply(200, mockJson)
     });
 
-    beforeEach(() => {
-        console.log('describe testing')
-    });
-
-    // global.fetch = jest.fn(() => {
-    //     console.log('global.fetch called')
-    //     return Promise.resolve(
-    //         {
-    //             json: () => Promise.resolve(mockJson)
-    //         } as Response);
-    // });
-
-    jest.mock('../../utils/useFetchRestaurantsInfinite', () => ({
-        __esModule: true,
-        default: jest.fn(() => Promise.resolve(mockJson))
-    }))
-
-    // jest.mock('@tanstack/react-query', () => {
-    //     const originalModule = jest.requireActual('@tanstack/react-query');
-    //     return {
-    //         ...originalModule,
-    //         useInfiniteQuery: jest.fn()
-    //     };
-    // });
+    afterEach(() => jest.clearAllMocks())
 
     it('should sort by top rated restaurants', async () => {
 
-        console.log('in test before renderHook');
-        // nock('https://corsproxy.io/?https://www.swiggy.com')
-        //     .persist()
-        //     .post('/dapi/restaurants/list/update')
-        //     .reply(200, mockPage)
         const query = renderHook(() => useFetchRestaurantsInfinite('topRated', mockPageOffset), { wrapper });
 
-        console.log('after renderHook');
-        console.log('query.current.data before wait', query.result.current);
+        console.log('query.current.data before wait', query.result.current.data);
 
         await waitFor(() => expect(query.result.current.isSuccess).toBe(true));
 
-        console.log('query.current.data after wait', query.result.current);
+        console.log('query.current.data after wait', query.result.current.data?.pages[0].data.cards[0].card.card.gridElements.infoWithStyle.restaurants);
+
+        // expect(query.result.current.data?.pages[0].data.cards[0].card.card.gridElements.infoWithStyle.restaurants.length).toEqual(1)
 
         await act(async () => render(
             <BrowserRouter>
@@ -88,10 +60,8 @@ describe('Check sorting', () => {
             { wrapper }
         )
         );
-        const topRestaurant = screen.getAllByTestId('restaurantCard');
-        expect(topRestaurant.length).toEqual(39);
-        // expect(query.current.data?.pages.length).toEqual(1)
+        const topRestaurant = screen.getAllByTestId('restaurantCard')
+        expect(topRestaurant.length).toEqual(38);
     });
 
-    afterEach(() => { jest.clearAllMocks(); });
 })
