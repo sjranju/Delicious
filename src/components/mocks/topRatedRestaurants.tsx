@@ -14,7 +14,7 @@ export const mockJson = {
             "widgetOffset": {
                 "NewListingView_category_bar_chicletranking_TwoRows": "",
                 "NewListingView_category_bar_chicletranking_TwoRows_Rendition": "",
-                "collectionV5RestaurantListWidget_SimRestoRelevance_food_seo": "25",
+                "collectionV5RestaurantListWidget_SimRestoRelevance_food_seo": "0",
                 "inlineFacetFilter": "",
                 "restaurantCountWidget": ""
             }

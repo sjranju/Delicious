@@ -3,13 +3,10 @@ import { useInView } from "react-intersection-observer";
 import RestaurantCard from "./RestaurantCard";
 import * as TYPES from "../utils/interfaces"
 import React from "react";
-import withOneAccountFreeDelivery from "./withOneAccountFreeDelivery";
 import { Link } from "react-router-dom";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import SkeletonMoreRestaurants from "../Shimmer/SkeletonMoreRestaurants";
 import { BsFilter } from 'react-icons/bs'
 import { IoIosArrowDown } from "react-icons/io";
-import { FILTERS, GET_MORE_RESTAURANTS } from "../utils/constants";
 import SkeletonFilterRestaurants from "../Shimmer/SkeletonFilterRestaurants";
 import { AiOutlineClose } from "react-icons/ai";
 import useFetchRestaurantsInfinite from "../utils/useFetchRestaurantsInfinite";
@@ -30,44 +27,24 @@ interface iRestaurantListProps {
     offset: TYPES.PageOffset;
 }
 
-interface LoadMoreRestaurantsReturnType {
-    data: {
-        cards: {
-            card: {
-                card: {
-                    id: TYPES.MainCardID.restaurant_grid_listing
-                    "@type": "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget",
-                    layout: {}
-                    gridElements: {
-                        infoWithStyle: {
-                            "@type": "type.googleapis.com/swiggy.presentation.food.v2.FavouriteRestaurantInfoWithStyle",
-                            restaurants: TYPES.RestaurantType[]
-                            theme: string
-                        }
-                    }
-                }
-            }
-        }[]
-    }
-}
 
 const RestaurantList = (props: iRestaurantListProps) => {
-    const { ref, inView } = useInView();
+    console.log('i am in restlist')
+    const { ref, inView } = useInView({ threshold: 1 });
     const restaurantData = props.card?.gridElements?.infoWithStyle?.restaurants
     const pageOffset = props.offset
-    // const RestaurantCardGold = withOneAccountFreeDelivery(RestaurantCard)
     const [filterRestaurants, setFilterRestaurants] = useState<string>('')
     const [sortBy, setSortBy] = useState<boolean>(false)
     const sortDropDownRef = useRef<HTMLDivElement>(null)
     const { data, isSuccess, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useFetchRestaurantsInfinite(filterRestaurants, pageOffset)
-    console.log('useFetchRestaurantsInfinite called in restlist component')
-    isSuccess && console.log('after usefetch success', data);
 
     useEffect(() => {
-        if (inView && hasNextPage && !isFetchingNextPage) {
+
+        if (inView && hasNextPage && !data && !isFetchingNextPage) {
             fetchNextPage();
         }
-    }, [inView, fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+    }, [inView]);
 
     useEffect(() => {
         const handleClickOutsideSortBy = (event: MouseEvent) => {
@@ -100,8 +77,6 @@ const RestaurantList = (props: iRestaurantListProps) => {
         e.stopPropagation()
         setFilterRestaurants('')
     }
-
-    console.log('filterRestaurants', filterRestaurants, 'data', data);
 
     return (
         <>
@@ -204,6 +179,7 @@ const RestaurantList = (props: iRestaurantListProps) => {
                                 ))
                             })
                         ))
+
                     }
                 </div>
                 {isFetchingNextPage && <SkeletonMoreRestaurants />}
