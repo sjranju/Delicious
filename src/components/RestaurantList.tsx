@@ -29,8 +29,7 @@ interface iRestaurantListProps {
 
 
 const RestaurantList = (props: iRestaurantListProps) => {
-    console.log('i am in restlist')
-    const { ref, inView } = useInView({ threshold: 1 });
+    const { ref, inView } = useInView();
     const restaurantData = props.card?.gridElements?.infoWithStyle?.restaurants
     const pageOffset = props.offset
     const [filterRestaurants, setFilterRestaurants] = useState<string>('')
@@ -40,7 +39,7 @@ const RestaurantList = (props: iRestaurantListProps) => {
 
     useEffect(() => {
 
-        if (inView && hasNextPage && !data && !isFetchingNextPage) {
+        if (inView && hasNextPage && !isFetchingNextPage) {
             fetchNextPage();
         }
 
@@ -62,14 +61,9 @@ const RestaurantList = (props: iRestaurantListProps) => {
 
     const content = [
         ...restaurantData.map(restaurant => (
-            filterRestaurants === 'topRated' ?
-                restaurant.info.avgRating > 4 &&
-                <Link to={`/restaurant/${restaurant.info.id}`} key={restaurant.info.id} >
-                    <RestaurantCard resData={restaurant} />
-                </Link>
-                : <Link to={`/restaurant/${restaurant.info.id}`} key={restaurant.info.id} >
-                    <RestaurantCard resData={restaurant} />
-                </Link>
+            <Link to={`/restaurant/${restaurant.info.id}`} key={restaurant.info.id} >
+                <RestaurantCard resData={restaurant} />
+            </Link>
         )),
     ]
 

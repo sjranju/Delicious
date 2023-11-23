@@ -3,7 +3,7 @@ import React from "react"
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import "@testing-library/jest-dom"
 import '../../setupTests'
-import { cleanup, render, renderHook, screen, waitFor } from "@testing-library/react";
+import { cleanup, fireEvent, render, renderHook, screen, waitFor } from "@testing-library/react";
 import { jsonObj } from '../mocks/allRestaurantsMock';
 import RestaurantList from '../RestaurantList';
 import { act } from '@testing-library/react';
@@ -55,6 +55,13 @@ describe('Check sorting', () => {
         )
         );
         await waitFor(() => expect(screen.getAllByTestId('restaurantCard').length).toEqual(24))
+
+        const topRatedFilterButton = screen.getByRole('button', { name: 'Ratings 4+' })
+        expect(topRatedFilterButton).toBeInTheDocument()
+
+        fireEvent.click(topRatedFilterButton)
+        await waitFor(() => expect(screen.getAllByTestId('restaurantCard').length).toEqual(15))
+
     });
 
 })

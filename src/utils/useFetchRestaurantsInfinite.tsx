@@ -7,7 +7,7 @@ import { InView } from 'react-intersection-observer';
 
 
 const useFetchRestaurantsInfinite = (filterRestaurants: string, pageOffset: TYPES.PageOffset) => {
-    console.log('i am here')
+
     const fetchRestaurantsInfinite = async (filterType: string, pageParam: TYPES.PageOffset): Promise<TYPES.UPDATED_RESTAURANTS_LIST> => {
         const response = await axios.post(`${GET_MORE_RESTAURANTS}`,
             {
@@ -47,6 +47,7 @@ const useFetchRestaurantsInfinite = (filterRestaurants: string, pageOffset: TYPE
         useInfiniteQuery(["restaurants", filterRestaurants], ({ pageParam = pageOffset }) =>
             fetchRestaurantsInfinite(filterRestaurants, pageParam as TYPES.PageOffset),
             {
+                refetchOnWindowFocus: false,
                 getNextPageParam: (lastPage, allPages) => {
                     const maxPages = 5
                     if (allPages.length >= maxPages) {
