@@ -60,7 +60,7 @@ const MenuItem = (props: iProps) => {
     }
 
     return (
-        <div key={info.id} className="relative space-y-4 my-4 w-full">
+        <div key={info.id} className="relative space-y-4 my-4 w-full" data-testid='menuItem'>
             <div className="">
                 <div className="mx-4 flex flex-row pb-4 justify-between items-center space-x-4 border-b border-gray-300 ">
                     <div className="non-veg flex flex-col items-start">

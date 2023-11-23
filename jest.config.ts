@@ -93,7 +93,8 @@ const config: Config = {
   // moduleNameMapper: {},
   "moduleNameMapper": {
     "\\.(png|jpg|jpeg|gif|svg)$": "<rootDir>/fileMock.ts",
-    "\\.(css)$": "<rootDir>/__mocks__/skeleton.css"
+    "\\.(css)$": "<rootDir>/__mocks__/skeleton.css",
+    // "^firebase$": "<rootDir>/__mocks__/firebase.ts"
   },
 
 

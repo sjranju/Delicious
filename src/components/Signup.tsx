@@ -12,7 +12,7 @@ const Signup = () => {
     const [emailAddress, setEmailAddress] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [name, setName] = useState<string>('')
-    const { setUser } = useContext(userContext)
+    const { setUser, user } = useContext(userContext)
     const [error, setError] = useState<string>('')
     const { setUserLoginOrSignup } = useContext(loginOrSignUpContext)
     const [nameNotProvided, setNameNotProvided] = useState<boolean>(false)
@@ -25,7 +25,7 @@ const Signup = () => {
         }
         await createUserWithEmailAndPassword(auth, emailAddress, password)
             .then(async (userCred) => {
-                console.log(userCred)
+                console.log('userCred', userCred.user)
                 await updateProfile(userCred.user, { displayName: name })
                     .then(() => {
                         setUserLoginOrSignup(false)
@@ -35,6 +35,7 @@ const Signup = () => {
             .catch(error =>
                 setError(error.message.replace('Firebase:', '')))
     }
+    console.log('user in signup', user)
 
     return (
         <>{

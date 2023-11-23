@@ -22,7 +22,7 @@ const Cart = () => {
     const { data: cartItem } = useGetCartItemsQuery(user?.uid!)
     let restId = ''
     let cartItemSet = new Set<string>()
-
+    console.log('in cart')
     if (cartItem === undefined || cartItem === 'notExists') {
         console.log('cartItem data is either undefined or doesnt exist', cartItem)
     } else {
@@ -31,7 +31,7 @@ const Cart = () => {
     const { data, isLoading } = useRestaurantInfo(restId)
 
     const findCartItemCard = (itemId: string) => {
-        return data?.restaurantMenu.find(restaurant =>
+        return data?.restaurantMenu.groupedCard.cardGroupMap.REGULAR.cards.find(restaurant =>
             restaurant.card.card["@type"] === TYPES.CardType.ItemCategory ?
                 restaurant.card.card.itemCards.find(itemCard => itemCard.card.info.id === itemId)
                 : restaurant.card.card["@type"] === TYPES.CardType.NestedItemCategory
@@ -39,7 +39,7 @@ const Cart = () => {
         );
     }
 
-    const findCartItem = (restaurantCard: TYPES.Card, itemId: string) => {
+    const findCartItem = (restaurantCard: TYPES.restaurantMenuCards, itemId: string) => {
         if (restaurantCard.card.card["@type"] === TYPES.CardType.ItemCategory)
             return restaurantCard.card.card.itemCards.find(restaurant => restaurant.card.info.id === itemId)
         else if (restaurantCard.card.card["@type"] === TYPES.CardType.NestedItemCategory)

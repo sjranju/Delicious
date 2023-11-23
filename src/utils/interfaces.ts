@@ -139,27 +139,29 @@ type OfferInfoWithStyle = {
 
 export type OfferCards = {
   card: {
-    "@type": string;
-    layout: {
-      rows: number;
-      columns: number;
-      horizontalScrollEnabled: boolean;
-      itemSpacing: number;
-      lineSpacing: number;
-      widgetPadding: Record<string, any>;
-      containerStyle: {
-        containerPadding: {
-          left: number;
-          right: number;
-          bottom: number;
+    card: {
+      "@type": string;
+      layout: {
+        rows: number;
+        columns: number;
+        horizontalScrollEnabled: boolean;
+        itemSpacing: number;
+        lineSpacing: number;
+        widgetPadding: Record<string, any>;
+        containerStyle: {
+          containerPadding: {
+            left: number;
+            right: number;
+            bottom: number;
+          };
         };
+        scrollBar: Record<string, any>;
       };
-      scrollBar: Record<string, any>;
-    };
-    id: string;
-    gridElements: {
-      infoWithStyle: OfferInfoWithStyle;
-    };
+      id: string;
+      gridElements: {
+        infoWithStyle: OfferInfoWithStyle;
+      };
+    }
   }
 };
 
@@ -323,7 +325,7 @@ export interface RestaurantDataItem {
     relevance: {
       type: string;
       sectionId: string;
-    };
+    }
   }
 }
 
@@ -561,7 +563,7 @@ export enum CardType {
   NestedItemCategory = "type.googleapis.com/swiggy.presentation.food.v2.NestedItemCategory"
 }
 
-export type Card =
+export type restaurantMenuCards =
   {
     card: {
       card: {
@@ -575,30 +577,19 @@ export type Card =
         };
         topRatedFilter: Record<string, unknown>;
       }
-    }
-  } |
-  {
-    card: {
-      card: {
+      |
+      {
         "@type": CardType.MenuCarousel;
         title: string;
         carousel: MenuCarouselItem[];
-      }
-    }
-  } |
-  {
-    card: {
-      card: {
+      } |
+      {
         "@type": CardType.ItemCategory;
         itemCards: RestaurantMenuItem[],
         title: string,
         showDetails: boolean
-      }
-    }
-  } |
-  {
-    card: {
-      card: {
+      } |
+      {
         "@type": CardType.NestedItemCategory
         categories: {
           itemCards: RestaurantMenuItem[],
@@ -606,21 +597,13 @@ export type Card =
           showDetails: boolean
         }[]
         title: string,
-      }
-    }
-  } |
-  {
-    card: {
-      card: {
+      } |
+      {
         "@type": CardType.RestaurantLicenseInfo,
         imageId?: string,
         text: string[]
-      }
-    }
-  } |
-  {
-    card: {
-      card: {
+      } |
+      {
         "@type": CardType.RestaurantAddress,
         area: string,
         completeAddress: string,
@@ -628,6 +611,17 @@ export type Card =
       }
     }
   }
+
+export type Card = {
+  groupedCard: {
+    cardGroupMap: {
+      REGULAR: {
+        cards: restaurantMenuCards[]
+      }
+    }
+  }
+}
+
 
 export type TopicalImageBanner = {
   info: {

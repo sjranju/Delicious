@@ -9,7 +9,7 @@ const useAuthListener = () => {
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
-            setUser(user)
+            setUser(user || null)
         })
     }, [user])
 

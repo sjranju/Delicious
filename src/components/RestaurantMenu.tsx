@@ -63,7 +63,7 @@ const RestaurantMenu = () => {
   } else {
     const { resInfo, offerDetails, restaurantMenu } = data
     return (
-      <div className="relative h-full w-full bg-slate-50 ">
+      <div className="relative h-full w-full bg-slate-50 " data-testid='restaurantMenu'>
         <div className="flex flex-col items-center space-y-6 justify-around max-w-[800px] mx-auto ">
           <div className="flex flex-row justify-between items-center bg-sky-50 w-full pt-10 pb-2 px-2">
             <div>
@@ -94,7 +94,7 @@ const RestaurantMenu = () => {
             </div>
           </div>
           <div className="flex flex-row items-center space-x-4 pt-2 max-w-[500px] md:max-w-[800px] overflow-x-scroll [&::-webkit-scrollbar]:hidden">
-            {offerDetails?.card?.gridElements?.infoWithStyle?.offers?.map(offerItem => (
+            {offerDetails?.card?.card?.gridElements?.infoWithStyle?.offers?.map(offerItem => (
               <div key={offerItem.info.offerIds[0]} className="shrink-0 w-44">
                 <div className="flex flex-col items-center border rounded-md border-zinc-300 w-44 h-12 justify-around ">
                   <div className="flex flex-row text-sm text-[#686b70] font-bold justify-center items-center">
@@ -115,9 +115,9 @@ const RestaurantMenu = () => {
           <div className="flex flex-col justify-center w-full ">
             {
               restaurantMenu &&
-              restaurantMenu.map((menu, i) => (
+              restaurantMenu.groupedCard.cardGroupMap.REGULAR.cards.map((menu, i) => (
                 menu.card.card["@type"] === TYPES.CardType.MenuVegFilterAndBadge ?
-                  menu?.card?.card?.isPureVeg === true ?
+                  menu.card.card?.isPureVeg === true ?
                     <div key={i} className="flex items-center">
                       <img src={CLOUDINARY_URL + menu.card.card?.vegOnlyDetails?.imageId} className="w-10 h-10" />
                       <p className="text-xs font-semibold">PURE VEG</p>
@@ -141,7 +141,7 @@ const RestaurantMenu = () => {
                       <ItemCategory key={i} itemCard={menu.card.card} vegOnly={vegOnly} />
                       : menu.card.card["@type"] === TYPES.CardType.NestedItemCategory ?
                         resId &&
-                        <NestedItemCategory key={i} nestedCategories={menu?.card?.card} vegOnly={vegOnly} />
+                        <NestedItemCategory key={i} nestedCategories={menu.card?.card} vegOnly={vegOnly} />
                         : menu.card.card["@type"] === TYPES.CardType.RestaurantAddress ?
                           <RestaurantAddress key={i} itemCard={menu.card.card} />
                           : menu.card.card["@type"] === TYPES.CardType.RestaurantLicenseInfo ?

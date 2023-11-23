@@ -2,6 +2,7 @@ import React from 'react'
 import * as TYPES from '../utils/interfaces'
 import { RESTAURANT_ITEM, RESTAURANT_API } from './constants'
 import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 
 
 const useRestaurantInfo = (restaurantId: string) => {
@@ -9,13 +10,14 @@ const useRestaurantInfo = (restaurantId: string) => {
     const fetchData = async (resId: string): Promise<{
         resInfo: TYPES.RestaurantDataItem
         offerDetails: TYPES.OfferCards
-        restaurantMenu: TYPES.Card[]
+        restaurantMenu: TYPES.Card
     }> => {
-        const res = await fetch(RESTAURANT_ITEM + resId);
-        const jsonData = await res.json();
-        let offerDetails = jsonData?.data?.cards[1]?.card;
-        let restaurantMenu = jsonData.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR.cards;
-        let resInfo = jsonData?.data?.cards[0];
+        console.log('in fetch data')
+        const res = await axios.get(RESTAURANT_ITEM + resId);
+        console.log('res.data', res.data)
+        let resInfo = res.data?.data?.cards[0]
+        let offerDetails = res.data?.data?.cards[1]
+        let restaurantMenu = res.data.data?.cards[2]
         return { resInfo, offerDetails, restaurantMenu };
     }
 
