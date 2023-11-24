@@ -21,6 +21,7 @@ export type GetCartItemsReturn = {
 
 export const api = createApi({
     baseQuery: fakeBaseQuery(),
+    reducerPath: 'api',
     tagTypes: ['GetCartItems'],
     endpoints: (build) => ({
         getCartItems: build.query<"notExists" | GetCartItemsReturn, string>({
@@ -37,6 +38,11 @@ export const api = createApi({
                             return { data: 'notExists' }
                         }
                     } else {
+                        await setDoc(cartDocRef, {
+                            restaurantId: "",
+                            itemWithQuantity: {},
+                        });
+
                         return { data: 'notExists' }
                     }
                 } catch (err) {

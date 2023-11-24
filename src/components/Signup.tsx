@@ -25,7 +25,7 @@ const Signup = () => {
         }
         await createUserWithEmailAndPassword(auth, emailAddress, password)
             .then(async (userCred) => {
-                console.log('userCred', userCred.user)
+                // console.log('userCred', userCred.user)
                 await updateProfile(userCred.user, { displayName: name })
                     .then(() => {
                         setUserLoginOrSignup(false)

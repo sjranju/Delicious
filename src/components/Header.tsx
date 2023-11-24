@@ -59,8 +59,8 @@ const Header = () => {
                             </Link>
                             {
                                 data === undefined || data === 'notExists' || !data.itemWithQuantity ?
-                                    <div className='absolute font-bold text-xs text-red-600 -top-[10px] left-4'>0</div>
-                                    : <div className='absolute font-bold text-xs text-red-600 -top-[10px] left-4'>
+                                    <div data-testid='cart0' className='absolute font-bold text-xs text-red-600 -top-[10px] left-4'>0</div>
+                                    : <div data-testid='cartQuantity' className='absolute font-bold text-xs text-red-600 -top-[10px] left-4'>
                                         {Object.entries(data?.itemWithQuantity)?.reduce((acc, val) =>
                                             acc += val[1]
                                             , 0)}</div>

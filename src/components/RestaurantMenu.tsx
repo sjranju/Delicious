@@ -26,7 +26,9 @@ const RestaurantMenu = () => {
   const { resetCart, setResetCart } = useContext(resetCartContext)
   const { data, isLoading } = useRestaurantInfo(resId!)
   const [deleteCart] = useDeleteCartItemMutation()
+  console.log('return typeof useDeleteCartItemMutation', typeof deleteCart, [deleteCart])
   const [updateCart] = useUpdateCartMutation()
+  console.log('return typeof useUpdateCartMutation', typeof updateCart)
 
   useEffect(() => {
     if (resId !== undefined)

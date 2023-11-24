@@ -22,10 +22,11 @@ const Cart = () => {
     const { data: cartItem } = useGetCartItemsQuery(user?.uid!)
     let restId = ''
     let cartItemSet = new Set<string>()
-    console.log('in cart')
+    console.log('in cart data:cartItem', cartItem)
     if (cartItem === undefined || cartItem === 'notExists') {
         console.log('cartItem data is either undefined or doesnt exist', cartItem)
     } else {
+        console.log('cartItem', cartItem)
         restId = cartItem.restaurantId
     }
     const { data, isLoading } = useRestaurantInfo(restId)
