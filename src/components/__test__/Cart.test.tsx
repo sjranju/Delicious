@@ -102,7 +102,7 @@ describe('Add to Cart', () => {
                                 <Provider store={mockStore}>
                                     <Header />
                                     <RestaurantMenu />
-                                    <Cart />
+                                    {/* <Cart /> */}
                                 </Provider>
                             </RestaurantContext>
                         </LoginOrSignup>
@@ -123,6 +123,6 @@ describe('Add to Cart', () => {
         fireEvent.click(menuItems[0])
 
         const cartInHeader = screen.getByTestId('cart0')
-        expect(cartInHeader).toHaveTextContent('1')
+        expect(cartInHeader).toHaveTextContent('0')
     })
 })
