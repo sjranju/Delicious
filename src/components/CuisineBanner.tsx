@@ -1,11 +1,11 @@
-import React, { useContext, useRef } from "react"
+import React, { useRef } from "react"
 import Slider from 'react-slick'
 import TopicalBannerImage from "./TopicalBannerImage";
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { GrFormNextLink, GrFormPreviousLink } from 'react-icons/gr'
 import { TopicalImageBanner } from "../utils/interfaces";
-import { userContext } from "../context/UserContext";
+import useAuthState from "../utils/useAuthState";
 
 const settings = {
     infinite: false,
@@ -56,8 +56,7 @@ const settings = {
 
 const CuisineBanner = (props: { card: TopicalImageBanner }) => {
     const sliderRef = useRef<Slider | null>(null);
-    const { user } = useContext(userContext)
-
+    const { data: user } = useAuthState()
     const goToNextSlide = () => {
         sliderRef.current?.slickNext();
     };

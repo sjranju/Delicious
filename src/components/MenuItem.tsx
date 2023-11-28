@@ -6,10 +6,10 @@ import veg from '../../public/images/veg.png'
 import nonveg from '../../public/images/non-veg.png'
 import { restaurantContext } from "../context/RestaurantContext"
 import { useUpdateCartMutation, useGetCartItemsQuery } from "../RTKQuery/cartQuery"
-import { userContext } from "../context/UserContext"
 import { resetCartContext } from "../context/ResetCartContext"
 import { loginOrSignUpContext } from "../context/LoginOrSignup"
 import { handleLoginOrSignUp } from "../utils/fetchRestaurantDetails"
+import useAuthState from "../utils/useAuthState"
 
 interface iProps {
     item: TYPES.RestaurantMenuItem
@@ -19,7 +19,7 @@ const MenuItem = (props: iProps) => {
     const { info } = props.item.card
     const { restaurantId } = useContext(restaurantContext)
     const { setResetCart } = useContext(resetCartContext)
-    const { user } = useContext(userContext)
+    const { data: user } = useAuthState()
     const [updateCart] = useUpdateCartMutation()
     const { data } = useGetCartItemsQuery(user?.uid!)
     const { setUserLoginOrSignup } = useContext(loginOrSignUpContext)

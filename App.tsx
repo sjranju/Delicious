@@ -26,26 +26,26 @@ const queryClient = new QueryClient()
 
 const App = () => {
     return (
-        <QueryClientProvider client={queryClient}>
             <UserContext>
                 <LoginOrSignup>
                     <RestaurantContext>
                         <ResetCartContext>
                             <Provider store={store}>
                                 <FilterRestaurantsContext>
+                                <QueryClientProvider client={queryClient}>
                                     <SkeletonTheme baseColor="#ebebeb" highlightColor="#f5f5f5">
                                         <div className="app">
                                             <Header />
                                             <Outlet />
                                         </div>
                                     </SkeletonTheme>
+                                </QueryClientProvider>
                                 </FilterRestaurantsContext>
                             </Provider>
                         </ResetCartContext>
                     </RestaurantContext>
                 </LoginOrSignup>
             </UserContext>
-        </QueryClientProvider>
     )
 }
 

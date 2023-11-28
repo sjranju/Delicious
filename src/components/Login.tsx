@@ -1,26 +1,28 @@
 import React, { useContext, useState } from "react"
 import Signup from "./Signup"
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
-import { userContext } from "../context/UserContext"
-import { app } from "../utils/firebaseConfig"
 import { loginOrSignUpContext } from "../context/LoginOrSignup"
+import useFirebaseLogin from "../utils/useFirebaseLogin"
+import useAuthState from "../utils/useAuthState"
 
 const Login = () => {
     const [signUp, setSignUp] = useState<boolean>(false)
     const [emailAddress, setEmailAddress] = useState<string>('')
     const [password, setPassword] = useState<string>('')
-    const { setUser } = useContext(userContext)
     const { setUserLoginOrSignup } = useContext(loginOrSignUpContext)
+    const loginMutation = useFirebaseLogin({ email: emailAddress, password })
+    const { data: user } = useAuthState()
 
-    const handleLogin = async (emailAddress: string, password: string) => {
-        const auth = getAuth(app)
-        await signInWithEmailAndPassword(auth, emailAddress, password)
-            .then(userCredential => {
-                console.log(userCredential)
-                setUserLoginOrSignup(false)
-                setUser(userCredential.user)
-            })
-            .catch(error => console.log(error))
+    const handleLogin = async () => {
+        if (!user) {
+            loginMutation.mutate()
+            loginMutation.isLoading && console.log('Loading login')
+            loginMutation.isSuccess && setUserLoginOrSignup(false)
+            console.log('loginMutation.mutate', loginMutation.data)
+        }
+        // if (loginMutation.isSuccess) {
+        //     console.log(loginMutation.data?.user)
+        //     setUserLoginOrSignup(false)
+        // }
     }
 
     return (
@@ -44,7 +46,8 @@ const Login = () => {
                             className="border rounded-sm px-2 py-4 placeholder:text-xs placeholder:-translate-y-4 text-sm"
                             value={password} onChange={(e) => setPassword(e.target.value)} />
                         <button type="submit" className="bg-red-600 text-white text-sm p-4 font-semibold rounded-sm"
-                            onClick={() => handleLogin(emailAddress, password)}>LOGIN</button>
+                            onClick={handleLogin}>LOGIN</button>
+                        {loginMutation.isError && <div className="text-red-500">{loginMutation.error as string}</div>}
                     </>
             }
         </div>

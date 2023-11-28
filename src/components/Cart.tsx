@@ -1,6 +1,5 @@
 import React, { useContext, useMemo } from "react"
 import { useUpdateCartMutation, useGetCartItemsQuery, useDeleteCartItemMutation } from "../RTKQuery/cartQuery"
-import { userContext } from "../context/UserContext"
 import { HiLocationMarker } from 'react-icons/hi'
 import { GiWallet } from 'react-icons/gi'
 import { CLOUDINARY_URL } from "../utils/constants";
@@ -13,20 +12,19 @@ import { loginOrSignUpContext } from "../context/LoginOrSignup"
 import SkeletonCart from "../Shimmer/SkeletonCart"
 import useRestaurantInfo from "../utils/useRestaurantInfo"
 import { handleLoginOrSignUp } from "../utils/fetchRestaurantDetails"
+import useAuthState from "../utils/useAuthState"
 
 const Cart = () => {
-    const { user } = useContext(userContext)
+    const { data: user } = useAuthState()
     const { setUserLoginOrSignup } = useContext(loginOrSignUpContext)
     const [updateCart] = useUpdateCartMutation()
     const [deleteCart] = useDeleteCartItemMutation()
     const { data: cartItem } = useGetCartItemsQuery(user?.uid!)
     let restId = ''
     let cartItemSet = new Set<string>()
-    console.log('in cart data:cartItem', cartItem)
     if (cartItem === undefined || cartItem === 'notExists') {
         console.log('cartItem data is either undefined or doesnt exist', cartItem)
     } else {
-        console.log('cartItem', cartItem)
         restId = cartItem.restaurantId
     }
     const { data, isLoading } = useRestaurantInfo(restId)

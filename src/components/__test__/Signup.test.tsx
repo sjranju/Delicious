@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import React from "react";
 import LoginOrSignup from "../../context/LoginOrSignup";

@@ -1,23 +1,24 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { FiHelpCircle } from 'react-icons/fi'
 import logo from '../../public/images/logo-no-background.png'
 import { Link } from 'react-router-dom'
 import useOnlineStatus from '../utils/useOnlineStatus'
 import { AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai'
 import UserLoginOrSignup from './UserLoginOrSignup'
-import useAuthListener from '../utils/useAuthListener'
 import { signOut } from 'firebase/auth'
 import { auth } from '../utils/firebaseConfig'
-import { useGetCartItemsQuery } from '../RTKQuery/cartQuery'
+import { GetCartItemsReturn, useGetCartItemsQuery } from '../RTKQuery/cartQuery'
 import { LuSearch } from 'react-icons/lu'
 import { loginOrSignUpContext } from '../context/LoginOrSignup'
 import { handleLoginOrSignUp } from '../utils/fetchRestaurantDetails'
+import useAuthState from '../utils/useAuthState'
 
 const Header = () => {
     const { onlineStatus } = useOnlineStatus()
-    const user = useAuthListener()
-    const { data } = useGetCartItemsQuery(user?.uid!)
+    const { data: userAuthState } = useAuthState()
+    const { data: cart } = useGetCartItemsQuery(userAuthState ? userAuthState?.uid : '')
     const { userLoginOrSignUp, setUserLoginOrSignup } = useContext(loginOrSignUpContext)
+    console.log('userAuthState in header', userAuthState)
 
     return (
         <div className='relative'>
@@ -30,13 +31,13 @@ const Header = () => {
                         <li><Link to='/search' className='hover:text-red-600 flex flex-row items-center space-x-2'><LuSearch size={20} className='font-bold' /><span>Search</span></Link></li>
                         <li><Link to='/contact' className='hover:text-red-600 flex flex-row items-center space-x-2'><FiHelpCircle size={22} /><span>Help</span></Link></li>
                         <li className='group/profile'>
-                            <button type='button' onClick={() => !user && setUserLoginOrSignup(true)}
+                            <button type='button' onClick={() => !userAuthState && setUserLoginOrSignup(true)}
                                 className='flex flex-row items-center hover:text-red-600'
                                 role='userIcon'>
                                 <AiOutlineUser size={22} className='' />
-                                <span className='text-sm'>{user && user.displayName}</span>
+                                <span className='text-sm'>{userAuthState && userAuthState.displayName}</span>
                             </button>
-                            {user &&
+                            {userAuthState &&
                                 <div className="hidden absolute group-hover/profile:block font-semibold z-10 w-40 p-4 bg-red-50 text-sm shadow-md">
                                     <ul className='space-y-4'>
                                         <li className='hover:font-bold'>Profile</li>
@@ -58,10 +59,10 @@ const Header = () => {
                                 <span>Cart</span>
                             </Link>
                             {
-                                data === undefined || data === 'notExists' || !data.itemWithQuantity ?
+                                cart === undefined || cart === 'notExists' || cart === null || !cart.itemWithQuantity ?
                                     <div data-testid='cart0' className='absolute font-bold text-xs text-red-600 -top-[10px] left-4'>0</div>
                                     : <div data-testid='cartQuantity' className='absolute font-bold text-xs text-red-600 -top-[10px] left-4'>
-                                        {Object.entries(data?.itemWithQuantity)?.reduce((acc, val) =>
+                                        {Object.entries(cart.itemWithQuantity)?.reduce((acc, val) =>
                                             acc += val[1]
                                             , 0)}</div>
                             }

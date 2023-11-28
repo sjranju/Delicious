@@ -1,9 +1,8 @@
 import React, { useContext, useState } from "react"
 import Login from "./Login"
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
-import { userContext } from "../context/UserContext"
-import { auth } from "../utils/firebaseConfig"
 import { loginOrSignUpContext } from "../context/LoginOrSignup"
+import useFirebaseSignUp from "../utils/useFirebaseSignUp"
+import useAuthState from "../utils/useAuthState"
 
 const Signup = () => {
 
@@ -12,30 +11,30 @@ const Signup = () => {
     const [emailAddress, setEmailAddress] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [name, setName] = useState<string>('')
-    const { setUser, user } = useContext(userContext)
     const [error, setError] = useState<string>('')
     const { setUserLoginOrSignup } = useContext(loginOrSignUpContext)
     const [nameNotProvided, setNameNotProvided] = useState<boolean>(false)
+    const signUpMutation = useFirebaseSignUp({ email: emailAddress, password, displayName: name })
+    const { data: user } = useAuthState()
 
-    const handleSignup = async (name: string, emailAddress: string, password: string) => {
+    const handleSignup = () => {
+
         if (name === '') {
             setNameNotProvided(true)
             setError('Enter your name')
             return
         }
-        await createUserWithEmailAndPassword(auth, emailAddress, password)
-            .then(async (userCred) => {
-                // console.log('userCred', userCred.user)
-                await updateProfile(userCred.user, { displayName: name })
-                    .then(() => {
-                        setUserLoginOrSignup(false)
-                        setUser(userCred.user)
-                    })
-            })
-            .catch(error =>
-                setError(error.message.replace('Firebase:', '')))
+
+        if (!user) {
+            signUpMutation.mutate()
+            console.log('useAuthState', user)
+            setUserLoginOrSignup(false)
+        }
+        // if (signUpMutation.isSuccess && signUpMutation.data) {
+        //     setUserLoginOrSignup(false)
+        // }
+
     }
-    console.log('user in signup', user)
 
     return (
         <>{
@@ -64,10 +63,10 @@ const Signup = () => {
                         :
                         <button type='button' className="text-blue-500 text-left text-sm font-semibold" onClick={() => { setHaveReferralCode(true) }}>Have a referral code?</button>}
                     {
-                        error && <div className="text-red-500">{error}</div>
+                        signUpMutation.isError && <div className="text-red-500">{signUpMutation.error as string}</div>
                     }
                     <button type='button' className="bg-red-600 text-white text-sm p-4 font-semibold rounded-sm"
-                        onClick={() => handleSignup(name, emailAddress, password)}>SIGN UP</button>
+                        onClick={handleSignup}>SIGN UP</button>
                 </>
         }
         </>
