@@ -67,7 +67,7 @@ const CuisineBanner = (props: { card: TopicalImageBanner }) => {
 
     return (
         <div className="relative w-9/12 m-auto bg-slate-50 mt-6 mb-2">
-            <div className="text-2xl font-bold mb-6">
+            <div className="lg:text-2xl text-lg font-bold mb-6">
                 {user ? <span>{user.displayName},</span> : 'Hey,'}
                 <span className="ml-1">what's on your mind?</span>
             </div>

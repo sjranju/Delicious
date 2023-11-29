@@ -20,54 +20,60 @@ const Header = () => {
     const { userLoginOrSignUp, setUserLoginOrSignup } = useContext(loginOrSignUpContext)
 
     return (
-        <div className='relative'>
-            <div className='flex flex-row justify-between items-center shadow-md py-1 px-52'>
+        <div className='relative h-18'>
+            <div className='flex flex-row justify-between items-center shadow-md py-1 lg:px-52 px-12'>
                 <Link to='/' className='hover:transition hover:duration-250 hover:ease-in-out hover:scale-95'>
-                    <img src={logo} alt='' className='w-16' />
+                    <img src={logo} alt='' className='md:w-16 w-12' />
                 </Link>
-                <div className=''>
-                    <ul className='flex flex-row space-x-8 font-medium'>
-                        <li><Link to='/search' className='hover:text-red-600 flex flex-row items-center space-x-2'><LuSearch size={20} className='font-bold' /><span>Search</span></Link></li>
-                        <li><Link to='/contact' className='hover:text-red-600 flex flex-row items-center space-x-2'><FiHelpCircle size={22} /><span>Help</span></Link></li>
-                        <li className='group/profile'>
-                            <button type='button' onClick={() => !user && setUserLoginOrSignup(true)}
-                                className='flex flex-row items-center hover:text-red-600'
-                                role='userIcon'>
-                                <AiOutlineUser size={22} className='' />
-                                <span className='text-sm'>{user && user.displayName}</span>
-                            </button>
-                            {user &&
-                                <div className="hidden absolute group-hover/profile:block font-semibold z-10 w-40 p-4 bg-red-50 text-sm shadow-md">
-                                    <ul className='space-y-4'>
-                                        <li className='hover:font-bold'>Profile</li>
-                                        <li className='hover:font-bold'>Orders</li>
-                                        <li className='hover:font-bold'>Favourites</li>
-                                        <li className='hover:font-bold'>
-                                            <button type='button' onClick={() => {
-                                                signOut(auth)
-                                                setUserLoginOrSignup(true)
-                                                handleLoginOrSignUp()
-                                            }}>Logout</button></li>
-                                    </ul>
-                                </div>
-                            }
-                        </li>
-                        <li className='relative'>
-                            <Link to={'/cart'} className='flex flex-row items-center space-x-2 hover:text-red-600'>
-                                <AiOutlineShoppingCart size={22} className='' />
-                                <span>Cart</span>
-                            </Link>
-                            {
-                                cart === undefined || cart === 'notExists' || cart === null || !cart.itemWithQuantity ?
-                                    <div data-testid='cart0' className='absolute font-bold text-xs text-red-600 -top-[10px] left-4'>0</div>
-                                    : <div data-testid='cartQuantity' className='absolute font-bold text-xs text-red-600 -top-[10px] left-4'>
-                                        {Object.entries(cart.itemWithQuantity)?.reduce((acc, val) =>
-                                            acc += val[1]
-                                            , 0)}</div>
-                            }
-                        </li>
-                    </ul>
-                </div>
+                <ul className='flex flex-row lg:space-x-8 space-x-4 font-medium lg:text-base text-sm'>
+                    <li>
+                        <Link to='/search' className='hover:text-red-600 flex flex-row items-center space-x-2'>
+                            <LuSearch size={'1.4em'} className='font-bold' /><span>Search</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to='/contact' className='hover:text-red-600 flex flex-row items-center space-x-2'>
+                            <FiHelpCircle size={'1.4em'} /><span>Help</span>
+                        </Link>
+                    </li>
+                    <li className='group/profile'>
+                        <button type='button' onClick={() => !user && setUserLoginOrSignup(true)}
+                            className='flex flex-row items-center hover:text-red-600'
+                            role='userIcon'>
+                            <AiOutlineUser size={'1.4em'} className='' />
+                            <span className=''>{user && user.displayName}</span>
+                        </button>
+                        {user &&
+                            <div className="hidden absolute group-hover/profile:block font-semibold z-10 w-40 p-4 bg-red-50 text-sm shadow-md">
+                                <ul className='space-y-4'>
+                                    <li className='hover:font-bold'>Profile</li>
+                                    <li className='hover:font-bold'>Orders</li>
+                                    <li className='hover:font-bold'>Favourites</li>
+                                    <li className='hover:font-bold'>
+                                        <button type='button' onClick={() => {
+                                            signOut(auth)
+                                            setUserLoginOrSignup(true)
+                                            handleLoginOrSignUp()
+                                        }}>Logout</button></li>
+                                </ul>
+                            </div>
+                        }
+                    </li>
+                    <li className='relative'>
+                        <Link to={'/cart'} className='flex flex-row items-center space-x-2 hover:text-red-600'>
+                            <AiOutlineShoppingCart size={'1.4em'} className='' />
+                            <span>Cart</span>
+                        </Link>
+                        {
+                            cart === undefined || cart === 'notExists' || cart === null || !cart.itemWithQuantity ?
+                                <div data-testid='cart0' className='absolute font-bold text-xs text-red-600 -top-[10px] left-4'>0</div>
+                                : <div data-testid='cartQuantity' className='absolute font-bold text-xs text-red-600 -top-[10px] left-4'>
+                                    {Object.entries(cart.itemWithQuantity)?.reduce((acc, val) =>
+                                        acc += val[1]
+                                        , 0)}</div>
+                        }
+                    </li>
+                </ul>
             </div>
 
             {

@@ -134,8 +134,8 @@ const Cart = () => {
             : cartItem.restaurantId ? (<div className="relative w-full h-screen bg-slate-100">
                 {
                     <div className="flex mx-auto max-w-screen-xl min-w-max pt-10 px-28">
-                        <div className="flex flex-row space-x-8 w-full">
-                            <div className="w-8/12">
+                        <div className="flex md:flex-row md:space-x-8 w-full flex-col">
+                            <div className="md:w-8/12 w-10/12">
                                 <div className="flex flex-col justify-around space-y-10 ">
                                     <div className="flex flex-col items-start bg-white space-y-6 py-6 px-8 w-full shadow-lg">
                                         <div className="font-bold text-lg text-slightBlack">Add a delivery address</div>
@@ -146,16 +146,16 @@ const Cart = () => {
                                         <input type="text" placeholder="Landmark"
                                             className="border border-b-black w-3/4 placeholder:text-xs placeholder:pl-2 outline-none" />
                                         <button type='button' className="bg-lime-600 font-semibold hover:bg-lime-700 text-white px-4 py-1 text-md rounded-md">Save</button>
-                                        <div className="absolute flex items-center justify-center top-8 left-[200px] bg-black p-1 shadow-xl w-10 h-10"><HiLocationMarker size={26} className="text-white" /></div>
-                                        <div className="absolute left-[220px] top-[71px] border-l border-dashed border-gray-400 h-72"></div>
+                                        <div className="absolute lg:flex hidden items-center justify-center top-8 left-[200px] bg-black p-1 shadow-xl w-10 h-10"><HiLocationMarker size={26} className="text-white" /></div>
+                                        <div className="absolute lg:block hidden left-[220px] top-[76px] border-l border-dashed border-gray-400 h-80"></div>
                                     </div>
                                     <div className="bg-white px-8 items-start shadow-lg py-4">
                                         <div className="text-lg text-gray-500 py-4 font-bold">Payment</div>
-                                        <div className="absolute flex items-center justify-center top-[375px] left-[200px] bg-black p-1 shadow-xl w-10 h-10"><GiWallet size={24} className="text-white text-center" /></div>
+                                        <div className="absolute lg:flex hidden items-center justify-center top-[425px] left-[200px] bg-black p-1 shadow-xl w-10 h-10"><GiWallet size={24} className="text-white text-center" /></div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="relative w-4/12 flex flex-col space-y-2 bg-white p-6 shadow-lg">
+                            <div className="relative md:w-4/12 w-10/12 flex flex-col space-y-2 bg-white p-6 shadow-lg">
                                 <Link to={`/restaurant/${data?.resInfo.card.card.info.id}`}>
                                     <div className="flex flex-row items-center space-x-4 mb-4">
                                         <img src={`${CLOUDINARY_URL + data?.resInfo?.card?.card?.info?.cloudinaryImageId}`} alt="" className="w-12 h-12" />

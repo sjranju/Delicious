@@ -1,8 +1,6 @@
 import React, { useContext, useState } from "react"
 import Login from "./Login"
 import { loginOrSignUpContext } from "../context/LoginOrSignup"
-import useFirebaseSignUp from "../utils/useFirebaseSignUp"
-import useAuthListener from "../utils/useAuthListener"
 import { userContext } from "../context/UserContext"
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
 import { auth } from "../utils/firebaseConfig"

@@ -75,11 +75,11 @@ const RestaurantList = (props: iRestaurantListProps) => {
     return (
         <>
             <div className='w-9/12 m-auto mt-6 pb-10'>
-                <div className="text-2xl font-bold mb-4">Restaurants with online food delivery</div>
+                <div className="lg:text-2xl text-lg font-bold mb-4">Restaurants with online food delivery</div>
                 {filterRestaurants !== '' && isLoading ? <SkeletonFilterRestaurants />
                     :
                     <div>
-                        <div className="relative flex flex-row space-x-4 text-black/75 mb-6 text-sm">
+                        <div className="relative flex flex-row space-x-4 text-black/75 mb-6 lg:text-sm text-xs">
                             <button type='button' className="flex flex-row space-x-1 items-center justify-center border border-[#E2E2E7] px-2 py-1 rounded-2xl shadow-md">
                                 <span>Filter</span>
                                 <BsFilter color="black" size={20} className="mt-1" />
@@ -161,7 +161,7 @@ const RestaurantList = (props: iRestaurantListProps) => {
                         </div>
                     </div>
                 }
-                <div className='grid grid-cols-4 gap-10 items-start'>
+                <div className='grid lg:grid-cols-4 gap-10 items-start md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1'>
                     {filterRestaurants === '' && content}
                     {isSuccess &&
                         (data.pages.map((page) =>
