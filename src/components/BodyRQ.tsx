@@ -10,7 +10,6 @@ import { loginOrSignUpContext } from "../context/LoginOrSignup"
 import useFetchRestaurants from "../utils/useFetchRestaurants"
 
 const BodyRQ = () => {
-    const { userLoginOrSignUp } = useContext(loginOrSignUpContext)
     const { isLoading, data, isError, error } = useQuery({
         queryKey: ['restaurantsList'],
         queryFn: useFetchRestaurants

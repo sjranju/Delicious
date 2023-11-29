@@ -20,6 +20,8 @@ import { configureStore } from '@reduxjs/toolkit'
 import { Mock } from 'jest-mock'
 import { UseQueryHookResult } from '@reduxjs/toolkit/dist/query/react/buildHooks'
 import { QueryDefinition, BaseQueryFn } from '@reduxjs/toolkit/query'
+import { setupApiStore } from './helpers'
+import ResetCartContext from '../../context/ResetCartContext'
 
 type wrapperProps = {
     children: ReactElement<any, string | JSXElementConstructor<any>>
@@ -33,29 +35,11 @@ const queryClient = new QueryClient({
     }
 })
 
-const wrapper = (props: wrapperProps) => {
-    return (
-        <QueryClientProvider client={queryClient}>
-            {props.children}
-        </QueryClientProvider>
-    )
-}
-
 jest.mock('react-router', () => ({
     ...jest.requireActual('react-router'),
     useParams: jest.fn().mockReturnValue({ resId: '737440' })
 }))
 
-const mockStore = configureStore({
-    reducer: {
-        [api.reducerPath]: api.reducer,
-    },
-    middleware: (getDefaultMiddleware) => {
-        return getDefaultMiddleware({
-            serializableCheck: false,
-        }).concat(api.middleware);
-    },
-});
 
 const mockCartItems = {
     restaurantId: '737440',
@@ -63,7 +47,6 @@ const mockCartItems = {
         127533210: 1
     }
 };
-
 
 const mockGetCartItemsQuery = {
     queryFn: jest.fn().mockResolvedValue(mockCartItems),
@@ -76,6 +59,23 @@ jest.mock('../../RTKQuery/cartQuery', () => {
 });
 
 describe('Add to Cart', () => {
+
+    const wrapper = (props: wrapperProps) => {
+        return (
+            <UserContext>
+                <LoginOrSignup>
+                    <RestaurantContext>
+                        <ResetCartContext>
+                            <QueryClientProvider client={queryClient}>
+                                {props.children}
+                            </QueryClientProvider>
+                        </ResetCartContext>
+                    </RestaurantContext>
+                </LoginOrSignup>
+            </UserContext>
+        )
+    }
+
     beforeAll(() => {
         jest.clearAllMocks()
         mockAdapter.onGet(RESTAURANT_ITEM + '737440').reply(200, restaurantInfoMockJson)
@@ -96,17 +96,9 @@ describe('Add to Cart', () => {
         await act(async () =>
             render(
                 <MemoryRouter initialEntries={['/restaurant/737440']}>
-                    <UserContext>
-                        <LoginOrSignup>
-                            <RestaurantContext>
-                                <Provider store={mockStore}>
-                                    <Header />
-                                    <RestaurantMenu />
-                                    {/* <Cart /> */}
-                                </Provider>
-                            </RestaurantContext>
-                        </LoginOrSignup>
-                    </UserContext>
+                    <Provider store={appStore}>
+                        <RestaurantMenu />
+                    </Provider>
                 </MemoryRouter>
                 , { wrapper })
         )

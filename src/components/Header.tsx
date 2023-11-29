@@ -7,18 +7,17 @@ import { AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai'
 import UserLoginOrSignup from './UserLoginOrSignup'
 import { signOut } from 'firebase/auth'
 import { auth } from '../utils/firebaseConfig'
-import { GetCartItemsReturn, useGetCartItemsQuery } from '../RTKQuery/cartQuery'
+import { useGetCartItemsQuery } from '../RTKQuery/cartQuery'
 import { LuSearch } from 'react-icons/lu'
 import { loginOrSignUpContext } from '../context/LoginOrSignup'
 import { handleLoginOrSignUp } from '../utils/fetchRestaurantDetails'
-import useAuthState from '../utils/useAuthState'
+import useAuthListener from '../utils/useAuthListener'
 
 const Header = () => {
     const { onlineStatus } = useOnlineStatus()
-    const { data: userAuthState } = useAuthState()
-    const { data: cart } = useGetCartItemsQuery(userAuthState ? userAuthState?.uid : '')
+    const user = useAuthListener()
+    const { data: cart } = useGetCartItemsQuery(user ? user?.uid : '')
     const { userLoginOrSignUp, setUserLoginOrSignup } = useContext(loginOrSignUpContext)
-    console.log('userAuthState in header', userAuthState)
 
     return (
         <div className='relative'>
@@ -31,13 +30,13 @@ const Header = () => {
                         <li><Link to='/search' className='hover:text-red-600 flex flex-row items-center space-x-2'><LuSearch size={20} className='font-bold' /><span>Search</span></Link></li>
                         <li><Link to='/contact' className='hover:text-red-600 flex flex-row items-center space-x-2'><FiHelpCircle size={22} /><span>Help</span></Link></li>
                         <li className='group/profile'>
-                            <button type='button' onClick={() => !userAuthState && setUserLoginOrSignup(true)}
+                            <button type='button' onClick={() => !user && setUserLoginOrSignup(true)}
                                 className='flex flex-row items-center hover:text-red-600'
                                 role='userIcon'>
                                 <AiOutlineUser size={22} className='' />
-                                <span className='text-sm'>{userAuthState && userAuthState.displayName}</span>
+                                <span className='text-sm'>{user && user.displayName}</span>
                             </button>
-                            {userAuthState &&
+                            {user &&
                                 <div className="hidden absolute group-hover/profile:block font-semibold z-10 w-40 p-4 bg-red-50 text-sm shadow-md">
                                     <ul className='space-y-4'>
                                         <li className='hover:font-bold'>Profile</li>

@@ -34,29 +34,34 @@ const Search = () => {
                         onChange={(e) => setSearchText(e.target.value)}
                         className='outline-none outline-gray-200 rounded-sm w-8/12 py-2 placeholder:text-gray-500 placeholder:font-semibold pl-2' >
                     </input>
+
                     <BiSearch size={22} color='brown' onClick={handleFilterRestaurants}
-                        className='search-icon' />
-                    {searchText?.length !== 0 ?
-                        <AiOutlineClose color='brown' size={22} onClick={() => {
-                            setSearchText('')
-                            setFilterRestaurants([])
-                        }} />
-                        : <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        data-testid='searchButton' className='search-icon' />
+
+                    {
+                        searchText?.length !== 0 ?
+                            <AiOutlineClose data-testid='searchClose' color='brown' size={22} onClick={() => {
+                                setSearchText('')
+                                setFilterRestaurants([])
+                            }} />
+                            : <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
                     }
                 </div>
             </div>
             <div className="w-7/12 mx-auto">
-                {filterRestaurants?.map(restaurant =>
-                    <Link to={`/restaurant/${restaurant.info.id}`}>
-                        <div className="flex flex-row items-center justify-start space-x-2 hover:bg-sky-50 py-4 px-2 rounded-md">
-                            <img src={CLOUDINARY_URL + restaurant.info.cloudinaryImageId} className="w-12 h-12" />
-                            <div className="flex flex-col justify-center text-sm">
-                                <p className="text-[17px]">{restaurant.info.name}</p>
-                                <p className="font-light text-gray-500 text-[14px]">Restaurant</p>
+                {
+                    filterRestaurants?.map(restaurant =>
+                        <Link key={restaurant.info.id} data-testid='restaurantSearch' to={`/restaurant/${restaurant.info.id}`}>
+                            <div className="flex flex-row items-center justify-start space-x-2 hover:bg-sky-50 py-4 px-2 rounded-md">
+                                <img src={CLOUDINARY_URL + restaurant.info.cloudinaryImageId} className="w-12 h-12" />
+                                <div className="flex flex-col justify-center text-sm">
+                                    <p className="text-[17px]">{restaurant.info.name}</p>
+                                    <p className="font-light text-gray-500 text-[14px]">Restaurant</p>
+                                </div>
                             </div>
-                        </div>
-                    </Link>
-                )}
+                        </Link>
+                    )
+                }
             </div>
         </div >
     )

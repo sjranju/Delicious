@@ -12,10 +12,11 @@ import { loginOrSignUpContext } from "../context/LoginOrSignup"
 import SkeletonCart from "../Shimmer/SkeletonCart"
 import useRestaurantInfo from "../utils/useRestaurantInfo"
 import { handleLoginOrSignUp } from "../utils/fetchRestaurantDetails"
-import useAuthState from "../utils/useAuthState"
+import { userContext } from "../context/UserContext";
 
 const Cart = () => {
-    const { data: user } = useAuthState()
+
+    const { user } = useContext(userContext)
     const { setUserLoginOrSignup } = useContext(loginOrSignUpContext)
     const [updateCart] = useUpdateCartMutation()
     const [deleteCart] = useDeleteCartItemMutation()

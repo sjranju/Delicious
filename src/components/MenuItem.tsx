@@ -9,7 +9,7 @@ import { useUpdateCartMutation, useGetCartItemsQuery } from "../RTKQuery/cartQue
 import { resetCartContext } from "../context/ResetCartContext"
 import { loginOrSignUpContext } from "../context/LoginOrSignup"
 import { handleLoginOrSignUp } from "../utils/fetchRestaurantDetails"
-import useAuthState from "../utils/useAuthState"
+import { userContext } from "../context/UserContext"
 
 interface iProps {
     item: TYPES.RestaurantMenuItem
@@ -19,7 +19,7 @@ const MenuItem = (props: iProps) => {
     const { info } = props.item.card
     const { restaurantId } = useContext(restaurantContext)
     const { setResetCart } = useContext(resetCartContext)
-    const { data: user } = useAuthState()
+    const { user } = useContext(userContext)
     const [updateCart] = useUpdateCartMutation()
     const { data } = useGetCartItemsQuery(user?.uid!)
     const { setUserLoginOrSignup } = useContext(loginOrSignUpContext)

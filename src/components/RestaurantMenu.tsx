@@ -16,12 +16,12 @@ import SkeletonRestaurantDetails from "../Shimmer/SkeletonRestaurantDetails";
 import { resetCartContext } from "../context/ResetCartContext";
 import { useDeleteCartItemMutation, useUpdateCartMutation } from "../RTKQuery/cartQuery";
 import useRestaurantInfo from "../utils/useRestaurantInfo";
-import useAuthState from "../utils/useAuthState";
+import { userContext } from "../context/UserContext";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
   const { restaurantId, setRestaurantId } = useContext(restaurantContext)
-  const { data: user } = useAuthState()
+  const { user } = useContext(userContext)
   const [vegOnly, setVegOnly] = useState<boolean>(false)
   const { resetCart, setResetCart } = useContext(resetCartContext)
   const { data, isLoading } = useRestaurantInfo(resId!)

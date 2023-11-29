@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { UserCredential, signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from './firebaseConfig'
 
 type LoginProps = {
@@ -7,14 +7,15 @@ type LoginProps = {
     password: string
 }
 
-const useFirebaseLogin = ({ email, password }: LoginProps) => {
+const useFirebaseLogin = () => {
 
-    const userLogin = async (email: string, password: string) => {
-        const user = await signInWithEmailAndPassword(auth, email, password)
-        return user
-    }
+    const loginMutation = useMutation({
+        mutationFn: async ({ email, password }: LoginProps) =>
+            await signInWithEmailAndPassword(auth, email, password)
+                .then(res => res.user)
+                .catch(error => error as string)
 
-    const loginMutation = useMutation({ mutationFn: async () => await userLogin(email, password) })
+    })
 
     return loginMutation
 

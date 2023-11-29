@@ -1,9 +1,4 @@
-import type {
-    AnyAction,
-    EnhancedStore,
-    Middleware,
-    Store,
-} from '@reduxjs/toolkit'
+import type { AnyAction, EnhancedStore, Middleware, Store } from '@reduxjs/toolkit'
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import type { Reducer } from 'react'
@@ -16,17 +11,17 @@ export function withProvider(store: Store<any>) {
     }
 }
 
-export function setupApiStore<A extends {
-    reducerPath: 'api'
-    reducer: Reducer<any, any>
-    middleware: Middleware
-    util: { resetApiState(): any }
-},
-    R extends Record<string, Reducer<any, any>> = Record<never, never>
->(api: A, extraReducers?: R, withoutListeners?: boolean) {
+export function setupApiStore<A extends
+    {
+        reducerPath: 'api'
+        reducer: Reducer<any, any>
+        middleware: Middleware
+        util: { resetApiState(): any }
+    },
+    R extends Record<string, Reducer<any, any>> = Record<never, never>>(api: A, extraReducers?: R, withoutListeners?: boolean) {
     const getStore = () =>
         configureStore({
-            reducer: { api: api.reducer, ...extraReducers },
+            reducer: { api: api.reducer },
             middleware: (gdm) =>
                 gdm({ serializableCheck: false, immutableCheck: false }).concat(
                     api.middleware
