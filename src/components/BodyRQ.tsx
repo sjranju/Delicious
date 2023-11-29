@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React from "react"
 import { useQuery } from '@tanstack/react-query'
 import useOnlineStatus from "../utils/useOnlineStatus"
 import * as TYPES from "../utils/interfaces"
@@ -6,7 +6,6 @@ import SkeletonRestaurantCard from "../Shimmer/SkeletonRestaurantCard"
 import RestaurantList from "./RestaurantList"
 import TopicalBanner from "./TopicalBanner"
 import CuisineBanner from "./CuisineBanner"
-import { loginOrSignUpContext } from "../context/LoginOrSignup"
 import useFetchRestaurants from "../utils/useFetchRestaurants"
 
 const BodyRQ = () => {

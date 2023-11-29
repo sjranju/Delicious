@@ -1,11 +1,9 @@
 import React, { useContext, useState } from "react"
 import Signup from "./Signup"
 import { loginOrSignUpContext } from "../context/LoginOrSignup"
-import useFirebaseLogin from "../utils/useFirebaseLogin"
 import { userContext } from "../context/UserContext"
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
-import { useMutation } from "@tanstack/react-query"
-import { app, auth } from "../utils/firebaseConfig"
+import { app } from "../utils/firebaseConfig"
 
 type LoginProps = {
     email: string,
