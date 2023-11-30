@@ -66,9 +66,19 @@ export const FAQ = [
 ];
 
 export const FILTERS = {
+    DELIVERY_TIME: {
+        "isFiltered": true,
+        "facets": {},
+        "sortAttribute": "deliveryTimeAsc"
+    },
+    RATINGS4: {
+        "isFiltered": true,
+        "facets": {},
+        "sortAttribute": "modelBasedRatingDesc"
+    },
     TOP_RATED: {
-        isFiltered: true,
-        facets: {
+        "isFiltered": true,
+        "facets": {
             "rating": [
                 {
                     "value": "ratingfacetquery4"

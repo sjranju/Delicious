@@ -12,6 +12,7 @@ import { LuSearch } from 'react-icons/lu'
 import { loginOrSignUpContext } from '../context/LoginOrSignup'
 import { handleLoginOrSignUp } from '../utils/fetchRestaurantDetails'
 import useAuthListener from '../utils/useAuthListener'
+import Login from './Login'
 
 const Header = () => {
     const { onlineStatus } = useOnlineStatus()
@@ -93,8 +94,8 @@ const Header = () => {
             }
             {
                 userLoginOrSignUp &&
-                <div className={`absolute right-0 inset-y-0 h-screen z-20 w-4/12 p-12 bg-white shadow-2xl ${userLoginOrSignUp ? 'animate-moveRightToLeft' : 'hidden animate-moveLeftToRight'}  overflow-hidden`}>
-                    <UserLoginOrSignup />
+                <div className={`fixed right-0 inset-y-0 h-screen z-20 bg-white shadow-2xl ${userLoginOrSignUp ? 'animate-moveRightToLeft' : 'hidden animate-moveLeftToRight'}  overflow-hidden`}>
+                    <Login />
                 </div>
             }
         </div >

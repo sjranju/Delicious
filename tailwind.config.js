@@ -4,6 +4,9 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 module.exports = {
   content: ["./src/**/*.{html,js,ts,jsx,tsx}",],
   theme: {
+    fontFamily: {
+      'offer': ['ProximaNovaCondensedRegular', 'arial', '"Helvetica Neue"', 'sans-serif']
+    },
     extend: {
       maxWidth: {
         '2xs': '200px',

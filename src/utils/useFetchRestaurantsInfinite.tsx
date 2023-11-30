@@ -20,7 +20,11 @@ const useFetchRestaurantsInfinite = (filterRestaurants: string, pageOffset: TYPE
                                 FILTERS.HIGH_TO_LOW
                                 : filterType === 'lowToHigh' ?
                                     FILTERS.LOW_TO_HIGH
-                                    : {},
+                                    : filterType === 'ratings4' ?
+                                        FILTERS.RATINGS4
+                                        : filterType === 'deliveryTime' ?
+                                            FILTERS.DELIVERY_TIME
+                                            : {},
                 lat: 12.979568962372062,
                 lng: 77.50290893018244,
                 seoParams: {

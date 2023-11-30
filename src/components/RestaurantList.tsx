@@ -80,20 +80,16 @@ const RestaurantList = (props: iRestaurantListProps) => {
                     :
                     <div>
                         <div className="relative flex flex-row space-x-4 text-black/75 mb-6 lg:text-sm text-xs">
-                            <button type='button' className="flex flex-row space-x-1 items-center justify-center border border-[#E2E2E7] px-2 py-1 rounded-2xl shadow-md">
-                                <span>Filter</span>
-                                <BsFilter color="black" size={20} className="mt-1" />
-                            </button>
                             <button type='button' onClick={() => setSortBy(true)}
                                 className="flex flex-row space-x-1 items-center justify-center border border-[#E2E2E7] px-2 py-1 rounded-2xl shadow-md">
                                 <span>{
-                                    filterRestaurants === 'fastDelivery' ?
+                                    filterRestaurants === 'deliveryTime' ?
                                         'Delivery Time'
                                         : filterRestaurants === 'lowToHigh' ?
                                             'Cost: Low to High'
                                             : filterRestaurants === 'highToLow' ?
                                                 'Cost: High to Low'
-                                                : filterRestaurants === 'topRated' ?
+                                                : filterRestaurants === 'ratings4' ?
                                                     'Rating'
                                                     : 'Sort By'
                                 }</span>
@@ -116,22 +112,22 @@ const RestaurantList = (props: iRestaurantListProps) => {
                             </button>
                             {
                                 sortBy &&
-                                <div ref={sortDropDownRef} className="absolute left-16 z-10 flex flex-col space-y-4 w-[170px] bg-white p-4 rounded-lg border font-medium text-black/60 shadow-lg">
+                                <div ref={sortDropDownRef} className="absolute left-16 z-10 flex flex-col space-y-4 w-[175px] bg-white p-4 rounded-lg border font-medium text-black/60 shadow-lg">
                                     <div className="flex flex-row-reverse flex-wrap justify-between">
                                         <input type="radio" id="relevance" checked={filterRestaurants === ''} value={filterRestaurants} onChange={() => { setFilterRestaurants('') }}
                                             className='w-3 h-3 my-auto form-radio checked:bg-red-600 text-red-600 ' />
                                         <label htmlFor='relevance'>Relevance (Default) </label>
                                     </div>
                                     <div className="flex flex-row-reverse justify-between">
-                                        <input type="radio" id='deliveryTime' checked={filterRestaurants === 'fastDelivery'} value={filterRestaurants} onChange={() => {
-                                            setFilterRestaurants('fastDelivery')
+                                        <input type="radio" id='deliveryTime' checked={filterRestaurants === 'deliveryTime'} value={filterRestaurants} onChange={() => {
+                                            setFilterRestaurants('deliveryTime')
                                         }}
                                             className='w-3 h-3 my-auto form-radio checked:bg-red-600 text-red-600' />
                                         <label htmlFor='deliveryTime'>Delivery Time</label>
                                     </div>
                                     <div className="flex flex-row-reverse justify-between">
-                                        <input type="radio" id='rating' checked={filterRestaurants === 'topRated'} value={filterRestaurants} onChange={() => {
-                                            setFilterRestaurants('topRated')
+                                        <input type="radio" id='rating' checked={filterRestaurants === 'ratings4'} value={filterRestaurants} onChange={() => {
+                                            setFilterRestaurants('ratings4')
                                         }}
                                             className='w-3 h-3 my-auto form-radio checked:bg-red-600 text-red-600 appearance-none' />
                                         <label htmlFor='rating'>Rating</label>

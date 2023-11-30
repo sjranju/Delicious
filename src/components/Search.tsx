@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { AiOutlineClose } from "react-icons/ai"
 import { BiSearch } from "react-icons/bi"
 import * as TYPES from "../utils/interfaces"
@@ -14,6 +14,11 @@ const Search = () => {
     })
     const [searchText, setSearchText] = useState('')
     const [filterRestaurants, setFilterRestaurants] = useState<TYPES.RestaurantType[]>()
+    const inputRef = useRef<HTMLInputElement>(null)
+
+    useEffect(() => {
+        inputRef.current && inputRef.current.focus()
+    }, [])
 
     const handleFilterRestaurants = () => {
         data &&
@@ -29,7 +34,7 @@ const Search = () => {
         <div className="">
             <div className='flex flex-row items-center justify-center space-x-8 mb-6'>
                 <div className='flex flex-row justify-center items-center mt-8 space-x-2 w-10/12'>
-                    <input type='text' placeholder='Search for restaurants'
+                    <input ref={inputRef} type='text' placeholder='Search for restaurants'
                         value={searchText}
                         onChange={(e) => setSearchText(e.target.value)}
                         className='outline-none outline-gray-200 rounded-sm w-8/12 py-2 placeholder:text-gray-500 placeholder:font-semibold pl-2' >

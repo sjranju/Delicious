@@ -3,6 +3,7 @@ import Signup from "./Signup"
 import { loginOrSignUpContext } from "../context/LoginOrSignup"
 import { userContext } from "../context/UserContext"
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { AiOutlineClose } from "react-icons/ai"
 import { app } from "../utils/firebaseConfig"
 
 type LoginProps = {
@@ -33,16 +34,17 @@ const Login = () => {
     }
 
     return (
-        <div className="flex flex-col justify-between space-y-4">
+        <>
             {
                 signUp ?
                     <Signup />
                     :
-                    <>
+                    <div className="flex flex-col justify-between space-y-4 pl-12 pr-20 w-[462px]">
+                        <div className=""><AiOutlineClose size={22} onClick={() => setUserLoginOrSignup(false)} className="mt-6 mb-2 cursor-pointer" /></div>
                         <p className="text-2xl font-semibold">Login</p>
-                        <p className="flex flex-row items-center text-[13px]">
+                        <p className="flex flex-row items-center text-[14px]">
                             or
-                            <span className="text-rose-600 font-semibold ml-1">
+                            <span className="text-rose-600 font-medium ml-1">
                                 <button type="button" onClick={() => setSignUp(true)}> create an account</button>
                             </span>
                         </p>
@@ -55,9 +57,9 @@ const Login = () => {
                         {error && <div className="text-red-500">{error}</div>}
                         <button type="submit" className="bg-red-600 text-white text-sm p-4 font-semibold rounded-sm"
                             onClick={handleLogin}>LOGIN</button>
-                    </>
+                    </div>
             }
-        </div>
+        </>
     )
 }
 

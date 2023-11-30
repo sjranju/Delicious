@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from "react"
 import ReactDOM from "react-dom/client"
 import Header from "./src/components/Header"
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom"
+import { createBrowserRouter, RouterProvider, Outlet, createHashRouter } from "react-router-dom"
 import Help from "./src/components/Help"
 import Error from "./src/components/Error"
 import RestaurantMenu from "./src/components/RestaurantMenu"
@@ -26,12 +26,12 @@ const queryClient = new QueryClient()
 
 const App = () => {
     return (
-            <UserContext>
-                <LoginOrSignup>
-                    <RestaurantContext>
-                        <ResetCartContext>
-                            <Provider store={store}>
-                                <FilterRestaurantsContext>
+        <UserContext>
+            <LoginOrSignup>
+                <RestaurantContext>
+                    <ResetCartContext>
+                        <Provider store={store}>
+                            <FilterRestaurantsContext>
                                 <QueryClientProvider client={queryClient}>
                                     <SkeletonTheme baseColor="#ebebeb" highlightColor="#f5f5f5">
                                         <div className="app">
@@ -40,16 +40,16 @@ const App = () => {
                                         </div>
                                     </SkeletonTheme>
                                 </QueryClientProvider>
-                                </FilterRestaurantsContext>
-                            </Provider>
-                        </ResetCartContext>
-                    </RestaurantContext>
-                </LoginOrSignup>
-            </UserContext>
+                            </FilterRestaurantsContext>
+                        </Provider>
+                    </ResetCartContext>
+                </RestaurantContext>
+            </LoginOrSignup>
+        </UserContext>
     )
 }
 
-const appRouter = createBrowserRouter([
+const appRouter = createHashRouter([
     {
         path: '/',
         element: <App />,
@@ -91,7 +91,7 @@ const appRouter = createBrowserRouter([
         ],
         errorElement: <Error />
     },
-], { basename: '/Delicious' })
+])
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(<RouterProvider router={appRouter} />)

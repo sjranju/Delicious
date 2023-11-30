@@ -97,15 +97,15 @@ const RestaurantMenu = () => {
           </div>
           <div className="flex flex-row items-center space-x-4 pt-2 max-w-[500px] md:max-w-[800px] overflow-x-scroll [&::-webkit-scrollbar]:hidden">
             {offerDetails?.card?.card?.gridElements?.infoWithStyle?.offers?.map(offerItem => (
-              <div key={offerItem.info.offerIds[0]} className="shrink-0 w-44">
-                <div className="flex flex-col items-center border rounded-md border-zinc-300 w-44 h-12 justify-around ">
+              <div key={offerItem.info.offerIds[0]} className="shrink-0 w-48">
+                <div className="flex flex-col items-center border rounded-md border-zinc-300 w-48 h-12 justify-around ">
                   <div className="flex flex-row text-sm text-[#686b70] font-bold justify-center items-center">
                     <img src={COUPON_URL + offerItem?.info?.offerLogo} alt="" className="w-4 h-4" />
                     {
                       offerItem?.info?.header
                     }
                   </div>
-                  <div className="text-[#93959f] text-[9px] font-bold">
+                  <div className="text-[#93959f] text-[11px] font-bold font-offer">
                     {
                       offerItem?.info?.couponCode + ' | ' + offerItem.info.description
                     }
