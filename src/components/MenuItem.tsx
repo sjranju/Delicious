@@ -8,7 +8,7 @@ import { restaurantContext } from "../context/RestaurantContext"
 import { useUpdateCartMutation, useGetCartItemsQuery } from "../RTKQuery/cartQuery"
 import { resetCartContext } from "../context/ResetCartContext"
 import { loginOrSignUpContext } from "../context/LoginOrSignup"
-import { handleLoginOrSignUp } from "../utils/fetchRestaurantDetails"
+import { handleLoginOrSignUp } from "../utils/loginUtils"
 import { userContext } from "../context/UserContext"
 
 interface iProps {

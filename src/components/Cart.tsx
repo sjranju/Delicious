@@ -11,7 +11,7 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai"
 import { loginOrSignUpContext } from "../context/LoginOrSignup"
 import SkeletonCart from "../Shimmer/SkeletonCart"
 import useRestaurantInfo from "../utils/useRestaurantInfo"
-import { handleLoginOrSignUp } from "../utils/fetchRestaurantDetails"
+import { handleLoginOrSignUp } from "../utils/loginUtils"
 import { userContext } from "../context/UserContext";
 
 const Cart = () => {

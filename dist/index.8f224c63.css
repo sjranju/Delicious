@@ -808,6 +808,16 @@ select {
   margin-bottom: auto;
 }
 
+.mx-16 {
+  margin-left: 4rem;
+  margin-right: 4rem;
+}
+
+.mx-32 {
+  margin-left: 8rem;
+  margin-right: 8rem;
+}
+
 .mb-1 {
   margin-bottom: .25rem;
 }
@@ -1012,6 +1022,10 @@ select {
   width: 3rem;
 }
 
+.w-14 {
+  width: 3.5rem;
+}
+
 .w-2\/3 {
   width: 66.6667%;
 }
@@ -1080,8 +1094,8 @@ select {
   width: 15px;
 }
 
-.w-\[170px\] {
-  width: 170px;
+.w-\[175px\] {
+  width: 175px;
 }
 
 .w-\[230px\] {
@@ -1108,8 +1122,16 @@ select {
   width: 100%;
 }
 
-.w-\[175px\] {
-  width: 175px;
+.w-20 {
+  width: 5rem;
+}
+
+.w-11\/12 {
+  width: 91.6667%;
+}
+
+.w-\[860px\] {
+  width: 860px;
 }
 
 .min-w-\[118px\] {
@@ -1353,8 +1375,16 @@ select {
   align-self: flex-start;
 }
 
+.justify-self-start {
+  justify-self: start;
+}
+
 .overflow-hidden {
   overflow: hidden;
+}
+
+.overflow-scroll {
+  overflow: scroll;
 }
 
 .overflow-x-scroll {
@@ -1577,10 +1607,6 @@ select {
   padding: 1.5rem;
 }
 
-.p-2 {
-  padding: .5rem;
-}
-
 .px-1 {
   padding-left: .25rem;
   padding-right: .25rem;
@@ -1634,6 +1660,11 @@ select {
 .py-6 {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
+}
+
+.px-16 {
+  padding-left: 4rem;
+  padding-right: 4rem;
 }
 
 .pb-10 {
@@ -1770,6 +1801,10 @@ select {
   font-weight: 600;
 }
 
+.font-extrabold {
+  font-weight: 800;
+}
+
 .text-\[\#686B78\] {
   --tw-text-opacity: 1;
   color: rgb(104 107 120 / var(--tw-text-opacity));
@@ -1891,6 +1926,11 @@ select {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.text-\[\#3d4152\] {
+  --tw-text-opacity: 1;
+  color: rgb(61 65 82 / var(--tw-text-opacity));
 }
 
 .shadow-2xl {

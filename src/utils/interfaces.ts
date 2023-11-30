@@ -803,3 +803,29 @@ export type UPDATED_RESTAURANTS_LIST = {
     pageOffset: PageOffset
   }
 }
+
+
+export type PreSearch = {
+  data: {
+    cards: {
+      card: {
+        card: {
+          "@type": "type.googleapis.com/swiggy.gandalf.widgets.v2.RecentSearches",
+          id: "recentSearchesWidget",
+          title: "Recent Searches",
+          minItemsToDisplay: number,
+          maxItemsToDisplay: number
+        }
+        |
+        {
+          "@type": "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget",
+          header: {},
+          layout: {},
+          imageGridCards: TopicalImageBanner,
+          "id": "PopularCuisinessearchpage",
+          gridElements: TopicalGridElements,
+        }
+      }
+    }[]
+  }
+}

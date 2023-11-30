@@ -10,6 +10,10 @@ export const TOP_PICKS_URL = 'https://media-assets.swiggy.com/swiggy/image/uploa
 
 export const GET_MORE_RESTAURANTS = 'https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/update'
 
+export const PRE_SEARCH = 'https://www.swiggy.com/dapi/landing/PRE_SEARCH?lat=12.979568962372062&lng=77.50290893018244'
+
+export const PRE_SEARCH_CLOUDINARY_URL = 'https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/'
+
 export const LINKEDIN_PROFILE = 'https://www.linkedin.com/in/ranjana-singanoodi/'
 
 export const EMAIL_ID = 'singanoodiranjana@gmail.com'

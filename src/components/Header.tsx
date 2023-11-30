@@ -10,7 +10,7 @@ import { auth } from '../utils/firebaseConfig'
 import { useGetCartItemsQuery } from '../RTKQuery/cartQuery'
 import { LuSearch } from 'react-icons/lu'
 import { loginOrSignUpContext } from '../context/LoginOrSignup'
-import { handleLoginOrSignUp } from '../utils/fetchRestaurantDetails'
+import { handleLoginOrSignUp } from '../utils/loginUtils'
 import useAuthListener from '../utils/useAuthListener'
 import Login from './Login'
 
