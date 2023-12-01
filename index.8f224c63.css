@@ -1746,6 +1746,10 @@ select {
   font-size: 12px;
 }
 
+.text-\[13\.5px\] {
+  font-size: 13.5px;
+}
+
 .text-\[13px\] {
   font-size: 13px;
 }
@@ -1776,10 +1780,6 @@ select {
 .text-xs {
   font-size: .75rem;
   line-height: 1rem;
-}
-
-.text-\[13\.5px\] {
-  font-size: 13.5px;
 }
 
 .font-bold {
