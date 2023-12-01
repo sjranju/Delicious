@@ -29,6 +29,12 @@ const Search = () => {
         }
     }
 
+    const handleEnterKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleFilterRestaurants()
+        }
+    }
+
     return (
         <div className="flex flex-col justify-center mx-auto w-[860px]">
             <div className='flex flex-row items-center justify-center space-x-8 mb-6'>
@@ -36,6 +42,7 @@ const Search = () => {
                     <input autoFocus type='text' placeholder='Search for restaurants'
                         value={searchText}
                         onChange={(e) => setSearchText(e.target.value)}
+                        onKeyDown={(e) => handleEnterKeyPress(e)}
                         className='outline-none border-gray-400 focus:ring-0 focus:border-gray-400 rounded-sm w-full py-3 placeholder:text-gray-500 placeholder:font-semibold pl-5' >
                     </input>
 
