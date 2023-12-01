@@ -76,7 +76,7 @@ const RestaurantMenu = () => {
 
             </div>
             <div className="flex flex-col items-start">
-              <h1 className="font-semibold text-lg">{resInfo?.card?.card?.info?.name}</h1>
+              <h1 className="font-bold text-lg text-slightBlack">{resInfo?.card?.card?.info?.name}</h1>
               <div className="text-sm text-neutral-600">
                 <p className="">{resInfo?.card?.card?.info?.cuisines?.join(", ")}</p>
                 <p className="">

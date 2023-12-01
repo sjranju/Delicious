@@ -193,7 +193,7 @@ const Cart = () => {
                                                                 : <img src={nonveg} className="w-[15px]" />
                                                         }
                                                     </div>
-                                                    <div className="flex flex-wrap text-sm w-2/4 self-start">
+                                                    <div className="flex flex-wrap font-normal text-[13.5px] w-2/4 self-start">
                                                         {foundCartItem.card?.info?.name}
                                                     </div>
                                                     <div className="flex flex-row items-center justify-center space-x-3 border border-gray-200 p-1  font-bold ">

@@ -5,7 +5,9 @@ module.exports = {
   content: ["./src/**/*.{html,js,ts,jsx,tsx}",],
   theme: {
     fontFamily: {
-      'offer': ['ProximaNovaCondensedRegular', 'arial', '"Helvetica Neue"', 'sans-serif']
+      'sans': ['Proxima Nova', ...defaultTheme.fontFamily.sans],
+      'offer': ['"Proxima Nova Condensed Regular"', 'arial', '"Helvetica Neue"', 'sans-serif'],
+      'cusines': ['"Basis Grotesque Pro"', 'Arial', 'sans-serif'],
     },
     extend: {
       maxWidth: {
@@ -16,7 +18,10 @@ module.exports = {
         '2xs': '8px',
       },
       colors: {
-        'slightBlack': '#282c3f'
+        'slightBlack': '#282c3f',
+        'header': '#3d4152',
+        'restaurantName': '#02060C',
+        'menuCategory': '#3e4152'
       },
       keyframes: {
         moveRightToLeft: {

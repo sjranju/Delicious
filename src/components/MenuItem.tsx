@@ -67,10 +67,10 @@ const MenuItem = (props: iProps) => {
                         <p>{info?.isVeg === 1 ?
                             <img src={veg} className="w-[15px]" />
                             : <img src={nonveg} className="w-[15px]" />}</p>
-                        <p className="font-semibold">{info?.name}</p>
-                        <div className="flex flex-row items-center">
+                        <p className="font-semibold text-slightBlack">{info?.name}</p>
+                        <div className="flex flex-row items-center text-slightBlack">
                             <BiRupee />
-                            <span className="mr-2 text-sm">{info?.price ? info?.price / 100 : info?.defaultPrice / 100}</span>
+                            <span className="mr-2 text-sm text-menuCategory">{info?.price ? info?.price / 100 : info?.defaultPrice / 100}</span>
                             {info?.offerTags?.map(offerTag => (
                                 <div key={offerTag.title} className={`bg-[${offerTag.backgroundColor}] text-[${offerTag.textColor}] text-[10px]`}>
                                     {<div className="flex items-center">
@@ -82,28 +82,26 @@ const MenuItem = (props: iProps) => {
                                 </div>
                             ))}
                         </div>
-                        <p className="text-xs text-slate-500 max-w-[700px]">
+                        <p className="text-xs text-slate-500 max-w-[700px] mt-3">
                             {info?.description?.slice(info?.description?.indexOf('|') + 1)}
                         </p>
-                    </div><div className="relative flex flex-col items-center justify-center min-w-[118px]">
-                        <>
-                            {info?.imageId ?
-                                <img src={CLOUDINARY_URL + info?.imageId} className="w-[118px] h-24 rounded-md object-cover"></img>
-                                : ''
-                            }
-                            <button type='button' className={`${info.imageId && 'absolute top-[70px]'} w-24 h-8 text-lime-600 bg-white border border-lime-400 text-xs font-bold px-6 py-2 rounded-md object-cover`}
-                                onClick={() => {
-                                    if (user) {
-                                        handleCart(info)
-                                    } else {
-                                        setUserLoginOrSignup(true)
-                                        handleLoginOrSignUp()
-                                    }
-                                }}>
-                                ADD +
-                            </button>
-                        </>
-
+                    </div>
+                    <div className="relative flex flex-col items-center justify-center min-w-[118px]">
+                        {info?.imageId ?
+                            <img src={CLOUDINARY_URL + info?.imageId} className="w-[118px] h-24 rounded-md object-cover"></img>
+                            : ''
+                        }
+                        <button type='button' className={`${info.imageId && 'absolute top-[67px]'} w-24 h-8 text-lime-600 bg-white border border-lime-400 text-xs font-bold px-6 py-2 rounded-md object-cover`}
+                            onClick={() => {
+                                if (user) {
+                                    handleCart(info)
+                                } else {
+                                    setUserLoginOrSignup(true)
+                                    handleLoginOrSignUp()
+                                }
+                            }}>
+                            ADD +
+                        </button>
                     </div>
                 </div>
             </div>

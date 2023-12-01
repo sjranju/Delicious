@@ -26,23 +26,23 @@ const Header = () => {
                 <Link to='/' className='hover:transition hover:duration-250 hover:ease-in-out hover:scale-95'>
                     <img src={logo} alt='' className='md:w-16 w-12' />
                 </Link>
-                <ul className='flex flex-row lg:space-x-8 space-x-4 font-medium lg:text-base text-sm'>
+                <ul className='flex flex-row lg:space-x-8 space-x-4 font-medium lg:text-base text-sm text-header'>
                     <li>
                         <Link to='/search' className='hover:text-red-600 flex flex-row items-center space-x-2'>
-                            <LuSearch size={'1.4em'} className='font-bold' /><span>Search</span>
+                            <LuSearch size={20} className='' /><span className='font-medium text-header'>Search</span>
                         </Link>
                     </li>
                     <li>
                         <Link to='/contact' className='hover:text-red-600 flex flex-row items-center space-x-2'>
-                            <FiHelpCircle size={'1.4em'} /><span>Help</span>
+                            <FiHelpCircle size={20} /><span className='font-medium text-header'>Help</span>
                         </Link>
                     </li>
                     <li className='group/profile'>
                         <button type='button' onClick={() => !user && setUserLoginOrSignup(true)}
                             className='flex flex-row items-center hover:text-red-600'
                             role='userIcon'>
-                            <AiOutlineUser size={'1.4em'} className='' />
-                            <span className=''>{user && user.displayName}</span>
+                            <AiOutlineUser size={21} className='mt-[1px]' />
+                            <span className='font-medium text-header'>{user && user.displayName}</span>
                         </button>
                         {user &&
                             <div className="hidden absolute group-hover/profile:block font-semibold z-10 w-40 p-4 bg-red-50 text-sm shadow-md">
@@ -62,8 +62,8 @@ const Header = () => {
                     </li>
                     <li className='relative'>
                         <Link to={'/cart'} className='flex flex-row items-center space-x-2 hover:text-red-600'>
-                            <AiOutlineShoppingCart size={'1.4em'} className='' />
-                            <span>Cart</span>
+                            <AiOutlineShoppingCart size={20} className='' />
+                            <span className='font-medium text-header'>Cart</span>
                         </Link>
                         {
                             cart === undefined || cart === 'notExists' || cart === null || !cart.itemWithQuantity ?

@@ -15,10 +15,10 @@ export const RestaurantCard = (props: iRestaurantProp) => {
         <div data-testid='restaurantCard' className="flex flex-col justify-center items-start hover:transition hover:duration-250 hover:ease-in-out hover:scale-95">
             <img className='w-full h-[169px] rounded-lg mb-1 object-cover'
                 src={`${CLOUDINARY_URL + cloudinaryImageId}`} alt='restaurant-food' />
-            <div className='font-medium truncate max-w-2xs'>{name}</div>
-            <div className='flex items-center font-medium'><AiFillStar color='green' className='mr-1/2' />{avgRating}<PiDotOutlineFill size={18} />{sla.deliveryTime} mins</div>
-            <div className='truncate max-w-3xs text-sm text-slate-600'>{cuisines.join(', ')}</div>
-            <div className='truncate max-w-3xs text-sm text-slate-600'>{areaName}</div>
+            <div className='font-bold text-lg truncate max-w-2xs text-restaurantName/75 ml-2'>{name}</div>
+            <div className='flex items-center font-bold ml-2 text-restaurantName/75'><AiFillStar color='green' className='mr-1/2' />{avgRating}<PiDotOutlineFill size={18} /><span className='text-restaurantName/75'>{sla.deliveryTime} mins</span></div>
+            <div className='overflow-hidden break-words line-clamp-1 antialiased text-restaurantName/60 font-extralight font-cusines ml-2'>{cuisines.join(', ')}</div>
+            <div className='overflow-hidden break-words line-clamp-1 antialiased text-restaurantName/60 font-extralight font-cusines ml-2'>{areaName}</div>
         </div>
     )
 
