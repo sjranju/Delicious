@@ -66,7 +66,7 @@ const Header = () => {
                             <span className='font-medium text-header'>Cart</span>
                         </Link>
                         {
-                            cart === undefined || cart === 'notExists' || cart === null || !cart.itemWithQuantity ?
+                            cart === undefined || cart === 'notExists' || cart === null || !cart.itemWithQuantity || !user ?
                                 <div data-testid='cart0' className='absolute font-bold text-xs text-red-600 -top-[10px] left-4'>0</div>
                                 : <div data-testid='cartQuantity' className='absolute font-bold text-xs text-red-600 -top-[10px] left-4'>
                                     {Object.entries(cart.itemWithQuantity)?.reduce((acc, val) =>
