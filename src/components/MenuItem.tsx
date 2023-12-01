@@ -86,34 +86,24 @@ const MenuItem = (props: iProps) => {
                             {info?.description?.slice(info?.description?.indexOf('|') + 1)}
                         </p>
                     </div><div className="relative flex flex-col items-center justify-center min-w-[118px]">
-                        {
-                            info?.imageId ?
-                                <>
-                                    <img src={CLOUDINARY_URL + info?.imageId} className="w-[118px] h-24 rounded-md object-cover"></img>
-                                    <button type='button' className="absolute top-[70px] w-24 h-8 text-lime-600 bg-white border border-lime-400 text-xs font-bold px-6 py-2 rounded-md object-cover"
-                                        onClick={() => {
-                                            if (user) {
-                                                handleCart(info)
-                                            } else {
-                                                setUserLoginOrSignup(true)
-                                                handleLoginOrSignUp()
-                                            }
-                                        }}>
-                                        ADD +
-                                    </button>
-                                </>
-                                : <button type='button' className="flex items-center justify-center w-24 h-8 text-lime-600 bg-white border border-lime-400 text-xs font-bold rounded-md object-cover"
-                                    onClick={() => () => {
-                                        if (user) {
-                                            handleCart(info)
-                                        } else {
-                                            setUserLoginOrSignup(true)
-                                            handleLoginOrSignUp()
-                                        }
-                                    }}>
-                                    ADD +
-                                </button>
-                        }
+                        <>
+                            {info?.imageId ?
+                                <img src={CLOUDINARY_URL + info?.imageId} className="w-[118px] h-24 rounded-md object-cover"></img>
+                                : ''
+                            }
+                            <button type='button' className={`${info.imageId && 'absolute top-[70px]'} w-24 h-8 text-lime-600 bg-white border border-lime-400 text-xs font-bold px-6 py-2 rounded-md object-cover`}
+                                onClick={() => {
+                                    if (user) {
+                                        handleCart(info)
+                                    } else {
+                                        setUserLoginOrSignup(true)
+                                        handleLoginOrSignUp()
+                                    }
+                                }}>
+                                ADD +
+                            </button>
+                        </>
+
                     </div>
                 </div>
             </div>

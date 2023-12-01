@@ -12,9 +12,7 @@ const useRestaurantInfo = (restaurantId: string) => {
         offerDetails: TYPES.OfferCards
         restaurantMenu: TYPES.Card
     }> => {
-        console.log('in fetch data')
         const res = await axios.get(RESTAURANT_ITEM + resId);
-        console.log('res.data', res.data)
         let resInfo = res.data?.data?.cards[0]
         let offerDetails = res.data?.data?.cards[1]
         let restaurantMenu = res.data.data?.cards[2]
