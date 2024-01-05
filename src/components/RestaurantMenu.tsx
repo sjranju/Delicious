@@ -105,7 +105,9 @@ const RestaurantMenu = () => {
                   </div>
                   <div className="text-[#93959f] text-[11px] font-bold font-offer">
                     {
-                      offerItem?.info?.couponCode + ' | ' + offerItem.info.description
+                      offerItem?.info?.couponCode ?
+                        offerItem?.info?.couponCode + ' | ' + offerItem.info.description
+                        : offerItem?.info?.offerTag
                     }
                   </div>
                 </div>
