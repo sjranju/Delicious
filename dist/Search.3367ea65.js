@@ -727,7 +727,7 @@ const Search = ()=>{
                                 lineNumber: 71,
                                 columnNumber: 41
                             }, undefined)
-                        }, void 0, false, {
+                        }, card.card.card.id, false, {
                             fileName: "src/components/Search.tsx",
                             lineNumber: 68,
                             columnNumber: 33

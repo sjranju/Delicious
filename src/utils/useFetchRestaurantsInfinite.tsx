@@ -1,10 +1,7 @@
-import React, { useRef } from 'react'
 import * as TYPES from "../utils/interfaces"
 import { FILTERS, GET_MORE_RESTAURANTS } from './constants';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { InView } from 'react-intersection-observer';
-
 
 const useFetchRestaurantsInfinite = (filterRestaurants: string, pageOffset: TYPES.PageOffset) => {
 
@@ -35,15 +32,15 @@ const useFetchRestaurantsInfinite = (filterRestaurants: string, pageOffset: TYPE
                 page_type: "DESKTOP_WEB_LISTING",
                 nextOffset: pageParam.nextOffset,
                 widgetOffset: pageParam.widgetOffset,
-                _csrf: '6x6Vpr2CpXc1-Ot7wrNbpkMhMQv_yM0AuCXcEQFU'
+                _csrf: 'LFy8vHvN0OTw-0SYC6HVh-MFOlu-JJ22Q1KGedTg'
             },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-
+            // {
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            // }
         )
+        console.log('Infinite query', response.data)
         return response.data
     };
 

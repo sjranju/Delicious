@@ -65,7 +65,7 @@ const Search = () => {
                         <p className="font-extrabold text-[#3d4152] text-xl ">Popular Cuisines</p>
                         {
                             presearchData?.data.cards.map((card) =>
-                                <div className="">
+                                <div key={card.card.card.id} className="">
                                     {
                                         card.card.card.id === 'PopularCuisinessearchpage' &&
                                         <div className="flex flex-row justify-start overflow-x-scroll [&::-webkit-scrollbar]:hidden mr-10">
