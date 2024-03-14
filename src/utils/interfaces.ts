@@ -680,6 +680,7 @@ type TopicalGridElements = {
         cappingMode: string;
       };
       isManualAds?: boolean;
+      description: string;
     }[];
     style: {
       width: {
