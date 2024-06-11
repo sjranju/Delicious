@@ -22,8 +22,8 @@ const useFetchRestaurantsInfinite = (filterRestaurants: string, pageOffset: TYPE
                                         : filterType === 'deliveryTime' ?
                                             FILTERS.DELIVERY_TIME
                                             : {},
-                lat: 12.979568962372062,
-                lng: 77.50290893018244,
+                lat: '12.96340',
+                lng: '77.58550',
                 seoParams: {
                     apiName: "FoodHomePage",
                     pageType: "FOOD_HOMEPAGE",
@@ -32,7 +32,7 @@ const useFetchRestaurantsInfinite = (filterRestaurants: string, pageOffset: TYPE
                 page_type: "DESKTOP_WEB_LISTING",
                 nextOffset: pageParam.nextOffset,
                 widgetOffset: pageParam.widgetOffset,
-                _csrf: 'LFy8vHvN0OTw-0SYC6HVh-MFOlu-JJ22Q1KGedTg'
+                _csrf: 'LfONs1IREg5A-CveUY2pb5y8bxKsUPVJfQAetdKo'
             },
             // {
             //     headers: {

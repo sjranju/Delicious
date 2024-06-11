@@ -62,6 +62,7 @@ const RestaurantMenu = () => {
     )
   } else {
     const { resInfo, offerDetails, restaurantMenu } = data
+    console.log(restaurantMenu)
     return (
       <div className="relative h-full w-full bg-slate-50 " data-testid='restaurantMenu'>
         <div className="flex flex-col items-center space-y-6 justify-around max-w-[800px] mx-auto ">

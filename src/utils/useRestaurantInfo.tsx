@@ -14,9 +14,9 @@ const useRestaurantInfo = (restaurantId: string) => {
     }> => {
         const res = await axios.get(RESTAURANT_ITEM + resId);
         console.log(res)
-        let resInfo = res.data?.data?.cards[0]
-        let offerDetails = res.data?.data?.cards[1]
-        let restaurantMenu = res.data.data?.cards[2]
+        let resInfo = res.data?.data?.cards[2]
+        let offerDetails = res.data?.data?.cards[3]
+        let restaurantMenu = res.data.data?.cards[4]
         return { resInfo, offerDetails, restaurantMenu };
     }
 

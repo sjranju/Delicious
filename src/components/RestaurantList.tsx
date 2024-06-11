@@ -5,7 +5,6 @@ import * as TYPES from "../utils/interfaces"
 import React from "react";
 import { Link } from "react-router-dom";
 import SkeletonMoreRestaurants from "../Shimmer/SkeletonMoreRestaurants";
-import { BsFilter } from 'react-icons/bs'
 import { IoIosArrowDown } from "react-icons/io";
 import SkeletonFilterRestaurants from "../Shimmer/SkeletonFilterRestaurants";
 import { AiOutlineClose } from "react-icons/ai";

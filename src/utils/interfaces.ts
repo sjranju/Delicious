@@ -575,7 +575,31 @@ export type restaurantMenuCards =
           title: string;
           description: string;
         };
+        offersFilter: {
+          attributes: {
+            displayText: string
+          }
+        },
         topRatedFilter: Record<string, unknown>;
+        kidsCategoryFilter: {
+          attributes: {
+            displayText: string,
+            tooltip: {
+              enabled: true,
+              displayText: string
+            }
+          }
+        },
+        vegFilter: {
+          attributes: {
+            displayText: string
+          }
+        },
+        nonvegFilter: {
+          attributes: {
+            displayText: string
+          }
+        }
       }
       |
       {
