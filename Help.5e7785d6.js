@@ -636,124 +636,131 @@ const Contact = ()=>{
                     columnNumber: 17
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                    className: "flex flex-row bg-white w-10/12 p-12 mt-6 space-x-8",
-                    children: [
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                            className: "w-1/3",
-                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
-                                className: "bg-gray-100 text-gray-600 text-sm font-semibold py-2",
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                                        className: "ml-10 py-4 px-4 active:bg-white cursor-pointer",
-                                        children: "Help with orders"
-                                    }, void 0, false, {
-                                        fileName: "src/components/Help.tsx",
-                                        lineNumber: 17,
-                                        columnNumber: 29
-                                    }, undefined),
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                                        className: `ml-10 py-4 px-4 active:bg-white ${showFAQ && "bg-white"} cursor-pointer`,
-                                        onClick: ()=>setShowFAQ(!showFAQ),
-                                        children: "FAQs"
-                                    }, void 0, false, {
-                                        fileName: "src/components/Help.tsx",
-                                        lineNumber: 18,
-                                        columnNumber: 29
-                                    }, undefined),
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                                        className: "ml-10 py-4 px-4 active:bg-white cursor-pointer",
-                                        children: "General issues"
-                                    }, void 0, false, {
-                                        fileName: "src/components/Help.tsx",
-                                        lineNumber: 21,
-                                        columnNumber: 29
-                                    }, undefined),
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                                        className: "ml-10 py-4 px-4 active:bg-white cursor-pointer",
-                                        children: "Partner Onborading"
-                                    }, void 0, false, {
-                                        fileName: "src/components/Help.tsx",
-                                        lineNumber: 22,
-                                        columnNumber: 29
-                                    }, undefined),
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                                        className: "ml-10 py-4 px-4 active:bg-white cursor-pointer",
-                                        children: "Legal, Terms & Conditions"
-                                    }, void 0, false, {
-                                        fileName: "src/components/Help.tsx",
-                                        lineNumber: 23,
-                                        columnNumber: 29
-                                    }, undefined)
-                                ]
-                            }, void 0, true, {
+                    className: "mx-auto w-10/12",
+                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "flex flex-row bg-white w-full p-4 xs:p-12 mt-6 space-x-4 xs:space-x-8 justify-center",
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "w-1/3 max-h-full",
+                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
+                                    className: "bg-gray-100 h-full text-gray-600 text-[6px] xs:text-[10px] md:text-sm font-semibold py-2",
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
+                                            className: "ml-2 xs:ml-4 md:ml-10 p-1 sm:py-4 sm:px-4 active:bg-white cursor-pointer",
+                                            children: "Help with orders"
+                                        }, void 0, false, {
+                                            fileName: "src/components/Help.tsx",
+                                            lineNumber: 18,
+                                            columnNumber: 33
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
+                                            className: `ml-2 xs:ml-4 md:ml-10 p-1 sm:py-4 sm:px-4 active:bg-white ${showFAQ && "bg-white"} cursor-pointer`,
+                                            onClick: ()=>setShowFAQ(!showFAQ),
+                                            children: "FAQs"
+                                        }, void 0, false, {
+                                            fileName: "src/components/Help.tsx",
+                                            lineNumber: 19,
+                                            columnNumber: 33
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
+                                            className: "ml-2 xs:ml-4 md:ml-10 p-1 sm:py-4 sm:px-4 active:bg-white cursor-pointer",
+                                            children: "General issues"
+                                        }, void 0, false, {
+                                            fileName: "src/components/Help.tsx",
+                                            lineNumber: 22,
+                                            columnNumber: 33
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
+                                            className: "ml-2 xs:ml-4 md:ml-10 p-1 sm:py-4 sm:px-4 active:bg-white cursor-pointer",
+                                            children: "Partner Onborading"
+                                        }, void 0, false, {
+                                            fileName: "src/components/Help.tsx",
+                                            lineNumber: 23,
+                                            columnNumber: 33
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
+                                            className: "ml-2 xs:ml-4 md:ml-10 p-1 sm:py-4 sm:px-4 active:bg-white cursor-pointer",
+                                            children: "Legal, Terms & Conditions"
+                                        }, void 0, false, {
+                                            fileName: "src/components/Help.tsx",
+                                            lineNumber: 24,
+                                            columnNumber: 33
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/components/Help.tsx",
+                                    lineNumber: 17,
+                                    columnNumber: 29
+                                }, undefined)
+                            }, void 0, false, {
                                 fileName: "src/components/Help.tsx",
                                 lineNumber: 16,
                                 columnNumber: 25
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "w-2/3 text-black",
+                                children: showFAQ && (0, _constants.FAQ).map((faq)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        className: "border-b ",
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                type: "button",
+                                                className: "flex flex-row justify-between py-4 w-full text-[10px] sm:text-base hover:text-red-700 font-medium text-gray-600",
+                                                onClick: ()=>setShowDesc((prev)=>prev === faq.id ? 0 : faq.id),
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        children: faq.title
+                                                    }, void 0, false, {
+                                                        fileName: "src/components/Help.tsx",
+                                                        lineNumber: 34,
+                                                        columnNumber: 45
+                                                    }, undefined),
+                                                    showDesc ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _io.IoIosArrowUp), {
+                                                        size: 22,
+                                                        onClick: ()=>setShowDesc(faq.id)
+                                                    }, void 0, false, {
+                                                        fileName: "src/components/Help.tsx",
+                                                        lineNumber: 37,
+                                                        columnNumber: 53
+                                                    }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _io.IoIosArrowDown), {
+                                                        size: 22,
+                                                        onClick: ()=>setShowDesc(0)
+                                                    }, void 0, false, {
+                                                        fileName: "src/components/Help.tsx",
+                                                        lineNumber: 38,
+                                                        columnNumber: 55
+                                                    }, undefined)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/components/Help.tsx",
+                                                lineNumber: 32,
+                                                columnNumber: 41
+                                            }, undefined),
+                                            showDesc === faq.id && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                className: "text-[8px] sm:text-xs mb-4 text-gray-500",
+                                                children: faq.description
+                                            }, void 0, false, {
+                                                fileName: "src/components/Help.tsx",
+                                                lineNumber: 43,
+                                                columnNumber: 45
+                                            }, undefined)
+                                        ]
+                                    }, faq.id, true, {
+                                        fileName: "src/components/Help.tsx",
+                                        lineNumber: 31,
+                                        columnNumber: 37
+                                    }, undefined))
+                            }, void 0, false, {
+                                fileName: "src/components/Help.tsx",
+                                lineNumber: 27,
+                                columnNumber: 25
                             }, undefined)
-                        }, void 0, false, {
-                            fileName: "src/components/Help.tsx",
-                            lineNumber: 15,
-                            columnNumber: 21
-                        }, undefined),
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                            className: "w-2/3 text-black",
-                            children: showFAQ && (0, _constants.FAQ).map((faq)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    className: "border-b ",
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                            type: "button",
-                                            className: "flex flex-row justify-between py-4 w-full hover:text-red-700 font-medium text-gray-600",
-                                            onClick: ()=>setShowDesc((prev)=>prev === faq.id ? 0 : faq.id),
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    children: faq.title
-                                                }, void 0, false, {
-                                                    fileName: "src/components/Help.tsx",
-                                                    lineNumber: 33,
-                                                    columnNumber: 41
-                                                }, undefined),
-                                                showDesc ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _io.IoIosArrowUp), {
-                                                    size: 22,
-                                                    onClick: ()=>setShowDesc(faq.id)
-                                                }, void 0, false, {
-                                                    fileName: "src/components/Help.tsx",
-                                                    lineNumber: 36,
-                                                    columnNumber: 49
-                                                }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _io.IoIosArrowDown), {
-                                                    size: 22,
-                                                    onClick: ()=>setShowDesc(0)
-                                                }, void 0, false, {
-                                                    fileName: "src/components/Help.tsx",
-                                                    lineNumber: 37,
-                                                    columnNumber: 51
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/components/Help.tsx",
-                                            lineNumber: 31,
-                                            columnNumber: 37
-                                        }, undefined),
-                                        showDesc === faq.id && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            className: "text-xs mb-4 text-gray-500",
-                                            children: faq.description
-                                        }, void 0, false, {
-                                            fileName: "src/components/Help.tsx",
-                                            lineNumber: 42,
-                                            columnNumber: 41
-                                        }, undefined)
-                                    ]
-                                }, faq.id, true, {
-                                    fileName: "src/components/Help.tsx",
-                                    lineNumber: 30,
-                                    columnNumber: 33
-                                }, undefined))
-                        }, void 0, false, {
-                            fileName: "src/components/Help.tsx",
-                            lineNumber: 26,
-                            columnNumber: 21
-                        }, undefined)
-                    ]
-                }, void 0, true, {
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/Help.tsx",
+                        lineNumber: 15,
+                        columnNumber: 21
+                    }, undefined)
+                }, void 0, false, {
                     fileName: "src/components/Help.tsx",
                     lineNumber: 14,
                     columnNumber: 17
