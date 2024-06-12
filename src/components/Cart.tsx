@@ -31,7 +31,7 @@ const Cart = () => {
     const { data, isLoading } = useRestaurantInfo(restId)
 
     const findCartItemCard = (itemId: string) => {
-        return data?.restaurantMenu.groupedCard.cardGroupMap.REGULAR.cards.find(restaurant =>
+        return data?.restaurantMenu?.groupedCard?.cardGroupMap?.REGULAR?.cards?.find(restaurant =>
             restaurant.card.card["@type"] === TYPES.CardType.ItemCategory ?
                 restaurant.card.card.itemCards.find(itemCard => itemCard.card.info.id === itemId)
                 : restaurant.card.card["@type"] === TYPES.CardType.NestedItemCategory

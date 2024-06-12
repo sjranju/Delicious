@@ -39,7 +39,7 @@ const Login = () => {
                 signUp ?
                     <Signup />
                     :
-                    <div className="flex flex-col justify-between space-y-4 pl-12 pr-20 w-[462px]">
+                    <div className="flex flex-col justify-between space-y-4 pl-4 pr-4 w-80 sm:pl-12 sm:pr-20 sm:w-[462px] ">
                         <div className=""><AiOutlineClose size={22} onClick={() => setUserLoginOrSignup(false)} className="mt-6 mb-2 cursor-pointer" /></div>
                         <p className="text-2xl font-semibold">Login</p>
                         <p className="flex flex-row items-center text-[14px]">

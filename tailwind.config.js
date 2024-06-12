@@ -25,12 +25,12 @@ module.exports = {
       },
       keyframes: {
         moveRightToLeft: {
-          '0%': { transform: 'translateX(100%)' },
-          '100%': { transform: '-translateX(30%)' }
+          '0%': { transform: 'translateX(60%)' },
+          '100%': { transform: '-translateX(10%)' }
         },
         moveLeftToRight: {
-          '0%': { transform: '-translateX(30%)' },
-          '100%': { transform: 'translateX(100%)' },
+          '0%': { transform: '-translateX(10%)' },
+          '100%': { transform: 'translateX(60%)' },
         },
         moveBottomToTop: {
           '0%': { transform: 'translateY(100%)' },

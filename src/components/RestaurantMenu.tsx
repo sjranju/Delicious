@@ -118,7 +118,7 @@ const RestaurantMenu = () => {
           <div className="flex flex-col justify-center w-full ">
             {
               restaurantMenu &&
-              restaurantMenu.groupedCard.cardGroupMap.REGULAR.cards.map((menu, i) => (
+              restaurantMenu?.groupedCard?.cardGroupMap.REGULAR.cards.map((menu, i) => (
                 menu.card.card["@type"] === TYPES.CardType.MenuVegFilterAndBadge ?
                   menu.card.card?.isPureVeg === true ?
                     <div key={i} className="flex items-center">
