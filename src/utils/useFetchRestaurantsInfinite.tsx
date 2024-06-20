@@ -1,12 +1,12 @@
 import * as TYPES from "../utils/interfaces"
-import { FILTERS, GET_MORE_RESTAURANTS } from './constants';
+import { FILTERS, GET_MORE_RESTAURANTS_URL } from './constants';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 const useFetchRestaurantsInfinite = (filterRestaurants: string, pageOffset: TYPES.PageOffset) => {
 
     const fetchRestaurantsInfinite = async (filterType: string, pageParam: TYPES.PageOffset): Promise<TYPES.UPDATED_RESTAURANTS_LIST> => {
-        const response = await axios.post(`${GET_MORE_RESTAURANTS}`,
+        const response = await axios.post(`${GET_MORE_RESTAURANTS_URL}`,
             {
                 filters: filterType === 'topRated' ? FILTERS.TOP_RATED
                     : filterType === 'pureVeg' ?

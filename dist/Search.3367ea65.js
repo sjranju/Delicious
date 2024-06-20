@@ -837,7 +837,7 @@ var _s = $RefreshSig$();
 const usePresearch = ()=>{
     _s();
     const fetchPreSearch = async ()=>{
-        const response = await (0, _axiosDefault.default).get((0, _constants.PRE_SEARCH)).then((res)=>res.data).catch((error)=>console.log(error));
+        const response = await (0, _axiosDefault.default).get((0, _constants.GET_PRE_SEARCH_URL)).then((res)=>res.data).catch((error)=>console.log(error));
         return response;
     };
     const { data, isLoading } = (0, _reactQuery.useQuery)([

@@ -1,16 +1,32 @@
-export const RESTAURANT_API = `https://delicious-cors-proxy.singanoodiranjana.workers.dev/corsproxy/?apiurl=${encodeURIComponent('https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.96340&lng=77.58550&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING')}`
+const RESTAURANTS_URL = 'https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.96340&lng=77.58550&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING'
+
+export const GET_RESTAURANTS_URL = `${window.location.hostname === 'netlify' ?
+    `https://corsproxy.io/?${RESTAURANTS_URL}` :
+    `https://delicious-cors-proxy.singanoodiranjana.workers.dev/corsproxy/?apiurl=${encodeURIComponent(RESTAURANTS_URL)}`}`
 
 export const CLOUDINARY_URL = 'https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/'
 
-export const RESTAURANT_ITEM = `https://delicious-cors-proxy.singanoodiranjana.workers.dev/corsproxy/?apiurl=${encodeURIComponent('https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=12.96340&lng=77.58550&restaurantId=')}`
+const RESTAURANT_ITEM = 'https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=12.96340&lng=77.58550&restaurantId='
+
+export const GET_RESTAURANT_ITEM_URL = `${window.location.hostname === 'netlify' ?
+    `https://corsproxy.io/?${RESTAURANT_ITEM}`
+    : `https://delicious-cors-proxy.singanoodiranjana.workers.dev/corsproxy/?apiurl=${encodeURIComponent(RESTAURANT_ITEM)}`}`
 
 export const COUPON_URL = 'https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_28,h_28/'
 
 export const TOP_PICKS_URL = 'https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_628,h_704/TopPicks/'
 
-export const GET_MORE_RESTAURANTS = `https://delicious-cors-proxy.singanoodiranjana.workers.dev/corsproxy/?apiurl=${encodeURIComponent('https://www.swiggy.com/dapi/restaurants/list/update')}`
+const GET_MORE_RESTAURANTS = 'https://www.swiggy.com/dapi/restaurants/list/update'
 
-export const PRE_SEARCH = `https://delicious-cors-proxy.singanoodiranjana.workers.dev/corsproxy/?apiurl=${encodeURIComponent('https://www.swiggy.com/dapi/landing/PRE_SEARCH?lat=12.96340&lng=77.58550')}`
+export const GET_MORE_RESTAURANTS_URL = `${window.location.hostname === 'netlify' ?
+    `https://corsproxy.io/?${GET_MORE_RESTAURANTS}`
+    : `https://delicious-cors-proxy.singanoodiranjana.workers.dev/corsproxy/?apiurl=${encodeURIComponent(GET_MORE_RESTAURANTS)}`}`
+
+const PRE_SEARCH_URL = 'https://www.swiggy.com/dapi/landing/PRE_SEARCH?lat=12.96340&lng=77.58550'
+
+export const GET_PRE_SEARCH_URL = `${window.location.hostname === 'netlify' ?
+    `https://corsproxy.io/?${PRE_SEARCH_URL}`
+    : `https://delicious-cors-proxy.singanoodiranjana.workers.dev/corsproxy/?apiurl=${encodeURIComponent(PRE_SEARCH_URL)}`}`
 
 export const PRE_SEARCH_CLOUDINARY_URL = 'https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/'
 

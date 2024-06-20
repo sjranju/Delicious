@@ -2,3 +2,5 @@
 .parcel-cache
 /coverage
 /src/utils/firebaseConfig.ts
+# Local Netlify folder
+.netlify

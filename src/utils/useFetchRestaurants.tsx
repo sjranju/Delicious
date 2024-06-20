@@ -1,10 +1,14 @@
 import axios, { AxiosResponse } from 'axios'
 import * as TYPES from '../utils/interfaces'
-import { RESTAURANT_API } from './constants'
+import { GET_RESTAURANTS_URL } from './constants'
+import { useEffect } from 'react'
 
 const useFetchRestaurants = async (): Promise<TYPES.MainContent> => {
+
+    console.log(window.location.hostname)
+
     const response: AxiosResponse = await axios
-        .get(RESTAURANT_API)
+        .get(GET_RESTAURANTS_URL)
         .then(response => {
             return response.data
         })
