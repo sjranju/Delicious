@@ -1,13 +1,13 @@
 {
   "name": "namaste-react",
   "version": "1.0.0",
-  "homepage": ".",
+  "homepage": "https://sjranju.github.io/Delicious",
   "description": "Learn react",
   "scripts": {
-    "predeploy": "parcel build index.html --public-url='.'",
+    "predeploy": "parcel build index.html --public-url /Delicious",
     "deploy": "gh-pages -d dist",
     "start": "parcel index.html",
-    "build": "parcel build index.html --public-url='.'",
+    "build": "parcel build index.html --public-url /Delicious",
     "check": "tsc --noEmit",
     "test": "jest",
     "test-watch": "jest --watch"
