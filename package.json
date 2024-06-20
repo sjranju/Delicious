@@ -4,10 +4,10 @@
   "homepage": "https://sjranju.github.io/Delicious",
   "description": "Learn react",
   "scripts": {
-    "predeploy": "parcel build index.html --public-url='.'/",
+    "predeploy": "parcel build index.html --public-url='.'",
     "deploy": "gh-pages -d dist",
     "start": "parcel index.html",
-    "build": "parcel build index.html --public-url='.'/",
+    "build": "parcel build index.html --public-url='.'",
     "check": "tsc --noEmit",
     "test": "jest",
     "test-watch": "jest --watch"
