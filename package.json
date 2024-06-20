@@ -1,7 +1,7 @@
 {
   "name": "namaste-react",
   "version": "1.0.0",
-  "homepage": "https://sjranju.github.io/Delicious",
+  "homepage": ".",
   "description": "Learn react",
   "scripts": {
     "predeploy": "parcel build index.html --public-url='.'",
